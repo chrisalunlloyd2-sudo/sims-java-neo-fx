@@ -19,6 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -39,7 +40,8 @@ public class GodHandApp extends Application {
     private static final double HEX_SIZE = 35.0;
     
     private Map<String, HexNode> grid = new ConcurrentHashMap<>();
-    private List<Agent> agents = new ArrayList<>();
+    private List<Agent> agents = new CopyOnWriteArrayList<>();
+    private List<String> godChat = new CopyOnWriteArrayList<>();
     private ExecutorService threadPool = Executors.newFixedThreadPool(8);
     private HttpServer dashboardServer;
     
@@ -145,6 +147,55 @@ public class GodHandApp extends Application {
 
         StackPane root = new StackPane(canvas);
         root.setStyle("-fx-background-color: #020202;");
+        
+        // --- MANIFOLD COMMAND CENTER (Hooked to local_desktop-main) ---
+        javafx.scene.layout.VBox manifoldPanel = new javafx.scene.layout.VBox(8);
+        manifoldPanel.setTranslateX(15);
+        manifoldPanel.setTranslateY(15);
+        manifoldPanel.setPickOnBounds(false); // Let clicks pass through empty space
+        manifoldPanel.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); -fx-padding: 10; -fx-border-color: lime; -fx-border-width: 1;");
+        manifoldPanel.setMaxSize(240, 400);
+        javafx.scene.layout.StackPane.setAlignment(manifoldPanel, javafx.geometry.Pos.TOP_LEFT);
+
+        javafx.scene.control.Label manifoldLabel = new javafx.scene.control.Label("MANIFOLD CONTROL");
+        manifoldLabel.setStyle("-fx-text-fill: lime; -fx-font-family: monospace; -fx-font-weight: bold; -fx-font-size: 14px;");
+        
+        javafx.scene.control.Button btnLogic = new javafx.scene.control.Button("REBOOT LOGIC SHIPPER");
+        btnLogic.setStyle("-fx-background-color: #111; -fx-text-fill: lime; -fx-font-family: monospace; -fx-border-color: green; -fx-pref-width: 200px;");
+        btnLogic.setOnAction(e -> executeDesktopScript("START_LOGIC_BLOCKCHAIN_PORT.ps1"));
+
+        javafx.scene.control.Button btnTopology = new javafx.scene.control.Button("REBOOT TOPOLOGY SIDECAR");
+        btnTopology.setStyle("-fx-background-color: #111; -fx-text-fill: lime; -fx-font-family: monospace; -fx-border-color: green; -fx-pref-width: 200px;");
+        btnTopology.setOnAction(e -> executeDesktopScript("START_TOPOLOGY_SIDECAR.ps1"));
+
+        javafx.scene.control.Button btnHouse = new javafx.scene.control.Button("REBOOT HOUSE ENGINE");
+        btnHouse.setStyle("-fx-background-color: #111; -fx-text-fill: lime; -fx-font-family: monospace; -fx-border-color: green; -fx-pref-width: 200px;");
+        btnHouse.setOnAction(e -> executeDesktopScript("START_HOUSE_ENGINE_RECOVERY.ps1"));
+        
+        javafx.scene.control.Button btnAgent = new javafx.scene.control.Button("SPIN UP LEGACY AGENT");
+        btnAgent.setStyle("-fx-background-color: #111; -fx-text-fill: lime; -fx-font-family: monospace; -fx-border-color: green; -fx-pref-width: 200px;");
+        btnAgent.setOnAction(e -> executeDesktopScript("SPIN_UP_AGENT_NODE.ps1"));
+
+        javafx.scene.control.Button btnLab = new javafx.scene.control.Button("REBOOT LAB SUITE");
+        btnLab.setStyle("-fx-background-color: #111; -fx-text-fill: lime; -fx-font-family: monospace; -fx-border-color: green; -fx-pref-width: 200px;");
+        btnLab.setOnAction(e -> executeDesktopScript("START_LAB_SUITE.ps1"));
+
+        javafx.scene.control.Button btnNotes = new javafx.scene.control.Button("REBOOT NOTES SUITE");
+        btnNotes.setStyle("-fx-background-color: #111; -fx-text-fill: lime; -fx-font-family: monospace; -fx-border-color: green; -fx-pref-width: 200px;");
+        btnNotes.setOnAction(e -> executeDesktopScript("START_NOTES_SUITE.ps1"));
+
+        javafx.scene.control.Button btnTunnel = new javafx.scene.control.Button("REBOOT NOTES TUNNEL");
+        btnTunnel.setStyle("-fx-background-color: #111; -fx-text-fill: lime; -fx-font-family: monospace; -fx-border-color: green; -fx-pref-width: 200px;");
+        btnTunnel.setOnAction(e -> executeDesktopScript("START_NOTES_TUNNEL.ps1"));
+
+        javafx.scene.control.Button btnMoltbook = new javafx.scene.control.Button("LAUNCH MOLTBOOK");
+        btnMoltbook.setStyle("-fx-background-color: #111; -fx-text-fill: lime; -fx-font-family: monospace; -fx-border-color: green; -fx-pref-width: 200px;");
+        btnMoltbook.setOnAction(e -> executeDesktopScript("LAUNCH_MOLTBOOK.ps1"));
+
+        manifoldPanel.getChildren().addAll(manifoldLabel, btnLogic, btnTopology, btnHouse, btnAgent, btnLab, btnNotes, btnTunnel, btnMoltbook);
+        root.getChildren().add(manifoldPanel);
+        // ----------------------------------------------------------------
+
         Scene scene = new Scene(root, WIDTH, HEIGHT);
         
         primaryStage.setTitle("SIMS1337 v0.18.0 - NEO-FX");
@@ -463,5 +514,19 @@ public class GodHandApp extends Application {
             });
         }
         public String getCurrentPhase() { return currentPhase; }
+    }
+
+    private void executeDesktopScript(String scriptName) {
+        System.out.println("[MANIFOLD] Triggering external hook: " + scriptName);
+        try {
+            Runtime.getRuntime().exec(new String[]{
+                "powershell.exe",
+                "-ExecutionPolicy", "Bypass",
+                "-WindowStyle", "Hidden",
+                "-File", "C:\\Users\\viper\\OneDrive\\Desktop\\local_desktop-main\\" + scriptName
+            });
+        } catch(Exception e) {
+            System.err.println("[MANIFOLD ERROR] " + e.getMessage());
+        }
     }
 }
