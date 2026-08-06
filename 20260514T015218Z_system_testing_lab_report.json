@@ -1,0 +1,251 @@
+{
+  "kind": "testing_lab_report",
+  "timestamp": "2026-05-14T01:52:18.470988+00:00",
+  "section": "system",
+  "summary": {
+    "overall": "pass",
+    "counts": {
+      "pass": 9
+    }
+  },
+  "truth": {
+    "working": [
+      "MemorySet.schema",
+      "MemorySet.system_test_recall",
+      "EndpointSet.local_uplink",
+      "AgentSet.heartbeat_dedupe",
+      "AgentSet.resource_lifecycle",
+      "ReasoningSet.genetic_coder_smoke",
+      "ReasoningSet.karoo_comparator",
+      "SystemSet.planning_predict",
+      "SystemSet.build_predict"
+    ],
+    "degraded": [],
+    "not_working": [],
+    "placeholder": []
+  },
+  "sections": {
+    "system": [
+      {
+        "name": "MemorySet.schema",
+        "status": "pass",
+        "details": "required recall tables present",
+        "evidence": {
+          "missing": [],
+          "journal_mode": "wal",
+          "required": [
+            "CHAT_MEMORY",
+            "LOGIC_BLOCKCHAIN_QUEUE",
+            "LOGIC_UPLINK_RECEIPTS",
+            "MISSED_MESSAGE_RELAY",
+            "REMOTE_AGENT_HOOKUPS",
+            "RESOURCE_NETWORK_ASSIGNMENTS",
+            "RESOURCE_NETWORK_NODES",
+            "RESOURCE_NETWORK_PROOFS",
+            "RESOURCE_NETWORK_TASKS",
+            "SYSTEM_TEST_LOG"
+          ]
+        }
+      },
+      {
+        "name": "MemorySet.system_test_recall",
+        "status": "pass",
+        "details": "wrote and read SYSTEM_TEST_LOG id=1101",
+        "evidence": {
+          "id": 1101,
+          "row": {
+            "id": 1101,
+            "test_name": "viper_ai_suite_recall_20260514T015214Z",
+            "status": "pass",
+            "sha256": "dbecd5d30c5cade5db329333c5010703061d142ab7c9fe45b9433b24287f6829"
+          },
+          "write": {
+            "status": "logged",
+            "id": 1101,
+            "sha256": "dbecd5d30c5cade5db329333c5010703061d142ab7c9fe45b9433b24287f6829"
+          }
+        }
+      },
+      {
+        "name": "EndpointSet.local_uplink",
+        "status": "pass",
+        "details": "HTTP 202 in 36.32ms",
+        "evidence": {
+          "url": "http://127.0.0.1:18081/api/uplink",
+          "http_status": 202,
+          "elapsed_ms": 36.32,
+          "keys": [
+            "block_id",
+            "payload_sha256",
+            "protocol",
+            "receipt_id",
+            "status"
+          ],
+          "body": {
+            "status": "accepted",
+            "receipt_id": "UPLINK_20260514T015214Z_c54649f8ae4a",
+            "payload_sha256": "c54649f8ae4acff370c98ab6fc8fb10efc4c7d50f3ae010e8b021b33e9f0343f",
+            "block_id": "SUITE_20260514T015214Z",
+            "protocol": "json"
+          },
+          "receipt_stored": true
+        }
+      },
+      {
+        "name": "AgentSet.heartbeat_dedupe",
+        "status": "pass",
+        "details": "first heartbeat creates one notice; repeats update liveness only",
+        "evidence": {
+          "agent": "suite_heartbeat_20260514T015215Z",
+          "relay_count": 1,
+          "suite_relays_confirmed": 1,
+          "responses": [
+            {
+              "status": "connected_pending_resource_fit",
+              "hookup_id": "HOOKUP_20260514T015215Z_ebf2941bff45",
+              "agent_id": "suite_heartbeat_20260514T015215Z",
+              "payload_sha256": "ebf2941bff45f3eb366d04f91d52cde3c418dd245446692f17e5368fcbd38204",
+              "resource_node": {
+                "node_id": "suite_heartbeat_20260514T015215Z",
+                "score": 2.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof"
+              },
+              "missed_message_id": "MISSED_20260514T015215Z_9489774a35bd",
+              "next": [
+                "GET /logic/offload-packets",
+                "GET /logic/block/<block_id>",
+                "POST /api/offload/ack after packet received"
+              ]
+            },
+            {
+              "status": "heartbeat_recorded",
+              "hookup_id": "HOOKUP_20260514T015215Z_ebf2941bff45",
+              "agent_id": "suite_heartbeat_20260514T015215Z",
+              "payload_sha256": "ebf2941bff45f3eb366d04f91d52cde3c418dd245446692f17e5368fcbd38204",
+              "resource_node": {
+                "node_id": "suite_heartbeat_20260514T015215Z",
+                "score": 2.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof"
+              },
+              "missed_message_id": null,
+              "next": [
+                "GET /logic/offload-packets",
+                "GET /logic/block/<block_id>",
+                "POST /api/offload/ack after packet received"
+              ]
+            },
+            {
+              "status": "heartbeat_recorded",
+              "hookup_id": "HOOKUP_20260514T015215Z_ebf2941bff45",
+              "agent_id": "suite_heartbeat_20260514T015215Z",
+              "payload_sha256": "ebf2941bff45f3eb366d04f91d52cde3c418dd245446692f17e5368fcbd38204",
+              "resource_node": {
+                "node_id": "suite_heartbeat_20260514T015215Z",
+                "score": 2.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof"
+              },
+              "missed_message_id": null,
+              "next": [
+                "GET /logic/offload-packets",
+                "GET /logic/block/<block_id>",
+                "POST /api/offload/ack after packet received"
+              ]
+            }
+          ],
+          "node": {
+            "node_id": "suite_heartbeat_20260514T015215Z",
+            "status": "online_pending_proof",
+            "last_heartbeat": "2026-05-14 01:52:15"
+          }
+        }
+      },
+      {
+        "name": "AgentSet.resource_lifecycle",
+        "status": "pass",
+        "details": "node heartbeat -> task -> assign -> proof persisted",
+        "evidence": {
+          "agent": "suite_resource_node_20260514T015215Z",
+          "task": {
+            "status": "task_created",
+            "task_id": "RTASK_20260514T015215Z_371b3ca8b569"
+          },
+          "assignment": {
+            "status": "assigned",
+            "assignment_id": "ASSIGN_20260514T015215Z_82ef8ee8f101",
+            "task_id": "RTASK_20260514T015215Z_371b3ca8b569",
+            "node_id": "suite_resource_node_20260514T015215Z",
+            "node_score": 2.0,
+            "missed_message_id": "MISSED_20260514T015215Z_56a46f981fe7"
+          },
+          "proof": {
+            "status": "proof_logged",
+            "proof_id": "RPROOF_20260514T015215Z_0c29abe78fa9",
+            "missed_message_id": "MISSED_20260514T015215Z_760a3181056b"
+          },
+          "suite_relays_confirmed": 3,
+          "assignment_row": {
+            "assignment_id": "ASSIGN_20260514T015215Z_82ef8ee8f101",
+            "node_id": "suite_resource_node_20260514T015215Z",
+            "status": "proof_pass"
+          },
+          "proof_row": {
+            "proof_id": "RPROOF_20260514T015215Z_0c29abe78fa9",
+            "assignment_id": "ASSIGN_20260514T015215Z_82ef8ee8f101",
+            "node_id": "suite_resource_node_20260514T015215Z",
+            "status": "pass"
+          }
+        }
+      },
+      {
+        "name": "ReasoningSet.genetic_coder_smoke",
+        "status": "pass",
+        "details": "latest candidate compiles and tests",
+        "evidence": {
+          "candidate": "C:\\Users\\viper\\VIPER_JAVA_RISC\\karoo_smoke_tests\\tiny_program_002\\candidates\\c-1778126163-3c67",
+          "compile_returncode": 0,
+          "compile_stderr": "",
+          "runtime_returncode": 0,
+          "runtime_stdout": "PASS\n",
+          "runtime_stderr": ""
+        }
+      },
+      {
+        "name": "ReasoningSet.karoo_comparator",
+        "status": "pass",
+        "details": "Karoo comparator has ranking evidence",
+        "evidence": {
+          "report": "C:\\Users\\viper\\VIPER_JAVA_RISC\\topology_candidates\\EXP_20260514T014403Z_4009744ffd\\report.json",
+          "mode": "suggest_only",
+          "comparison_count": 3
+        }
+      },
+      {
+        "name": "SystemSet.planning_predict",
+        "status": "pass",
+        "details": "route=planning in 349.33ms",
+        "evidence": {
+          "http_status": 200,
+          "elapsed_ms": 349.33,
+          "expected_route": "planning",
+          "actual_route": "planning",
+          "response_preview": "Planning lens ready: create a useful operating architecture, protocol, or next-step plan.\nKaroo planning compare lanes started now: suggest, approval.\nWinner architecture: VIPER_GenAI_DB_Retrieval_Epoch - separate retrieval sidecar/API plus purpose-first Fabric lens.\nCore flow: classify route -> infer purpose -> rewrite/expand query -> retrieve local DB/ledger/success records -> trust+routing rera"
+        }
+      },
+      {
+        "name": "SystemSet.build_predict",
+        "status": "pass",
+        "details": "route=build in 126.6ms",
+        "evidence": {
+          "http_status": 200,
+          "elapsed_ms": 126.6,
+          "expected_route": "build",
+          "actual_route": "build",
+          "response_preview": "Build lens created with real DB retrieval and Karoo proposal-only control.\nKaroo fast-lane on cooldown or already running.\nLatest Karoo candidate: CAND_20260514T014403Z_5a40cb2e9d comparisons=3 confidence=1.0 action=suggest_only\nPending approvals=23 | shipped logic blocks=2 | distilled successes=49 | distillation queue=49\nQwen lens: Fast build lane for Karoo/DB control request.\nRetrieval match: Us"
+        }
+      }
+    ]
+  }
+}

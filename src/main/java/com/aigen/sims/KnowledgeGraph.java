@@ -38,6 +38,11 @@ public class KnowledgeGraph {
         nodes.add(new KGNode("SYS-4", "Night Cycle Dream Vote Deploy Phase Rules"));
     }
 
+    public synchronized void addDocument(String id, String document) {
+        nodes.add(new KGNode(id, document));
+        System.out.println("[KNOWLEDGE GRAPH] Indexed node: " + id + " (64D Vector Created)");
+    }
+
     public String queryRAG(String query) {
         System.out.println("[RAG ENGINE] Processing 64-dim semantic search for: " + query);
         KGNode queryNode = new KGNode("QUERY", query);

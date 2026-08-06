@@ -1,0 +1,34 @@
+{
+  "mode": "suggest_only",
+  "checkpoint_id": "20260515T021353Z_KAROO_20MIN",
+  "chunk_id": "CHUNK_HOUSE_INFERENCE_HouseInferenceHandler_5a40cb2e9d6a",
+  "subsystem_id": "HOUSE_INFERENCE",
+  "symbol": "HouseInferenceHandler",
+  "source_path": "C:\\Users\\viper\\house_inference_engine.py",
+  "start_line": 32,
+  "end_line": 192,
+  "comparison_count": 3,
+  "confidence": 1.0,
+  "comparisons": [
+    {
+      "name": "python_ast_parse",
+      "status": "pass",
+      "score": 1.0,
+      "details": "Chunk parses as Python AST."
+    },
+    {
+      "name": "bounded_chunk_size",
+      "status": "pass",
+      "score": 1.0,
+      "details": "Chunk has 161 lines; expected 1..240 for reviewable one-variable proposals."
+    },
+    {
+      "name": "observability_signal",
+      "status": "pass",
+      "score": 1.0,
+      "details": "Chunk exposes log/error/status/proof signal."
+    }
+  ],
+  "recommendation": "No code mutation performed. Candidate cycle captured baseline chunk for future one-variable tests.",
+  "next_step": "Use these comparator outputs to choose one bounded improvement before proposing a patch."
+}

@@ -1,0 +1,539 @@
+{
+  "kind": "testing_lab_report",
+  "timestamp": "2026-05-14T01:52:18.425205+00:00",
+  "section": "benchmark",
+  "summary": {
+    "overall": "pass",
+    "counts": {
+      "pass": 5
+    }
+  },
+  "truth": {
+    "working": [
+      "BenchmarkSet.bridge_read",
+      "BenchmarkSet.shipper_resource_status",
+      "BenchmarkSet.snapshot",
+      "BenchmarkSet.planning_latency",
+      "BenchmarkSet.build_latency"
+    ],
+    "degraded": [],
+    "not_working": [],
+    "placeholder": []
+  },
+  "sections": {
+    "benchmark": [
+      {
+        "name": "BenchmarkSet.bridge_read",
+        "status": "pass",
+        "details": "HTTP 200 in 32.16ms",
+        "evidence": {
+          "url": "http://127.0.0.1:8080/api/benchmarks?limit=5",
+          "http_status": 200,
+          "elapsed_ms": 32.16,
+          "keys": [
+            "benchmarks"
+          ],
+          "body": {
+            "benchmarks": [
+              {
+                "benchmark_id": "BENCH_20260514T015216169138Z_b80a30de6f_ae4e",
+                "component": "tiny_model_runtime",
+                "operation": "retrieval_matcher",
+                "route": "planning",
+                "duration_ms": 0,
+                "status": "latency_guardrail",
+                "details": {
+                  "reason": "latency_guardrail"
+                },
+                "created_at": "2026-05-14 01:52:16"
+              },
+              {
+                "benchmark_id": "BENCH_20260514T015216169138Z_b80a30de6f_073b",
+                "component": "tiny_model_runtime",
+                "operation": "qwen_chooser",
+                "route": "planning",
+                "duration_ms": 0,
+                "status": "latency_guardrail",
+                "details": {
+                  "reason": "latency_guardrail"
+                },
+                "created_at": "2026-05-14 01:52:16"
+              },
+              {
+                "benchmark_id": "BENCH_20260514T015216169138Z_b80a30de6f_35f3",
+                "component": "tiny_model_runtime",
+                "operation": "qwen_rolling_triplet",
+                "route": "planning",
+                "duration_ms": 0,
+                "status": "latency_guardrail",
+                "details": {
+                  "reason": "latency_guardrail"
+                },
+                "created_at": "2026-05-14 01:52:16"
+              },
+              {
+                "benchmark_id": "BENCH_20260514T015216214686Z_b80a30de6f_2f47",
+                "component": "tiny_model_runtime",
+                "operation": "retrieval_matcher",
+                "route": "planning",
+                "duration_ms": 0,
+                "status": "latency_guardrail",
+                "details": {
+                  "reason": "latency_guardrail"
+                },
+                "created_at": "2026-05-14 01:52:16"
+              },
+              {
+                "benchmark_id": "BENCH_20260514T015216214686Z_b80a30de6f_c5d8",
+                "component": "tiny_model_runtime",
+                "operation": "qwen_chooser",
+                "route": "planning",
+                "duration_ms": 0,
+                "status": "latency_guardrail",
+                "details": {
+                  "reason": "latency_guardrail"
+                },
+                "created_at": "2026-05-14 01:52:16"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "BenchmarkSet.shipper_resource_status",
+        "status": "pass",
+        "details": "HTTP 200 in 15.89ms",
+        "evidence": {
+          "url": "http://127.0.0.1:18081/api/resource/status",
+          "http_status": 200,
+          "elapsed_ms": 15.89,
+          "keys": [
+            "assignments",
+            "nodes",
+            "tasks"
+          ],
+          "body": {
+            "nodes": [
+              {
+                "node_id": "overnight_laptop_1",
+                "display_name": "Overnight Laptop 1",
+                "endpoint": "lan-laptop-1",
+                "node_type": "research_network_node",
+                "score": 5.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-07 06:32:25"
+              },
+              {
+                "node_id": "gemini_cli",
+                "display_name": "Gemini CLI Agent",
+                "endpoint": "gemini-cli-chat",
+                "node_type": "research_compute_agent",
+                "score": 3.5,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-08 01:25:47"
+              },
+              {
+                "node_id": "overnight_phone_1",
+                "display_name": "Overnight Phone 1",
+                "endpoint": "termux-phone-1",
+                "node_type": "phone_db_lend_node",
+                "score": 2.75,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-07 06:32:25"
+              },
+              {
+                "node_id": "overnight_cli_1",
+                "display_name": "Overnight CLI 1",
+                "endpoint": "cli-agent-1",
+                "node_type": "light_compute_agent",
+                "score": 2.625,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-07 06:32:25"
+              },
+              {
+                "node_id": "suite_heartbeat_20260514T015215Z",
+                "display_name": "suite_heartbeat_20260514T015215Z",
+                "endpoint": "local-suite",
+                "node_type": "light_compute_agent",
+                "score": 2.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-14 01:52:15"
+              },
+              {
+                "node_id": "suite_resource_node_20260514T015215Z",
+                "display_name": "suite_resource_node_20260514T015215Z",
+                "endpoint": "local-suite",
+                "node_type": "light_compute_agent",
+                "score": 2.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-14 01:52:15"
+              },
+              {
+                "node_id": "suite_heartbeat_20260513T110537Z",
+                "display_name": "suite_heartbeat_20260513T110537Z",
+                "endpoint": "local-suite",
+                "node_type": "light_compute_agent",
+                "score": 2.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-13 11:05:37"
+              },
+              {
+                "node_id": "suite_resource_node_20260513T110537Z",
+                "display_name": "suite_resource_node_20260513T110537Z",
+                "endpoint": "local-suite",
+                "node_type": "light_compute_agent",
+                "score": 2.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-13 11:05:37"
+              },
+              {
+                "node_id": "suite_resource_node_20260513T110505Z",
+                "display_name": "suite_resource_node_20260513T110505Z",
+                "endpoint": "local-suite",
+                "node_type": "light_compute_agent",
+                "score": 2.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-13 11:05:06"
+              },
+              {
+                "node_id": "suite_heartbeat_20260513T110505Z",
+                "display_name": "suite_heartbeat_20260513T110505Z",
+                "endpoint": "local-suite",
+                "node_type": "light_compute_agent",
+                "score": 2.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-13 11:05:05"
+              },
+              {
+                "node_id": "suite_heartbeat_20260509T055214Z",
+                "display_name": "suite_heartbeat_20260509T055214Z",
+                "endpoint": "local-suite",
+                "node_type": "light_compute_agent",
+                "score": 2.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-09 05:52:14"
+              },
+              {
+                "node_id": "suite_resource_node_20260509T055214Z",
+                "display_name": "suite_resource_node_20260509T055214Z",
+                "endpoint": "local-suite",
+                "node_type": "light_compute_agent",
+                "score": 2.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-09 05:52:14"
+              },
+              {
+                "node_id": "suite_heartbeat_20260509T054228Z",
+                "display_name": "suite_heartbeat_20260509T054228Z",
+                "endpoint": "local-suite",
+                "node_type": "light_compute_agent",
+                "score": 2.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-09 05:42:28"
+              },
+              {
+                "node_id": "suite_resource_node_20260509T054228Z",
+                "display_name": "suite_resource_node_20260509T054228Z",
+                "endpoint": "local-suite",
+                "node_type": "light_compute_agent",
+                "score": 2.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-09 05:42:28"
+              },
+              {
+                "node_id": "suite_heartbeat_20260509T054152Z",
+                "display_name": "suite_heartbeat_20260509T054152Z",
+                "endpoint": "local-suite",
+                "node_type": "light_compute_agent",
+                "score": 2.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-09 05:41:52"
+              },
+              {
+                "node_id": "suite_resource_node_20260509T054152Z",
+                "display_name": "suite_resource_node_20260509T054152Z",
+                "endpoint": "local-suite",
+                "node_type": "light_compute_agent",
+                "score": 2.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-09 05:41:52"
+              },
+              {
+                "node_id": "suite_heartbeat_20260509T050343Z",
+                "display_name": "suite_heartbeat_20260509T050343Z",
+                "endpoint": "local-suite",
+                "node_type": "light_compute_agent",
+                "score": 2.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-09 05:03:43"
+              },
+              {
+                "node_id": "suite_heartbeat_20260509T050335Z",
+                "display_name": "suite_heartbeat_20260509T050335Z",
+                "endpoint": "local-suite",
+                "node_type": "light_compute_agent",
+                "score": 2.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-09 05:03:35"
+              },
+              {
+                "node_id": "codex_repeat_heartbeat_after_fix",
+                "display_name": "codex_repeat_heartbeat_after_fix",
+                "endpoint": "local-test",
+                "node_type": "light_compute_agent",
+                "score": 2.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-09 04:25:01"
+              },
+              {
+                "node_id": "codex_repeat_heartbeat",
+                "display_name": "codex_repeat_heartbeat",
+                "endpoint": "local-test",
+                "node_type": "light_compute_agent",
+                "score": 2.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-09 04:23:48"
+              },
+              {
+                "node_id": "unknown_agent",
+                "display_name": "unknown_agent",
+                "endpoint": null,
+                "node_type": "remote_agent",
+                "score": 1.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-11 03:44:17"
+              },
+              {
+                "node_id": "watchdog_probe",
+                "display_name": "watchdog_probe",
+                "endpoint": null,
+                "node_type": "remote_agent",
+                "score": 1.0,
+                "trust_level": "observed_hash_only",
+                "status": "online_pending_proof",
+                "last_heartbeat": "2026-05-08 19:52:42"
+              }
+            ],
+            "tasks": [
+              {
+                "task_id": "RTASK_20260514T015215Z_371b3ca8b569",
+                "task_type": "genetic_coder_smoke",
+                "title": "VIPER suite resource lifecycle 20260514T015215Z",
+                "status": "leased",
+                "created_at": "2026-05-14 01:52:15"
+              },
+              {
+                "task_id": "RTASK_20260513T110537Z_1ba9407a9058",
+                "task_type": "genetic_coder_smoke",
+                "title": "VIPER suite resource lifecycle 20260513T110537Z",
+                "status": "leased",
+                "created_at": "2026-05-13 11:05:37"
+              },
+              {
+                "task_id": "RTASK_20260513T110506Z_2e93df6477b7",
+                "task_type": "genetic_coder_smoke",
+                "title": "VIPER suite resource lifecycle 20260513T110505Z",
+                "status": "leased",
+                "created_at": "2026-05-13 11:05:06"
+              },
+              {
+                "task_id": "RTASK_20260513T110505Z_2e93df6477b7",
+                "task_type": "genetic_coder_smoke",
+                "title": "VIPER suite resource lifecycle 20260513T110505Z",
+                "status": "leased",
+                "created_at": "2026-05-13 11:05:05"
+              },
+              {
+                "task_id": "RTASK_20260509T055214Z_7fb0f35434c3",
+                "task_type": "genetic_coder_smoke",
+                "title": "VIPER suite resource lifecycle 20260509T055214Z",
+                "status": "leased",
+                "created_at": "2026-05-09 05:52:15"
+              },
+              {
+                "task_id": "RTASK_20260509T054228Z_9ddec6e0f33d",
+                "task_type": "genetic_coder_smoke",
+                "title": "VIPER suite resource lifecycle 20260509T054228Z",
+                "status": "leased",
+                "created_at": "2026-05-09 05:42:28"
+              },
+              {
+                "task_id": "RTASK_20260509T054152Z_8e8359629ac8",
+                "task_type": "genetic_coder_smoke",
+                "title": "VIPER suite resource lifecycle 20260509T054152Z",
+                "status": "leased",
+                "created_at": "2026-05-09 05:41:52"
+              },
+              {
+                "task_id": "RTASK_20260507T063225Z_4dc39304888f",
+                "task_type": "research",
+                "title": "Overnight protocol scaling smoke task",
+                "status": "leased",
+                "created_at": "2026-05-07 06:32:25"
+              }
+            ],
+            "assignments": [
+              {
+                "assignment_id": "ASSIGN_20260514T015215Z_82ef8ee8f101",
+                "task_id": "RTASK_20260514T015215Z_371b3ca8b569",
+                "node_id": "suite_resource_node_20260514T015215Z",
+                "status": "proof_pass",
+                "expires_at": "2026-05-14 01:53:15"
+              },
+              {
+                "assignment_id": "ASSIGN_20260513T110537Z_186dc536a053",
+                "task_id": "RTASK_20260513T110537Z_1ba9407a9058",
+                "node_id": "suite_resource_node_20260513T110537Z",
+                "status": "proof_pass",
+                "expires_at": "2026-05-13 11:06:37"
+              },
+              {
+                "assignment_id": "ASSIGN_20260513T110506Z_77a10db8602e",
+                "task_id": "RTASK_20260513T110506Z_2e93df6477b7",
+                "node_id": "suite_resource_node_20260513T110505Z",
+                "status": "proof_pass",
+                "expires_at": "2026-05-13 11:06:06"
+              },
+              {
+                "assignment_id": "ASSIGN_20260513T110505Z_07589a0400c1",
+                "task_id": "RTASK_20260513T110505Z_2e93df6477b7",
+                "node_id": "suite_resource_node_20260513T110505Z",
+                "status": "proof_pass",
+                "expires_at": "2026-05-13 11:06:05"
+              },
+              {
+                "assignment_id": "ASSIGN_20260509T055215Z_0f10c70f04ef",
+                "task_id": "RTASK_20260509T055214Z_7fb0f35434c3",
+                "node_id": "suite_resource_node_20260509T055214Z",
+                "status": "proof_pass",
+                "expires_at": "2026-05-09 05:53:15"
+              },
+              {
+                "assignment_id": "ASSIGN_20260509T054228Z_b6345a18a503",
+                "task_id": "RTASK_20260509T054228Z_9ddec6e0f33d",
+                "node_id": "suite_resource_node_20260509T054228Z",
+                "status": "proof_pass",
+                "expires_at": "2026-05-09 05:43:28"
+              },
+              {
+                "assignment_id": "ASSIGN_20260509T054152Z_df406fdccd42",
+                "task_id": "RTASK_20260509T054152Z_8e8359629ac8",
+                "node_id": "suite_resource_node_20260509T054152Z",
+                "status": "proof_pass",
+                "expires_at": "2026-05-09 05:42:52"
+              },
+              {
+                "assignment_id": "ASSIGN_20260507T063225Z_f9fa6e73c7be",
+                "task_id": "RTASK_20260507T063225Z_4dc39304888f",
+                "node_id": "overnight_laptop_1",
+                "status": "leased",
+                "expires_at": "2026-05-07 07:02:25"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "BenchmarkSet.snapshot",
+        "status": "pass",
+        "details": "HTTP 200 benchmark snapshot",
+        "evidence": {
+          "http_status": 200,
+          "body": {
+            "kind": "benchmark_snapshot",
+            "mode": "captured",
+            "timestamp": "2026-05-14T01:52:16.565743300Z",
+            "services": {
+              "bridge8080": {
+                "url": "http://127.0.0.1:8080/api/benchmarks?limit=1",
+                "status": 200,
+                "ok": true,
+                "durationMs": 27,
+                "bodyPreview": "{\"benchmarks\": [{\"benchmark_id\": \"BENCH_20260514T015216169138Z_b80a30de6f_ae4e\", \"component\": \"tiny_model_runtime\", \"operation\": \"retrieval_matcher\", \"route\": \"planning\", \"duration_ms\": 0, \"status\": \"latency_guardrail\", \"details\": {\"reason\""
+              },
+              "house11435": {
+                "url": "http://127.0.0.1:11435/health",
+                "status": 200,
+                "ok": true,
+                "durationMs": 11,
+                "bodyPreview": "{\"status\": \"ok\", \"mode\": \"house_inference\", \"has_llama\": true, \"model_exists\": true, \"threaded\": true, \"n_ctx\": 8192, \"max_output_tokens\": 4096, \"safe_input_tokens\": {\"chat\": 1024, \"planning\": 3072, \"build\": 4096}, \"prompt_packer\": \"route_a"
+              },
+              "shipper18081": {
+                "url": "http://127.0.0.1:18081/health",
+                "status": 200,
+                "ok": true,
+                "durationMs": 6,
+                "bodyPreview": "{\n  \"status\": \"ok\",\n  \"port\": 18081,\n  \"mode\": \"logic_only_sidecar\",\n  \"main_gui_untouched\": true\n}"
+              }
+            },
+            "counts": {
+              "systemTests": 0,
+              "abTests": 2,
+              "trainingRuns": 3,
+              "recursiveTrainingEpochs": 2,
+              "loihiExperiments": 1,
+              "benchmarkSnapshots": 7,
+              "persistenceEvents": 44
+            },
+            "logs": {
+              "systemBytes": 58527,
+              "shipperBytes": 2305381,
+              "topologyBytes": 787371,
+              "houseStdoutBytes": 16357,
+              "houseStderrBytes": 112482
+            },
+            "policy": "benchmarks prove service latency, log growth, and proposal epochs before recursive automation is trusted",
+            "durationMs": 50,
+            "request": "{\"reason\": \"testing_lab_probe\"}",
+            "sha256": "81799fb1d259231a7e5fa683eabd2525fac64f212489f42e1e2d7c0337c9d661"
+          }
+        }
+      },
+      {
+        "name": "BenchmarkSet.planning_latency",
+        "status": "pass",
+        "details": "route=planning in 293.38ms",
+        "evidence": {
+          "http_status": 200,
+          "elapsed_ms": 293.38,
+          "expected_route": "planning",
+          "actual_route": "planning",
+          "response_preview": "Planning lens ready: create a useful operating architecture, protocol, or next-step plan.\nKaroo planning compare lanes are already running or on cooldown.\nWinner architecture: VIPER_GenAI_DB_Retrieval_Epoch - separate retrieval sidecar/API plus purpose-first Fabric lens.\nCore flow: classify route -> infer purpose -> rewrite/expand query -> retrieve local DB/ledger/success records -> trust+routing "
+        }
+      },
+      {
+        "name": "BenchmarkSet.build_latency",
+        "status": "pass",
+        "details": "route=build in 107.57ms",
+        "evidence": {
+          "http_status": 200,
+          "elapsed_ms": 107.57,
+          "expected_route": "build",
+          "actual_route": "build",
+          "response_preview": "Build lens created with real DB retrieval and Karoo proposal-only control.\nKaroo fast-lane on cooldown or already running.\nLatest Karoo candidate: CAND_20260514T014403Z_5a40cb2e9d comparisons=3 confidence=1.0 action=suggest_only\nPending approvals=23 | shipped logic blocks=2 | distilled successes=49 | distillation queue=49\nQwen lens: Fast build lane for Karoo/DB control request.\nRetrieval match: Us"
+        }
+      }
+    ]
+  }
+}

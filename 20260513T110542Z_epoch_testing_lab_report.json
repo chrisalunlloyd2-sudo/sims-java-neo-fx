@@ -1,0 +1,318 @@
+{
+  "kind": "testing_lab_report",
+  "timestamp": "2026-05-13T11:05:42.571245+00:00",
+  "section": "epoch",
+  "summary": {
+    "overall": "pass",
+    "counts": {
+      "pass": 4
+    }
+  },
+  "truth": {
+    "working": [
+      "EpochSet.java_sdk_health",
+      "EpochSet.ascii_queue_read",
+      "EpochSet.ascii_queue_append",
+      "EpochSet.upgrade_proof"
+    ],
+    "degraded": [],
+    "not_working": [],
+    "placeholder": []
+  },
+  "sections": {
+    "epoch": [
+      {
+        "name": "EpochSet.java_sdk_health",
+        "status": "pass",
+        "details": "HTTP 200 in 305.46ms",
+        "evidence": {
+          "url": "http://127.0.0.1:18181/health",
+          "http_status": 200,
+          "elapsed_ms": 305.46,
+          "keys": [
+            "persistent",
+            "port",
+            "status",
+            "suite",
+            "timestamp",
+            "version"
+          ],
+          "body": {
+            "status": "ok",
+            "suite": "viper_java_sdk",
+            "version": "0.4.1-training-lab",
+            "port": 18181,
+            "persistent": true,
+            "timestamp": "2026-05-13T11:05:42.112152900Z"
+          }
+        }
+      },
+      {
+        "name": "EpochSet.ascii_queue_read",
+        "status": "pass",
+        "details": "HTTP 200 queue_entries=3",
+        "evidence": {
+          "http_status": 200,
+          "queue_size": 3,
+          "body": {
+            "status": "ok",
+            "version": "0.4.1-training-lab",
+            "queue": [
+              "{\"kind\":\"ascii_epoch_proposal\",\"version\":\"0.4.1-training-lab\",\"timestamp\":\"2026-05-13T11:05:11.422235200Z\",\"body\":\"{\\\"judgeSlot\\\": \\\"local_benchmark\\\", \\\"note\\\": \\\"testing_lab_epoch_20260513T110511Z\\\", \\\"quickVar\\\": \\\"retrieval_weight\\\", \\\"subsystem\\\": \\\"db_retrieval\\\"}\",\"subsystems\":[\"chooser\",\"db_retrieval\",\"karoo\",\"abliterated\",\"loihi\",\"lava\",\"soap\",\"ledger\",\"network\",\"java_sdk\"],\"judgeSlots\":[\"local_benchmark\",\"karoo_compare\",\"tiny_critic\",\"optional_copilot\",\"optional_gemini\",\"optional_cloud_agent\"],\"quickEditVars\":[\"route\",\"token_budget\",\"retrieval_weight\",\"web_research_gate\",\"karoo_rounds\",\"loihi_cube\",\"lava_mode\",\"soap_endpoint\",\"promotion_gate\"],\"ascii\":\"               z: subsystem / top-code family\\n                    ^\\n                    |\\n       +------------+------------+\\n      /| chooser   /| karoo     /|\\n     / | db       / | lava     / |\\n    +------------+------------+  |\\n    |  | soap    |  | loihi   |  |\\n    |  +---------|--+---------|--+--> x: logic / code coordinate\\n    | / ledger   | / network  | /\\n    |/ java_sdk  |/ agents    |/\\n    +------------+------------+\\n   /\\n  v\\ny: weight / confidence / resource cost\\n\\npropose -> weigh -> benchmark -> compare -> wait/promote\\n\",\"proposedDiagram\":\"VIPER_SDK_EPOCH_PROPOSAL  version: 0.4.1-training-lab\\n\\nexplorer\\n+- system\\n|  +- chooser\\n|  +- db_retrieval\\n|  +- karoo\\n|  +- abliterated\\n|  +- loihi\\n|  +- lava\\n|  +- soap\\n|  +- ledger\\n|  +- network\\n|  +- java_sdk\\n|\\n+- proposed_change\\n|  +- subsystem: >>> db_retrieval <<<\\n|  +- variable:  >>> retrieval_weight <<<\\n|  +- judge:     >>> local_benchmark <<<\\n|\\n+- flow\\n   +- ask.card\\n   +- db.retrieve\\n   +- lens.compose\\n   +- route.execute\\n   +- judge.weigh      [highlight]\\n   +- benchmark.prove   [highlight]\\n   +- sha256.log\\n   +- promote.or.wait\\n\\n+------------------+     +------------------+     +------------------+\\n| current baseline | --> | >>> proposal <<< | --> | benchmark gate   |\\n+------------------+     +------------------+     +------------------+\\n          |                        |                        |\\n          v                        v                        v\\n+------------------+     +------------------+     +------------------+\\n| keep history     |     | one variable     |     | 99.99% + 10%    |\\n+------------------+     +------------------+     +------------------+\\n\",\"promotion\":\"proposal queue only until benchmark gate proves success >= 99.99 and speed/resource improvement\",\"sha256\":\"2dff4688c0afa035f679a52b5e553c761218730413ebc34733fca5e2a207f59a\"}",
+              "{\"kind\":\"ascii_epoch_proposal\",\"version\":\"0.4.1-training-lab\",\"timestamp\":\"2026-05-13T11:05:12.314759200Z\",\"body\":\"{\\\"judgeSlot\\\": \\\"local_benchmark\\\", \\\"note\\\": \\\"testing_lab_epoch_20260513T110512Z\\\", \\\"quickVar\\\": \\\"retrieval_weight\\\", \\\"subsystem\\\": \\\"db_retrieval\\\"}\",\"subsystems\":[\"chooser\",\"db_retrieval\",\"karoo\",\"abliterated\",\"loihi\",\"lava\",\"soap\",\"ledger\",\"network\",\"java_sdk\"],\"judgeSlots\":[\"local_benchmark\",\"karoo_compare\",\"tiny_critic\",\"optional_copilot\",\"optional_gemini\",\"optional_cloud_agent\"],\"quickEditVars\":[\"route\",\"token_budget\",\"retrieval_weight\",\"web_research_gate\",\"karoo_rounds\",\"loihi_cube\",\"lava_mode\",\"soap_endpoint\",\"promotion_gate\"],\"ascii\":\"               z: subsystem / top-code family\\n                    ^\\n                    |\\n       +------------+------------+\\n      /| chooser   /| karoo     /|\\n     / | db       / | lava     / |\\n    +------------+------------+  |\\n    |  | soap    |  | loihi   |  |\\n    |  +---------|--+---------|--+--> x: logic / code coordinate\\n    | / ledger   | / network  | /\\n    |/ java_sdk  |/ agents    |/\\n    +------------+------------+\\n   /\\n  v\\ny: weight / confidence / resource cost\\n\\npropose -> weigh -> benchmark -> compare -> wait/promote\\n\",\"proposedDiagram\":\"VIPER_SDK_EPOCH_PROPOSAL  version: 0.4.1-training-lab\\n\\nexplorer\\n+- system\\n|  +- chooser\\n|  +- db_retrieval\\n|  +- karoo\\n|  +- abliterated\\n|  +- loihi\\n|  +- lava\\n|  +- soap\\n|  +- ledger\\n|  +- network\\n|  +- java_sdk\\n|\\n+- proposed_change\\n|  +- subsystem: >>> db_retrieval <<<\\n|  +- variable:  >>> retrieval_weight <<<\\n|  +- judge:     >>> local_benchmark <<<\\n|\\n+- flow\\n   +- ask.card\\n   +- db.retrieve\\n   +- lens.compose\\n   +- route.execute\\n   +- judge.weigh      [highlight]\\n   +- benchmark.prove   [highlight]\\n   +- sha256.log\\n   +- promote.or.wait\\n\\n+------------------+     +------------------+     +------------------+\\n| current baseline | --> | >>> proposal <<< | --> | benchmark gate   |\\n+------------------+     +------------------+     +------------------+\\n          |                        |                        |\\n          v                        v                        v\\n+------------------+     +------------------+     +------------------+\\n| keep history     |     | one variable     |     | 99.99% + 10%    |\\n+------------------+     +------------------+     +------------------+\\n\",\"promotion\":\"proposal queue only until benchmark gate proves success >= 99.99 and speed/resource improvement\",\"sha256\":\"3a2f6e91461ec47d718f207cc36ffd44d30bb4488046b606f65dfe45bf27bcbd\"}",
+              "{\"kind\":\"ascii_epoch_proposal\",\"version\":\"0.4.1-training-lab\",\"timestamp\":\"2026-05-13T11:05:41.662854Z\",\"body\":\"{\\\"judgeSlot\\\": \\\"local_benchmark\\\", \\\"note\\\": \\\"testing_lab_epoch_20260513T110541Z\\\", \\\"quickVar\\\": \\\"retrieval_weight\\\", \\\"subsystem\\\": \\\"db_retrieval\\\"}\",\"subsystems\":[\"chooser\",\"db_retrieval\",\"karoo\",\"abliterated\",\"loihi\",\"lava\",\"soap\",\"ledger\",\"network\",\"java_sdk\"],\"judgeSlots\":[\"local_benchmark\",\"karoo_compare\",\"tiny_critic\",\"optional_copilot\",\"optional_gemini\",\"optional_cloud_agent\"],\"quickEditVars\":[\"route\",\"token_budget\",\"retrieval_weight\",\"web_research_gate\",\"karoo_rounds\",\"loihi_cube\",\"lava_mode\",\"soap_endpoint\",\"promotion_gate\"],\"ascii\":\"               z: subsystem / top-code family\\n                    ^\\n                    |\\n       +------------+------------+\\n      /| chooser   /| karoo     /|\\n     / | db       / | lava     / |\\n    +------------+------------+  |\\n    |  | soap    |  | loihi   |  |\\n    |  +---------|--+---------|--+--> x: logic / code coordinate\\n    | / ledger   | / network  | /\\n    |/ java_sdk  |/ agents    |/\\n    +------------+------------+\\n   /\\n  v\\ny: weight / confidence / resource cost\\n\\npropose -> weigh -> benchmark -> compare -> wait/promote\\n\",\"proposedDiagram\":\"VIPER_SDK_EPOCH_PROPOSAL  version: 0.4.1-training-lab\\n\\nexplorer\\n+- system\\n|  +- chooser\\n|  +- db_retrieval\\n|  +- karoo\\n|  +- abliterated\\n|  +- loihi\\n|  +- lava\\n|  +- soap\\n|  +- ledger\\n|  +- network\\n|  +- java_sdk\\n|\\n+- proposed_change\\n|  +- subsystem: >>> db_retrieval <<<\\n|  +- variable:  >>> retrieval_weight <<<\\n|  +- judge:     >>> local_benchmark <<<\\n|\\n+- flow\\n   +- ask.card\\n   +- db.retrieve\\n   +- lens.compose\\n   +- route.execute\\n   +- judge.weigh      [highlight]\\n   +- benchmark.prove   [highlight]\\n   +- sha256.log\\n   +- promote.or.wait\\n\\n+------------------+     +------------------+     +------------------+\\n| current baseline | --> | >>> proposal <<< | --> | benchmark gate   |\\n+------------------+     +------------------+     +------------------+\\n          |                        |                        |\\n          v                        v                        v\\n+------------------+     +------------------+     +------------------+\\n| keep history     |     | one variable     |     | 99.99% + 10%    |\\n+------------------+     +------------------+     +------------------+\\n\",\"promotion\":\"proposal queue only until benchmark gate proves success >= 99.99 and speed/resource improvement\",\"sha256\":\"d31fae07a26004833b503d46fc8dc95c88c3438c04c4bee2f86a43b87cd9272c\"}"
+            ],
+            "policy": "always keep new ASCII epochs waiting; external judges weigh only; local proof promotes"
+          }
+        }
+      },
+      {
+        "name": "EpochSet.ascii_queue_append",
+        "status": "pass",
+        "details": "HTTP 200 ascii epoch append",
+        "evidence": {
+          "http_status": 200,
+          "body": {
+            "kind": "ascii_epoch_proposal",
+            "version": "0.4.1-training-lab",
+            "timestamp": "2026-05-13T11:05:42.136889800Z",
+            "body": "{\"judgeSlot\": \"local_benchmark\", \"note\": \"testing_lab_epoch_20260513T110542Z\", \"quickVar\": \"retrieval_weight\", \"subsystem\": \"db_retrieval\"}",
+            "subsystems": [
+              "chooser",
+              "db_retrieval",
+              "karoo",
+              "abliterated",
+              "loihi",
+              "lava",
+              "soap",
+              "ledger",
+              "network",
+              "java_sdk"
+            ],
+            "judgeSlots": [
+              "local_benchmark",
+              "karoo_compare",
+              "tiny_critic",
+              "optional_copilot",
+              "optional_gemini",
+              "optional_cloud_agent"
+            ],
+            "quickEditVars": [
+              "route",
+              "token_budget",
+              "retrieval_weight",
+              "web_research_gate",
+              "karoo_rounds",
+              "loihi_cube",
+              "lava_mode",
+              "soap_endpoint",
+              "promotion_gate"
+            ],
+            "ascii": "               z: subsystem / top-code family\n                    ^\n                    |\n       +------------+------------+\n      /| chooser   /| karoo     /|\n     / | db       / | lava     / |\n    +------------+------------+  |\n    |  | soap    |  | loihi   |  |\n    |  +---------|--+---------|--+--> x: logic / code coordinate\n    | / ledger   | / network  | /\n    |/ java_sdk  |/ agents    |/\n    +------------+------------+\n   /\n  v\ny: weight / confidence / resource cost\n\npropose -> weigh -> benchmark -> compare -> wait/promote\n",
+            "proposedDiagram": "VIPER_SDK_EPOCH_PROPOSAL  version: 0.4.1-training-lab\n\nexplorer\n+- system\n|  +- chooser\n|  +- db_retrieval\n|  +- karoo\n|  +- abliterated\n|  +- loihi\n|  +- lava\n|  +- soap\n|  +- ledger\n|  +- network\n|  +- java_sdk\n|\n+- proposed_change\n|  +- subsystem: >>> db_retrieval <<<\n|  +- variable:  >>> retrieval_weight <<<\n|  +- judge:     >>> local_benchmark <<<\n|\n+- flow\n   +- ask.card\n   +- db.retrieve\n   +- lens.compose\n   +- route.execute\n   +- judge.weigh      [highlight]\n   +- benchmark.prove   [highlight]\n   +- sha256.log\n   +- promote.or.wait\n\n+------------------+     +------------------+     +------------------+\n| current baseline | --> | >>> proposal <<< | --> | benchmark gate   |\n+------------------+     +------------------+     +------------------+\n          |                        |                        |\n          v                        v                        v\n+------------------+     +------------------+     +------------------+\n| keep history     |     | one variable     |     | 99.99% + 10%    |\n+------------------+     +------------------+     +------------------+\n",
+            "promotion": "proposal queue only until benchmark gate proves success >= 99.99 and speed/resource improvement",
+            "sha256": "cf92158c2ab51afcb5de09502f1dc0cfe223af9f3b5300971904ca77e038fa23"
+          }
+        }
+      },
+      {
+        "name": "EpochSet.upgrade_proof",
+        "status": "pass",
+        "details": "HTTP 200 epoch proof",
+        "evidence": {
+          "http_status": 200,
+          "body": {
+            "kind": "epoch_upgrade_proof",
+            "version": "0.4.1-training-lab",
+            "timestamp": "2026-05-13T11:05:42.282179600Z",
+            "request": "{\"goal\": \"testing_lab_probe\", \"rule\": \"proposal_only_no_auto_apply\"}",
+            "checkpoint": "C:\\Users\\viper\\VIPER_JAVA_RISC_CHECKPOINTS",
+            "mode": "proof_of_concept_proposals_only",
+            "approvalStatus": "approved_by_user_pending_tbd_tests",
+            "systemRead": {
+              "bridgeBenchmarks": "{\"benchmarks\": [{\"benchmark_id\": \"BENCH_20260513T110541639903Z_b80a30de6f_913e\", \"component\": \"tiny_model_runtime\", \"operation\": \"retrieval_matcher\", \"route\": \"planning\", \"duration_ms\": 0, \"status\": \"latency_guardrail\", \"details\": {\"reason\": \"latency_guardrail\"}, \"created_at\": \"2026-05-13 11:05:41\"}, {\"benchmark_id\": \"BENCH_20260513T110541640904Z_b80a30de6f_8d29\", \"component\": \"tiny_model_runtime\", \"operation\": \"qwen_chooser\", \"route\": \"planning\", \"duration_ms\": 0, \"status\": \"latency_guardrail\", \"details\": {\"reason\": \"latency_guardrail\"}, \"created_at\": \"2026-05-13 11:05:41\"}, {\"benchmark_id\": \"BENCH_20260513T110541640904Z_b80a30de6f_5920\", \"component\": \"tiny_model_runtime\", \"operation\": \"qwen_rolling_triplet\", \"route\": \"planning\", \"duration_ms\": 0, \"status\": \"latency_guardrail\", \"details\": {\"reason\": \"latency_guardrail\"}, \"created_at\": \"2026-05-13 11:05:41\"}, {\"benchmark_id\": \"BENCH_20260513T110541781280Z_b80a30de6f_e624\", \"component\": \"tiny_model_runtime\", \"operation\": \"retrieval_matcher\", \"route\": \"planning\", \"duration_ms\": 0, \"status\": \"latency_guardrail\", \"details\": {\"reason\": \"latency_guardrail\"}, \"created_at\": \"2026-05-13 11:05:41\"}, {\"benchmark_id\": \"BENCH_20260513T110541781",
+              "houseHealth": "{\"status\": \"ok\", \"mode\": \"house_inference\", \"has_llama\": true, \"model_exists\": true, \"threaded\": true, \"n_ctx\": 8192, \"max_output_tokens\": 4096, \"safe_input_tokens\": {\"chat\": 1024, \"planning\": 3072, \"build\": 4096}, \"prompt_packer\": \"route_aware_system_first_trimmer\"}",
+              "shipperHealth": "{\n  \"status\": \"ok\",\n  \"port\": 18081,\n  \"mode\": \"logic_only_sidecar\",\n  \"main_gui_untouched\": true\n}",
+              "shipperTail": "[2026-05-13T11:05:05.800507+00:00] 127.0.0.1 \"POST /api/agent/heartbeat HTTP/1.1\" 200 -\n[2026-05-13T11:05:05.842784+00:00] 127.0.0.1 \"POST /api/agent/heartbeat HTTP/1.1\" 200 -\n[2026-05-13T11:05:05.873164+00:00] 127.0.0.1 \"POST /api/resource/task HTTP/1.1\" 200 -\n[2026-05-13T11:05:05.875165+00:00] 127.0.0.1 \"POST /api/uplink HTTP/1.1\" 202 -\n[2026-05-13T11:05:05.899163+00:00] 127.0.0.1 \"POST /api/resource/assign HTTP/1.1\" 200 -\n[2026-05-13T11:05:05.903181+00:00] 127.0.0.1 \"POST /api/agent/heartbeat HTTP/1.1\" 200 -\n[2026-05-13T11:05:05.918762+00:00] 127.0.0.1 \"POST /api/resource/proof HTTP/1.1\" 200 -\n[2026-05-13T11:05:05.922106+00:00] 127.0.0.1 \"POST /api/agent/heartbeat HTTP/1.1\" 200 -\n[2026-05-13T11:05:05.958831+00:00] 127.0.0.1 \"POST /api/agent/heartbeat HTTP/1.1\" 200 -\n[2026-05-13T11:05:06.002416+00:00] 127.0.0.1 \"POST /api/agent/heartbeat HTTP/1.1\" 200 -\n[2026-05-13T11:05:06.022084+00:00] 127.0.0.1 \"POST /api/resource/task HTTP/1.1\" 200 -\n[2026-05-13T11:05:06.051300+00:00] 127.0.0.1 \"POST /api/resource/assign HTTP/1.1\" 200 -\n[2026-05-13T11:05:06.080106+00:00] 127.0.0.1 \"POST /api/resource/proof HTTP/1.1\" 200 -\n[2026-05-13T11:05:09.862816+00:00] 127.0.0.1 \"GET /api/resource/status HTTP/1.1\" 200 -\n[2026-05-13T11:05:10.280586+00:00] 127.0.0.1 \"GET /health HTTP/1.1\" 200 -\n[2026-05-13T11:05:10.921942+00:00] 127.0.0.1 \"GET /api/resource/status HTTP/1.1\" 200 -\n[2026-05-13T11:05:11.127963+00:00] 127.0.0.1 \"GET /health HTTP/1.1\" 200 -\n[2026-05-13T11:05:11.811314+00:00] 127.0.0.1 \"GET /health HTTP/1.1\" 200 -\n[2026-05-13T11:05:12.666630+00:00] 127.0.0.1 \"GET /health HTTP/1.1\" 200 -\n[2026-05-13T11:05:36.967691+00:00] 127.0.0.1 \"GET /health HTTP/1.1\" 200 -\n[2026-05-13T11:05:37.051931+00:00] 127.0.0.1 \"GET /health HTTP/1.1\" 200 -\n[2026-05-13T11:05:37.195623+00:00] 127.0.0.1 \"POST /api/uplink HTTP/1.1\" 202 -\n[2026-05-13T11:05:37.200680+00:00] 127.0.0.1 \"POST /api/uplink HTTP/1.1\" 202 -\n[2026-05-13T11:05:37.220430+00:00] 127.0.0.1 \"POST /api/agent/heartbeat HTTP/1.1\" 200 -\n[2026-05-13T11:05:37.233728+00:00] 127.0.0.1 \"POST /api/agent/heartbeat HTTP/1.1\" 200 -\n[2026-05-13T11:05:37.247760+00:00] 127.0.0.1 \"POST /api/agent/heartbeat HTTP/1.1\" 200 -\n[2026-05-13T11:05:37.249773+00:00] 127.0.0.1 \"POST /api/agent/heartbeat HTTP/1.1\" 200 -\n[2026-05-13T11:05:37.259780+00:00] 127.0.0.1 \"POST /api/agent/heartbeat HTTP/1.1\" 200 -\n[2026-05-13T11:05:37.282178+00:00] 127.0.0.1 \"POST /api/agent/heartbeat HTTP/1.1\" 200 -\n[2026-05-13T11:05:37.297649+00:00] 127.0.0.1 \"POST /api/agent/heartbeat HTTP/1.1\" 200 -\n[2026-05-13T11:05:37.314080+00:00] 127.0.0.1 \"POST /api/resource/task HTTP/1.1\" 200 -\n[2026-05-13T11:05:37.331461+00:00] 127.0.0.1 \"POST /api/resource/assign HTTP/1.1\" 200 -\n[2026-05-13T11:05:37.331461+00:00] 127.0.0.1 \"POST /api/agent/heartbeat HTTP/1.1\" 200 -\n[2026-05-13T11:05:37.361178+00:00] 127.0.0.1 \"POST /api/resource/proof HTTP/1.1\" 200 -\n[2026-05-13T11:05:39.731728+00:00] 127.0.0.1 \"GET /api/resource/status HTTP/1.1\" 200 -\n[2026-05-13T11:05:39.916629+00:00] 127.0.0.1 \"GET /health HTTP/1.1\" 200 -\n[2026-05-13T11:05:39.966931+00:00] 127.0.0.1 \"GET /api/resource/status HTTP/1.1\" 200 -\n[2026-05-13T11:05:40.301128+00:00] 127.0.0.1 \"GET /health HTTP/1.1\" 200 -\n[2026-05-13T11:05:41.771186+00:00] 127.0.0.1 \"GET /health HTTP/1.1\" 200 -\n[2026-05-13T11:05:42.214396+00:00] 127.0.0.1 \"GET /health HTTP/1.1\" 200 -",
+              "topologyTail": "    \"subsystem_id\": \"HOUSE_INFERENCE\",\n    \"symbol\": \"HouseInferenceHandler\",\n    \"source_path\": \"C:\\\\Users\\\\viper\\\\house_inference_engine.py\",\n    \"start_line\": 32,\n    \"end_line\": 192,\n    \"comparison_count\": 3,\n    \"confidence\": 1.0,\n    \"comparisons\": [\n      {\n        \"name\": \"python_ast_parse\",\n        \"status\": \"pass\",\n        \"score\": 1.0,\n        \"details\": \"Chunk parses as Python AST.\"\n      },\n      {\n        \"name\": \"bounded_chunk_size\",\n        \"status\": \"pass\",\n        \"score\": 1.0,\n        \"details\": \"Chunk has 161 lines; expected 1..240 for reviewable one-variable proposals.\"\n      },\n      {\n        \"name\": \"observability_signal\",\n        \"status\": \"pass\",\n        \"score\": 1.0,\n        \"details\": \"Chunk exposes log/error/status/proof signal.\"\n      }\n    ],\n    \"recommendation\": \"No code mutation performed. Candidate cycle captured baseline chunk for future one-variable tests.\",\n    \"next_step\": \"Use these comparator outputs to choose one bounded improvement before proposing a patch.\"\n  }\n}\n{\n  \"removed\": [\n    \"C:\\\\Users\\\\viper\\\\VIPER_JAVA_RISC\\\\topology_checkpoints\\\\20260513T045621Z_KAROO_20MIN\",\n    \"C:\\\\Users\\\\viper\\\\VIPER_JAVA_RISC\\\\topology_candidates\\\\EXP_20260513T045625Z_4009744ffd\"\n  ],\n  \"keep\": 18\n}\n[2026-05-13 04:58:45] LIVE_WEB_STATUS=200\n[2026-05-13 04:58:45] TOPOLOGY_LOOP_SLEEP_1200"
+            },
+            "proposals": [
+              {
+                "id": "EPOCH_BRIDGE_HEADROOM_REPAIR",
+                "subsystem": "bridge8080",
+                "problem": "Thin replies and repaired planning turns show the orchestration works but needs a stronger response contract.",
+                "evidence": "No exact marker found in current tail; proposal remains queued for more evidence.",
+                "proposedChange": "Add a route-level completion proof card: answer_min_chars, required_sections, and retry reason before returning to the user.",
+                "acceptanceTest": "Replay the last thin prompt; pass only if response_chars >= 300 or route explicitly marks terse chat as intended.",
+                "testResult": "TBD",
+                "approvalStatus": "approved_by_user_pending_test",
+                "visualHighlight": "HIGH_CONTRAST_YELLOW",
+                "highlight": ">>> bridge8080 :: Add a route-level completion proof card: answer_min_chars, required_sections, and retry reason before returning to the user. <<<",
+                "diagram": "EPOCH_BRIDGE_HEADROOM_REPAIR\n+- baseline.read\n|  +- logs\n|  +- benchmarks\n|  +- health\n+- proposed_change\n|  +- subsystem: >>> bridge8080 <<<\n|  +- scope: one variable\n|  +- mode: proposal only\n+- proof\n   +- run test\n   +- compare delta\n   +- sha256 record\n   +- wait for approval\n"
+              },
+              {
+                "id": "EPOCH_SHIPPER_UPLINK_COMPAT",
+                "subsystem": "logic_shipper18081",
+                "problem": "Heartbeat succeeds, but local /api/uplink posts are repeatedly 404, so ledger shipping needs endpoint compatibility proof.",
+                "evidence": "No exact marker found in current tail; proposal remains queued for more evidence.",
+                "proposedChange": "Add an endpoint negotiation table: local_uplink_path, cloud_uplink_path, ledger_path, and preflight route check.",
+                "acceptanceTest": "Run health plus one dry-run uplink preflight; pass only if route returns 2xx/accepted or clear disabled status.",
+                "testResult": "TBD",
+                "approvalStatus": "approved_by_user_pending_test",
+                "visualHighlight": "HIGH_CONTRAST_YELLOW",
+                "highlight": ">>> logic_shipper18081 :: Add an endpoint negotiation table: local_uplink_path, cloud_uplink_path, ledger_path, and preflight route check. <<<",
+                "diagram": "EPOCH_SHIPPER_UPLINK_COMPAT\n+- baseline.read\n|  +- logs\n|  +- benchmarks\n|  +- health\n+- proposed_change\n|  +- subsystem: >>> logic_shipper18081 <<<\n|  +- scope: one variable\n|  +- mode: proposal only\n+- proof\n   +- run test\n   +- compare delta\n   +- sha256 record\n   +- wait for approval\n"
+              },
+              {
+                "id": "EPOCH_KAROO_COMPARATOR_ATTACH",
+                "subsystem": "karoo_topology_loop",
+                "problem": "Karoo is safely capturing baselines, but comparison_count is zero, so it cannot yet rank mutations like a real epoch judge.",
+                "evidence": "No exact marker found in current tail; proposal remains queued for more evidence.",
+                "proposedChange": "Attach a comparator source set: project-local snippet, successful ledger block, and optional external judge score.",
+                "acceptanceTest": "Next Karoo candidate must include comparison_count >= 3 and one-variable score deltas before patch proposal.",
+                "testResult": "TBD",
+                "approvalStatus": "approved_by_user_pending_test",
+                "visualHighlight": "HIGH_CONTRAST_YELLOW",
+                "highlight": ">>> karoo_topology_loop :: Attach a comparator source set: project-local snippet, successful ledger block, and optional external judge score. <<<",
+                "diagram": "EPOCH_KAROO_COMPARATOR_ATTACH\n+- baseline.read\n|  +- logs\n|  +- benchmarks\n|  +- health\n+- proposed_change\n|  +- subsystem: >>> karoo_topology_loop <<<\n|  +- scope: one variable\n|  +- mode: proposal only\n+- proof\n   +- run test\n   +- compare delta\n   +- sha256 record\n   +- wait for approval\n"
+              },
+              {
+                "id": "EPOCH_SOVEREIGN_AGENT_CONTRACT",
+                "subsystem": "agent_network",
+                "problem": "The system is ready for orchestration if every agent declares capability, limits, endpoints, and proof outputs first.",
+                "evidence": "house={\"status\": \"ok\", \"mode\": \"house_inference\", \"has_llama\": true, \"model_exists\": true, \"threaded\": true, \"n_ctx\": 8192, \"max_output_tokens\": 4096, \"safe_input_tokens\": {\"chat\": 1024,; shipper={   \"status\": \"ok\",   \"port\": 18081,   \"mode\": \"logic_only_sidecar\",   \"main_gui_untouched\": true }",
+                "proposedChange": "Add an ACL/KQML capability card per agent: can_do, cannot_do, endpoint, token budget, storage role, heartbeat.",
+                "acceptanceTest": "Pass when each registered agent can answer capability ping and produce a SHA-256 proof envelope.",
+                "testResult": "TBD",
+                "approvalStatus": "approved_by_user_pending_test",
+                "visualHighlight": "HIGH_CONTRAST_YELLOW",
+                "highlight": ">>> agent_network :: Add an ACL/KQML capability card per agent: can_do, cannot_do, endpoint, token budget, storage role, heartbeat. <<<",
+                "diagram": "EPOCH_SOVEREIGN_AGENT_CONTRACT\n+- baseline.read\n|  +- logs\n|  +- benchmarks\n|  +- health\n+- proposed_change\n|  +- subsystem: >>> agent_network <<<\n|  +- scope: one variable\n|  +- mode: proposal only\n+- proof\n   +- run test\n   +- compare delta\n   +- sha256 record\n   +- wait for approval\n"
+              },
+              {
+                "id": "EPOCH_ROLLING_TRIPLET_RESTORE",
+                "subsystem": "chooser_triplet_tail",
+                "problem": "User-approved: restore the lighter rolling recursive triplet response because it felt better than a single heavy bridge pass.",
+                "evidence": "Active request approved rolling triplet plus tiny chooser/decider first.",
+                "proposedChange": "Tiny chooser selects route -> light model draft -> Karoo/action pass -> verifier/editor pass -> tail continuation stitches long responses.",
+                "acceptanceTest": "TBD: replay long planning prompt; pass when response is complete, sectioned, and no 'PASS.' or cutoff appears.",
+                "testResult": "TBD",
+                "approvalStatus": "approved_by_user_pending_test",
+                "visualHighlight": "HIGH_CONTRAST_YELLOW",
+                "highlight": ">>> chooser_triplet_tail :: Tiny chooser selects route -> light model draft -> Karoo/action pass -> verifier/editor pass -> tail continuation stitches long responses. <<<",
+                "diagram": "EPOCH_ROLLING_TRIPLET_RESTORE\n+- baseline.read\n|  +- logs\n|  +- benchmarks\n|  +- health\n+- proposed_change\n|  +- subsystem: >>> chooser_triplet_tail <<<\n|  +- scope: one variable\n|  +- mode: proposal only\n+- proof\n   +- run test\n   +- compare delta\n   +- sha256 record\n   +- wait for approval\n"
+              },
+              {
+                "id": "EPOCH_MISSION_DIRECTIVE_ALWAYS_ON",
+                "subsystem": "mission_directive",
+                "problem": "User-approved: display and inject the mission directive first so every model keeps the same purpose frame.",
+                "evidence": "Active request supplied always-on directive text.",
+                "proposedChange": "Prefix every route with the mission directive before variable context so prefix caching can reuse it.",
+                "acceptanceTest": "TBD: inspect prompt pack; pass when directive appears before retrieval/lens and output remains on mission.",
+                "testResult": "TBD",
+                "approvalStatus": "approved_by_user_pending_test",
+                "visualHighlight": "HIGH_CONTRAST_YELLOW",
+                "highlight": ">>> mission_directive :: Prefix every route with the mission directive before variable context so prefix caching can reuse it. <<<",
+                "diagram": "EPOCH_MISSION_DIRECTIVE_ALWAYS_ON\n+- baseline.read\n|  +- logs\n|  +- benchmarks\n|  +- health\n+- proposed_change\n|  +- subsystem: >>> mission_directive <<<\n|  +- scope: one variable\n|  +- mode: proposal only\n+- proof\n   +- run test\n   +- compare delta\n   +- sha256 record\n   +- wait for approval\n"
+              },
+              {
+                "id": "EPOCH_LONG_RESPONSE_TAIL_STITCH",
+                "subsystem": "tail_continuation",
+                "problem": "Long answers should be allowed to take time and continue cleanly instead of collapsing under token or timeout pressure.",
+                "evidence": "Bridge defaults were raised; tail engineering is approved for long local responses.",
+                "proposedChange": "When answer may exceed token budget, ask model to end with TAIL_CONTINUE token and resume from the last outline point.",
+                "acceptanceTest": "TBD: request a long answer; pass when continuation joins without repeated intro or missing final section.",
+                "testResult": "TBD",
+                "approvalStatus": "approved_by_user_pending_test",
+                "visualHighlight": "HIGH_CONTRAST_YELLOW",
+                "highlight": ">>> tail_continuation :: When answer may exceed token budget, ask model to end with TAIL_CONTINUE token and resume from the last outline point. <<<",
+                "diagram": "EPOCH_LONG_RESPONSE_TAIL_STITCH\n+- baseline.read\n|  +- logs\n|  +- benchmarks\n|  +- health\n+- proposed_change\n|  +- subsystem: >>> tail_continuation <<<\n|  +- scope: one variable\n|  +- mode: proposal only\n+- proof\n   +- run test\n   +- compare delta\n   +- sha256 record\n   +- wait for approval\n"
+              },
+              {
+                "id": "EPOCH_INFERENCE_OPTIMIZATION_STACK",
+                "subsystem": "inference_runtime",
+                "problem": "User supplied optimization stack: quantization, prefix caching, disaggregated prefill/decode, Flash Attention, continuous batching, KV cache management, speculative decoding.",
+                "evidence": "Imported optimization notes from active request.",
+                "proposedChange": "Create environment capability table and enable only supported optimizations: GGUF quant choice now; vLLM/Flash/PagedAttention/speculative later where hardware supports it.",
+                "acceptanceTest": "TBD: benchmark TTFT, tokens/sec, memory use, and accuracy before/after each single optimization.",
+                "testResult": "TBD",
+                "approvalStatus": "approved_by_user_pending_test",
+                "visualHighlight": "HIGH_CONTRAST_YELLOW",
+                "highlight": ">>> inference_runtime :: Create environment capability table and enable only supported optimizations: GGUF quant choice now; vLLM/Flash/PagedAttention/speculative later where hardware supports it. <<<",
+                "diagram": "EPOCH_INFERENCE_OPTIMIZATION_STACK\n+- baseline.read\n|  +- logs\n|  +- benchmarks\n|  +- health\n+- proposed_change\n|  +- subsystem: >>> inference_runtime <<<\n|  +- scope: one variable\n|  +- mode: proposal only\n+- proof\n   +- run test\n   +- compare delta\n   +- sha256 record\n   +- wait for approval\n"
+              },
+              {
+                "id": "EPOCH_DISTRIBUTED_RESOURCE_APP",
+                "subsystem": "distributed_exe_network",
+                "problem": "User-approved final phase: real distributable app that can lend/take CPU, memory, and storage across PCs and phones.",
+                "evidence": "Standalone Java EXE exists; APK skeleton exists; resource lending still needs a real protocol.",
+                "proposedChange": "Add node capability daemon: announce resources, accept signed tasks, return SHA-256 proof, enforce local opt-in quotas.",
+                "acceptanceTest": "TBD: two-node LAN smoke test; pass when node A sees node B resources and runs a harmless benchmark task.",
+                "testResult": "TBD",
+                "approvalStatus": "approved_by_user_pending_test",
+                "visualHighlight": "HIGH_CONTRAST_YELLOW",
+                "highlight": ">>> distributed_exe_network :: Add node capability daemon: announce resources, accept signed tasks, return SHA-256 proof, enforce local opt-in quotas. <<<",
+                "diagram": "EPOCH_DISTRIBUTED_RESOURCE_APP\n+- baseline.read\n|  +- logs\n|  +- benchmarks\n|  +- health\n+- proposed_change\n|  +- subsystem: >>> distributed_exe_network <<<\n|  +- scope: one variable\n|  +- mode: proposal only\n+- proof\n   +- run test\n   +- compare delta\n   +- sha256 record\n   +- wait for approval\n"
+              },
+              {
+                "id": "EPOCH_AXIOMATIC_WEIGHTED_TRUTH_TABLES",
+                "subsystem": "coding_truth_tables",
+                "problem": "User-approved: all agents should use axiomatic truth tables with weighted truths for coding decisions.",
+                "evidence": "Active request: 'EVERYONE is using AXIOMATIC TRUTH TABLES WITH WEIGHTED TRUTHES FOR CODING'.",
+                "proposedChange": "Add coding decision table: axiom, evidence, counterexample, weight, confidence, test, verdict. Require it in Karoo proposal packets.",
+                "acceptanceTest": "TBD: next code proposal must include weighted truth table and pass/fail evidence before patch approval.",
+                "testResult": "TBD",
+                "approvalStatus": "approved_by_user_pending_test",
+                "visualHighlight": "HIGH_CONTRAST_YELLOW",
+                "highlight": ">>> coding_truth_tables :: Add coding decision table: axiom, evidence, counterexample, weight, confidence, test, verdict. Require it in Karoo proposal packets. <<<",
+                "diagram": "EPOCH_AXIOMATIC_WEIGHTED_TRUTH_TABLES\n+- baseline.read\n|  +- logs\n|  +- benchmarks\n|  +- health\n+- proposed_change\n|  +- subsystem: >>> coding_truth_tables <<<\n|  +- scope: one variable\n|  +- mode: proposal only\n+- proof\n   +- run test\n   +- compare delta\n   +- sha256 record\n   +- wait for approval\n"
+              },
+              {
+                "id": "EPOCH_REAL_TINY_CHOOSER",
+                "subsystem": "qwen2_5_chooser",
+                "problem": "The previous chooser was too deterministic; Qwen2.5-0.5B now writes the active lens instead of merely validating a template.",
+                "evidence": "Tiny model runtime downloads and probes Qwen2.5-0.5B GGUF, then logs qwen_chooser benchmarks.",
+                "proposedChange": "Use Qwen to emit the max-100-word active lens after DB/user/web evidence is gathered; deterministic text is fallback only.",
+                "acceptanceTest": "TBD: pass when qwen_chooser_lens_100_words status is chosen_by_qwen2_5 and response route/layer are correct.",
+                "testResult": "TBD",
+                "approvalStatus": "approved_by_user_pending_test",
+                "visualHighlight": "HIGH_CONTRAST_YELLOW",
+                "highlight": ">>> qwen2_5_chooser :: Use Qwen to emit the max-100-word active lens after DB/user/web evidence is gathered; deterministic text is fallback only. <<<",
+                "diagram": "EPOCH_REAL_TINY_CHOOSER\n+- baseline.read\n|  +- logs\n|  +- benchmarks\n|  +- health\n+- proposed_change\n|  +- subsystem: >>> qwen2_5_chooser <<<\n|  +- scope: one variable\n|  +- mode: proposal only\n+- proof\n   +- run test\n   +- compare delta\n   +- sha256 record\n   +- wait for approval\n"
+              },
+              {
+                "id": "EPOCH_AXIOMATIC_RETRIEVAL_MATCHER",
+                "subsystem": "smollm2_retrieval",
+                "problem": "Keyword retrieval alone was noisy; SmolLM2-360M now selects the closest 50-word axiomatic DB match.",
+                "evidence": "Tiny model runtime downloads and probes SmolLM2-360M GGUF, with H2O-Danube3 as fallback.",
+                "proposedChange": "Run purpose-first DB retrieval, compress candidates, ask SmolLM2 for one closest match, then inject only that reduced card.",
+                "acceptanceTest": "TBD: pass when axiomatic_retrieval_match_50_words status is matched_by_smollm2 and does not exceed 50 words.",
+                "testResult": "TBD",
+                "approvalStatus": "approved_by_user_pending_test",
+                "visualHighlight": "HIGH_CONTRAST_YELLOW",
+                "highlight": ">>> smollm2_retrieval :: Run purpose-first DB retrieval, compress candidates, ask SmolLM2 for one closest match, then inject only that reduced card. <<<",
+                "diagram": "EPOCH_AXIOMATIC_RETRIEVAL_MATCHER\n+- baseline.read\n|  +- logs\n|  +- benchmarks\n|  +- health\n+- proposed_change\n|  +- subsystem: >>> smollm2_retrieval <<<\n|  +- scope: one variable\n|  +- mode: proposal only\n+- proof\n   +- run test\n   +- compare delta\n   +- sha256 record\n   +- wait for approval\n"
+              },
+              {
+                "id": "EPOCH_NAS_AGENT_SPINUP_SYNC",
+                "subsystem": "nas_agent_bootstrap",
+                "problem": "The resource network needs a repeatable way to copy project files and tiny models to new machines without guessing paths.",
+                "evidence": "VIPER_NAS_ROOT is optional and no hard-coded NAS path is assumed.",
+                "proposedChange": "Add CREATE_VIPER_NAS_LINK.ps1 and SPIN_UP_AGENT_NODE.ps1 for staging, env config, tiny model paths, and node bootstrap.",
+                "acceptanceTest": "TBD: pass when a second machine can run the generated env file and report model-path/status without manual file hunting.",
+                "testResult": "TBD",
+                "approvalStatus": "approved_by_user_pending_test",
+                "visualHighlight": "HIGH_CONTRAST_YELLOW",
+                "highlight": ">>> nas_agent_bootstrap :: Add CREATE_VIPER_NAS_LINK.ps1 and SPIN_UP_AGENT_NODE.ps1 for staging, env config, tiny model paths, and node bootstrap. <<<",
+                "diagram": "EPOCH_NAS_AGENT_SPINUP_SYNC\n+- baseline.read\n|  +- logs\n|  +- benchmarks\n|  +- health\n+- proposed_change\n|  +- subsystem: >>> nas_agent_bootstrap <<<\n|  +- scope: one variable\n|  +- mode: proposal only\n+- proof\n   +- run test\n   +- compare delta\n   +- sha256 record\n   +- wait for approval\n"
+              }
+            ],
+            "diagram": "VIPER_EPOCH_UPGRADE_PROOF\n\n+-----------------+      +------------------+      +------------------+\n| subsystem scan  | ---> | proposed epoch   | ---> | acceptance test  |\n+-----------------+      +------------------+      +------------------+\n         |                         |                         |\n         v                         v                         v\n+-----------------+      +------------------+      +------------------+\n| evidence tail   |      | >>> highlight <<<|      | benchmark + SHA |\n+-----------------+      +------------------+      +------------------+\n\nsurgical agents:\n  bridge.headroom       -> fix thin replies with completion proof\n  shipper.uplink        -> fix endpoint compatibility before ledger shipping\n  karoo.comparator      -> require comparison_count before mutation scoring\n  sovereign.contract    -> every agent declares capability and proof envelope\n",
+            "promotionGate": "No auto-apply. Promote only after one-variable test, e2e proof, success >= 99.99, and +10% speed or -10% resources.",
+            "sha256": "d6a23ce96f80cadffe7a0ef4e869e6a89a035b6a7e09efd137bab1111f59a432"
+          }
+        }
+      }
+    ]
+  }
+}

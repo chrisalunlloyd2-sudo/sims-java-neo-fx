@@ -1,0 +1,5 @@
+LOGIC_0.9946
+EVENT: TRIPLET_HOUSE_REASONING
+DETAILS: Route=planning lens=LENS_20260508T031401160494Z_5c77995015_00d4 talk: compare systems genetic upgrade winner merge googl...
+NEURONS: 1000200
+HASH: 0375c0e79ba676a30be2b202b9ff5ea45d32c0c0d0ede98bad7a3cb5c874c4d3

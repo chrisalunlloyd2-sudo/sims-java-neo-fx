@@ -1,0 +1,5 @@
+LOGIC_0.9624
+EVENT: TRIPLET_HOUSE_REASONING
+DETAILS: Route=build lens=LENS_20260508T022826Z_403b7328ef talk: notes please ship this test note: retreival and re...
+NEURONS: 1000163
+HASH: eef2ec78610f297402072067e97036f6ae2a891e142360ae1ca5f6d75c7d0cf6

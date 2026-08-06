@@ -1,0 +1,614 @@
+package com.aigen.sims;
+
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.animation.AnimationTimer;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.*;
+import javafx.scene.control.*;
+import javafx.scene.paint.*;
+import javafx.scene.text.Font;
+import javafx.scene.effect.*;
+import javafx.stage.Stage;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+
+import java.io.*;
+import java.net.InetSocketAddress;
+import java.nio.file.*;
+import java.util.*;
+import java.util.concurrent.*;
+import com.sun.net.httpserver.*;
+
+public class GodHandApp extends Application {
+    private static final int W = 1400, H = 850;
+    private static final double HEX = 32.0;
+    private static final String PYTHON = "C:\\Users\\viper\\AppData\\Local\\Programs\\Python\\Python311\\python.exe";
+    private static final String ROOT = "C:\\Users\\viper\\OneDrive\\Desktop\\local_desktop-main";
+
+    // Data from bridge JSON
+    private volatile List<Map<String, Object>> models = new CopyOnWriteArrayList<>();
+    private volatile List<Map<String, Object>> chats = new CopyOnWriteArrayList<>();
+    private double pulse = 0;
+
+    // UI components
+    private StackPane viewStack;
+    private Canvas hexCanvas;
+    private VBox infoView, chatView;
+    private TextArea infoText, chatText;
+    private Label statusBar;
+
+    public static void main(String[] args) { launch(args); }
+
+    @Override
+    public void start(Stage stage) {
+        BorderPane root = new BorderPane();
+        root.setStyle("-fx-background-color: #0a0e27;");
+
+        // LEFT NAV
+        VBox nav = buildNav();
+        root.setLeft(nav);
+
+        // CENTER VIEWS
+        viewStack = new StackPane();
+        viewStack.setStyle("-fx-background-color: #0a0e27;");
+
+        hexCanvas = new Canvas(W - 260, H - 40);
+        
+        infoView = buildInfoView();
+        chatView = buildChatView();
+        
+        infoView.setVisible(false);
+        chatView.setVisible(false);
+
+        viewStack.getChildren().addAll(hexCanvas, infoView, chatView);
+        root.setCenter(viewStack);
+
+        // STATUS BAR
+        statusBar = new Label("SIMS1337 v0.23 | Initializing bridge...");
+        statusBar.setStyle("-fx-background-color: #0d1117; -fx-text-fill: #4fc3f7; -fx-font-family: 'Consolas'; -fx-padding: 6 12 6 12; -fx-font-size: 12;");
+        statusBar.setMaxWidth(Double.MAX_VALUE);
+        root.setBottom(statusBar);
+
+        // ANIMATION + DATA POLL
+        AnimationTimer timer = new AnimationTimer() {
+            long lastPoll = 0;
+            @Override
+            public void handle(long now) {
+                pulse += 0.02;
+                if (now - lastPoll > 1_000_000_000L) {
+                    lastPoll = now;
+                    pollBridge();
+                }
+                if (hexCanvas.isVisible()) renderHexGrid(hexCanvas.getGraphicsContext2D());
+            }
+        };
+
+        Scene scene = new Scene(root, W, H);
+        stage.setTitle("SIMS1337 - Neuromorphic Grid v0.23");
+        stage.setScene(scene);
+        stage.show();
+        timer.start();
+
+        // Start web server + bridge
+        startWebServer();
+        startBridge();
+    }
+
+    private VBox buildNav() {
+        VBox nav = new VBox(6);
+        nav.setPrefWidth(250);
+        nav.setPadding(new Insets(15));
+        nav.setStyle("-fx-background-color: linear-gradient(to bottom, #0d1117, #161b22); -fx-border-color: #30363d; -fx-border-width: 0 1 0 0;");
+
+        Label title = new Label("SIMS 1337");
+        title.setStyle("-fx-text-fill: #7c4dff; -fx-font-family: 'Consolas'; -fx-font-size: 22; -fx-font-weight: bold;");
+        title.setEffect(new Glow(0.6));
+
+        Label subtitle = new Label("NEUROMORPHIC GRID");
+        subtitle.setStyle("-fx-text-fill: #4fc3f7; -fx-font-family: 'Consolas'; -fx-font-size: 11;");
+
+        Separator sep = new Separator();
+        sep.setStyle("-fx-background-color: #30363d;");
+
+        nav.getChildren().addAll(title, subtitle, sep);
+
+        // View tabs
+        nav.getChildren().add(makeLabel("VIEWS", "#ffab40"));
+        nav.getChildren().add(navBtn("HEX GRID", "#4fc3f7", () -> showView(hexCanvas)));
+        nav.getChildren().add(navBtn("SWARM INFO", "#4fc3f7", () -> showView(infoView)));
+        nav.getChildren().add(navBtn("LIVE CHAT", "#4fc3f7", () -> showView(chatView)));
+
+        nav.getChildren().add(new Separator());
+        nav.getChildren().add(makeLabel("ACTIONS", "#ffab40"));
+
+        // Working action buttons
+        String[] scripts = {"START_LOGIC_BLOCKCHAIN_PORT", "START_TOPOLOGY_SIDECAR",
+            "START_HOUSE_ENGINE_RECOVERY", "SPIN_UP_AGENT_NODE",
+            "START_LAB_SUITE", "START_NOTES_SUITE", "START_NOTES_TUNNEL", "LAUNCH_MOLTBOOK"};
+        for (String s : scripts) {
+            nav.getChildren().add(navBtn(s.replace("START_", ""), "#7c4dff", () -> runScript(s + ".ps1")));
+        }
+
+        return nav;
+    }
+
+    private Label makeLabel(String text, String color) {
+        Label l = new Label(text);
+        l.setStyle("-fx-text-fill: " + color + "; -fx-font-family: 'Consolas'; -fx-font-size: 11; -fx-padding: 8 0 2 0;");
+        return l;
+    }
+
+    private Button navBtn(String text, String color, Runnable action) {
+        Button b = new Button(text);
+        b.setMaxWidth(Double.MAX_VALUE);
+        String base = "-fx-background-color: #161b22; -fx-text-fill: " + color + "; -fx-font-family: 'Consolas'; -fx-font-size: 12; -fx-border-color: #30363d; -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand;";
+        String hover = "-fx-background-color: #21262d; -fx-text-fill: " + color + "; -fx-font-family: 'Consolas'; -fx-font-size: 12; -fx-border-color: " + color + "; -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand;";
+        b.setStyle(base);
+        b.setOnMouseEntered(e -> b.setStyle(hover));
+        b.setOnMouseExited(e -> b.setStyle(base));
+        b.setOnAction(e -> action.run());
+        return b;
+    }
+
+    private VBox buildInfoView() {
+        VBox v = new VBox(10);
+        v.setPadding(new Insets(20));
+        v.setStyle("-fx-background-color: #0a0e27;");
+        Label l = new Label("SWARM INTELLIGENCE OVERVIEW");
+        l.setStyle("-fx-text-fill: #7c4dff; -fx-font-family: 'Consolas'; -fx-font-size: 20;");
+        l.setEffect(new Glow(0.4));
+        infoText = new TextArea("Waiting for bridge data...");
+        infoText.setStyle("-fx-control-inner-background: #0d1117; -fx-text-fill: #4fc3f7; -fx-font-family: 'Consolas'; -fx-font-size: 13; -fx-border-color: #30363d;");
+        infoText.setEditable(false);
+        VBox.setVgrow(infoText, Priority.ALWAYS);
+        v.getChildren().addAll(l, infoText);
+        return v;
+    }
+
+    private VBox buildChatView() {
+        VBox v = new VBox(10);
+        v.setPadding(new Insets(20));
+        v.setStyle("-fx-background-color: #0a0e27;");
+        Label l = new Label("SWARM EVENT LEDGER");
+        l.setStyle("-fx-text-fill: #ffab40; -fx-font-family: 'Consolas'; -fx-font-size: 20;");
+        l.setEffect(new Glow(0.4));
+        chatText = new TextArea("Waiting for events...");
+        chatText.setStyle("-fx-control-inner-background: #0d1117; -fx-text-fill: #c9d1d9; -fx-font-family: 'Consolas'; -fx-font-size: 12; -fx-border-color: #30363d;");
+        chatText.setEditable(false);
+        VBox.setVgrow(chatText, Priority.ALWAYS);
+        v.getChildren().addAll(l, chatText);
+        return v;
+    }
+
+    private void showView(javafx.scene.Node node) {
+        hexCanvas.setVisible(false);
+        infoView.setVisible(false);
+        chatView.setVisible(false);
+        node.setVisible(true);
+    }
+
+    private void runScript(String script) {
+        Platform.runLater(() -> statusBar.setText("Executing " + script + "..."));
+        new Thread(() -> {
+            try {
+                ProcessBuilder pb = new ProcessBuilder("powershell.exe", "-ExecutionPolicy", "Bypass", "-File", ROOT + "\\" + script);
+                pb.redirectErrorStream(true);
+                Process p = pb.start();
+                BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                StringBuilder out = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) out.append(line).append("\n");
+                p.waitFor();
+                Platform.runLater(() -> statusBar.setText(script + " -> OK"));
+            } catch (Exception e) {
+                Platform.runLater(() -> statusBar.setText(script + " -> ERROR: " + e.getMessage()));
+            }
+        }).start();
+    }
+
+    @SuppressWarnings("unchecked")
+    private void pollBridge() {
+        try {
+            Path p = Paths.get(ROOT, "gui_state.json");
+            if (!Files.exists(p)) return;
+            String raw = new String(Files.readAllBytes(p));
+            
+            // Minimal JSON parsing without external library
+            // Extract models array
+            List<Map<String, Object>> newModels = new ArrayList<>();
+            List<Map<String, Object>> newChats = new ArrayList<>();
+            
+            // Parse models
+            int modelsStart = raw.indexOf("\"models\":");
+            int chatsStart = raw.indexOf("\"chats\":");
+            
+            if (modelsStart > 0 && chatsStart > 0) {
+                String modelsBlock = raw.substring(modelsStart, chatsStart);
+                // Parse each model object
+                int idx = 0;
+                while (true) {
+                    int nameIdx = modelsBlock.indexOf("\"name\":", idx);
+                    if (nameIdx < 0) break;
+                    
+                    Map<String, Object> m = new HashMap<>();
+                    m.put("name", extractStr(modelsBlock, "\"name\":", nameIdx));
+                    m.put("family", extractStr(modelsBlock, "\"family\":", nameIdx));
+                    m.put("params", extractStr(modelsBlock, "\"params\":", nameIdx));
+                    m.put("status", extractStr(modelsBlock, "\"status\":", nameIdx));
+                    m.put("q", extractNum(modelsBlock, "\"q\":", nameIdx));
+                    m.put("r", extractNum(modelsBlock, "\"r\":", nameIdx));
+                    m.put("latency_ms", extractDouble(modelsBlock, "\"latency_ms\":", nameIdx));
+                    
+                    newModels.add(m);
+                    idx = nameIdx + 10;
+                }
+            }
+            
+            // Parse chats
+            if (chatsStart > 0) {
+                String chatsBlock = raw.substring(chatsStart);
+                int idx = 0;
+                while (true) {
+                    int senderIdx = chatsBlock.indexOf("\"sender\":", idx);
+                    if (senderIdx < 0) break;
+                    
+                    Map<String, Object> c = new HashMap<>();
+                    c.put("sender", extractStr(chatsBlock, "\"sender\":", senderIdx));
+                    c.put("message", extractStr(chatsBlock, "\"message\":", senderIdx));
+                    newChats.add(c);
+                    idx = senderIdx + 10;
+                }
+            }
+            
+            models = new CopyOnWriteArrayList<>(newModels);
+            chats = new CopyOnWriteArrayList<>(newChats);
+            
+            int active = 0;
+            for (Map<String, Object> m : models) {
+                if ("ACTIVE".equals(m.get("status"))) active++;
+            }
+            final int a = active;
+            Platform.runLater(() -> {
+                statusBar.setText("BRIDGE OK | " + models.size() + " models | " + a + " active | " + chats.size() + " events");
+                
+                // Update info tab
+                StringBuilder sb = new StringBuilder();
+                sb.append("=== MODEL REGISTRY (" + models.size() + " total) ===\n\n");
+                for (Map<String, Object> m : models) {
+                    String st = String.valueOf(m.get("status"));
+                    String icon = "ACTIVE".equals(st) ? "[*]" : "[ ]";
+                    sb.append(String.format("%s %-45s | %s | hex(%s,%s) | %sms\n",
+                        icon, m.get("name"), m.get("params"), m.get("q"), m.get("r"), m.get("latency_ms")));
+                }
+                infoText.setText(sb.toString());
+                
+                // Update chat tab
+                StringBuilder cb = new StringBuilder();
+                for (Map<String, Object> c : chats) {
+                    cb.append(String.format("[%s] %s\n", c.get("sender"), c.get("message")));
+                }
+                chatText.setText(cb.toString());
+            });
+            
+        } catch (Exception e) {
+            // Silent - bridge may not be ready yet
+        }
+    }
+    
+    private String extractStr(String src, String key, int after) {
+        int ki = src.indexOf(key, after);
+        if (ki < 0) return "?";
+        int q1 = src.indexOf("\"", ki + key.length());
+        if (q1 < 0) return "?";
+        int q2 = src.indexOf("\"", q1 + 1);
+        if (q2 < 0) return "?";
+        return src.substring(q1 + 1, q2);
+    }
+    
+    private int extractNum(String src, String key, int after) {
+        int ki = src.indexOf(key, after);
+        if (ki < 0) return 0;
+        int start = ki + key.length();
+        while (start < src.length() && (src.charAt(start) == ' ')) start++;
+        int end = start;
+        if (end < src.length() && src.charAt(end) == '-') end++;
+        while (end < src.length() && Character.isDigit(src.charAt(end))) end++;
+        try { return Integer.parseInt(src.substring(start, end).trim()); } catch (Exception e) { return 0; }
+    }
+    
+    private double extractDouble(String src, String key, int after) {
+        int ki = src.indexOf(key, after);
+        if (ki < 0) return 0;
+        int start = ki + key.length();
+        while (start < src.length() && src.charAt(start) == ' ') start++;
+        int end = start;
+        while (end < src.length() && (Character.isDigit(src.charAt(end)) || src.charAt(end) == '.' || src.charAt(end) == '-')) end++;
+        try { return Double.parseDouble(src.substring(start, end).trim()); } catch (Exception e) { return 0; }
+    }
+
+    private void renderHexGrid(GraphicsContext gc) {
+        double w = hexCanvas.getWidth(), h = hexCanvas.getHeight();
+        double cx = w / 2.0, cy = h / 2.0;
+
+        // Deep space background
+        gc.setFill(Color.web("#0a0e27"));
+        gc.fillRect(0, 0, w, h);
+
+        // Subtle star field
+        gc.setFill(Color.web("#ffffff", 0.15));
+        for (int i = 0; i < 60; i++) {
+            double sx = (Math.sin(i * 137.5) * 0.5 + 0.5) * w;
+            double sy = (Math.cos(i * 73.1) * 0.5 + 0.5) * h;
+            double sz = 1 + Math.sin(pulse + i) * 0.5;
+            gc.fillOval(sx, sy, sz, sz);
+        }
+
+        // Draw hex grid skeleton (radius 4)
+        for (int q = -4; q <= 4; q++) {
+            for (int r = Math.max(-4, -q - 4); r <= Math.min(4, -q + 4); r++) {
+                double x = cx + HEX * Math.sqrt(3) * (q + r / 2.0);
+                double y = cy + HEX * 1.5 * r;
+                drawHex(gc, x, y, HEX, Color.web("#1a1f3a", 0.6), Color.web("#30363d", 0.5), null);
+            }
+        }
+
+        // Draw models on their hex positions
+        for (Map<String, Object> m : models) {
+            int q = (Integer) m.get("q");
+            int r = (Integer) m.get("r");
+            double x = cx + HEX * Math.sqrt(3) * (q + r / 2.0);
+            double y = cy + HEX * 1.5 * r;
+
+            boolean active = "ACTIVE".equals(m.get("status"));
+            Color fill = active ? Color.web("#7c4dff", 0.5 + 0.2 * Math.sin(pulse * 2)) : Color.web("#1e293b", 0.6);
+            Color stroke = active ? Color.web("#7c4dff") : Color.web("#4fc3f7", 0.4);
+
+            drawHex(gc, x, y, HEX, fill, stroke, null);
+
+            // Model orb
+            double orbSize = active ? 8 + 2 * Math.sin(pulse * 3) : 5;
+            Color orbColor = active ? Color.web("#ffab40") : Color.web("#4fc3f7", 0.5);
+            gc.setFill(orbColor);
+            gc.fillOval(x - orbSize / 2, y - orbSize / 2, orbSize, orbSize);
+
+            // Glow ring for active
+            if (active) {
+                gc.setStroke(Color.web("#ffab40", 0.3 + 0.2 * Math.sin(pulse * 2)));
+                gc.setLineWidth(2);
+                gc.strokeOval(x - orbSize, y - orbSize, orbSize * 2, orbSize * 2);
+            }
+
+            // Name label
+            String name = String.valueOf(m.get("name"));
+            if (name.length() > 15) name = name.substring(0, 14) + "..";
+            gc.setFill(Color.web("#c9d1d9", 0.8));
+            gc.setFont(Font.font("Consolas", 9));
+            gc.fillText(name, x - 28, y + HEX + 10);
+        }
+
+        // Connection lines between nearby models
+        gc.setStroke(Color.web("#7c4dff", 0.08));
+        gc.setLineWidth(1);
+        for (int i = 0; i < models.size(); i++) {
+            Map<String, Object> a = models.get(i);
+            for (int j = i + 1; j < models.size(); j++) {
+                Map<String, Object> b = models.get(j);
+                int dq = Math.abs((Integer)a.get("q") - (Integer)b.get("q"));
+                int dr = Math.abs((Integer)a.get("r") - (Integer)b.get("r"));
+                if (dq + dr <= 3) {
+                    double x1 = cx + HEX * Math.sqrt(3) * ((Integer)a.get("q") + (Integer)a.get("r") / 2.0);
+                    double y1 = cy + HEX * 1.5 * (Integer)a.get("r");
+                    double x2 = cx + HEX * Math.sqrt(3) * ((Integer)b.get("q") + (Integer)b.get("r") / 2.0);
+                    double y2 = cy + HEX * 1.5 * (Integer)b.get("r");
+                    gc.strokeLine(x1, y1, x2, y2);
+                }
+            }
+        }
+
+        // Title overlay
+        gc.setFill(Color.web("#7c4dff"));
+        gc.setFont(Font.font("Consolas", 16));
+        gc.setEffect(new Glow(0.5));
+        gc.fillText("4D NEUROMORPHIC HEX GRID", 20, 30);
+        gc.setEffect(null);
+        gc.setFill(Color.web("#4fc3f7", 0.7));
+        gc.setFont(Font.font("Consolas", 11));
+        gc.fillText(models.size() + " models mapped | t=" + String.format("%.1f", pulse), 20, 48);
+
+        // Chat overlay (right side)
+        gc.setFill(Color.web("#0d1117", 0.85));
+        gc.fillRect(w - 320, 10, 310, Math.min(chats.size() * 18 + 40, h - 20));
+        gc.setFill(Color.web("#ffab40"));
+        gc.setFont(Font.font("Consolas", 12));
+        gc.fillText("LIVE EVENT STREAM", w - 310, 30);
+        gc.setFont(Font.font("Consolas", 10));
+        gc.setFill(Color.web("#c9d1d9", 0.8));
+        int maxChat = Math.min(chats.size(), (int)((h - 60) / 18));
+        for (int i = 0; i < maxChat; i++) {
+            Map<String, Object> c = chats.get(i);
+            String msg = String.valueOf(c.get("message"));
+            if (msg.length() > 40) msg = msg.substring(0, 39) + "..";
+            gc.fillText("[" + c.get("sender") + "] " + msg, w - 310, 50 + i * 18);
+        }
+    }
+
+    private void drawHex(GraphicsContext gc, double x, double y, double size, Color fill, Color stroke, String label) {
+        double[] xp = new double[6], yp = new double[6];
+        for (int i = 0; i < 6; i++) {
+            double angle = Math.PI / 3 * i - Math.PI / 6;
+            xp[i] = x + size * Math.cos(angle);
+            yp[i] = y + size * Math.sin(angle);
+        }
+        gc.setFill(fill);
+        gc.fillPolygon(xp, yp, 6);
+        gc.setStroke(stroke);
+        gc.setLineWidth(1.2);
+        gc.strokePolygon(xp, yp, 6);
+    }
+
+    private void startBridge() {
+        new Thread(() -> {
+            try {
+                ProcessBuilder pb = new ProcessBuilder(PYTHON, ROOT + "\\gui_state_bridge.py");
+                pb.directory(new File(ROOT));
+                pb.redirectErrorStream(true);
+                pb.start();
+            } catch (Exception e) {
+                System.err.println("Bridge launch failed: " + e.getMessage());
+            }
+        }).start();
+    }
+
+    private void startWebServer() {
+        try {
+            HttpServer server = HttpServer.create(new InetSocketAddress("0.0.0.0", 1337), 0);
+
+            server.createContext("/api/status", exchange -> {
+                try {
+                    Path p = Paths.get(ROOT, "gui_state.json");
+                    byte[] data = Files.exists(p) ? Files.readAllBytes(p) : "{}".getBytes();
+                    exchange.getResponseHeaders().set("Content-Type", "application/json");
+                    exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+                    exchange.sendResponseHeaders(200, data.length);
+                    exchange.getResponseBody().write(data);
+                    exchange.getResponseBody().close();
+                } catch (Exception e) {
+                    exchange.sendResponseHeaders(500, 0);
+                    exchange.getResponseBody().close();
+                }
+            });
+
+            server.createContext("/api/chat", exchange -> {
+                if ("POST".equals(exchange.getRequestMethod())) {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(exchange.getRequestBody(), "utf-8"));
+                    String msg = br.readLine();
+                    if (msg != null && !msg.isEmpty()) {
+                        try {
+                            String safeMsg = msg.replace("'", "").replace("\"", "");
+                            ProcessBuilder pb = new ProcessBuilder(PYTHON,
+                                ROOT + "\\chat_insert.py", safeMsg);
+                            pb.directory(new File(ROOT));
+                            pb.start();
+                        } catch (Exception e) {}
+                    }
+                    byte[] r = "OK".getBytes();
+                    exchange.sendResponseHeaders(200, r.length);
+                    exchange.getResponseBody().write(r);
+                }
+                exchange.getResponseBody().close();
+            });
+
+            server.createContext("/", exchange -> {
+                String html = getWebUI();
+                byte[] data = html.getBytes("UTF-8");
+                exchange.getResponseHeaders().set("Content-Type", "text/html; charset=UTF-8");
+                exchange.sendResponseHeaders(200, data.length);
+                exchange.getResponseBody().write(data);
+                exchange.getResponseBody().close();
+            });
+
+            server.setExecutor(Executors.newFixedThreadPool(4));
+            server.start();
+            System.out.println("[WEB] Dashboard live on http://0.0.0.0:1337");
+        } catch (Exception e) {
+            System.err.println("[WEB] Failed to start: " + e.getMessage());
+        }
+    }
+
+    private String getWebUI() {
+        return "<!DOCTYPE html><html lang='en'><head>"
+            + "<meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"
+            + "<title>SIMS1337 Grid</title>"
+            + "<style>"
+            + "* { box-sizing: border-box; margin: 0; padding: 0; }"
+            + "body { background: #0a0e27; color: #c9d1d9; font-family: 'Segoe UI', monospace; }"
+            + "header { background: linear-gradient(135deg, #0d1117, #161b22); padding: 16px 24px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }"
+            + "header h1 { color: #7c4dff; font-size: 20px; text-shadow: 0 0 20px #7c4dff55; }"
+            + "header .badge { background: #238636; color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 12px; }"
+            + ".grid-wrap { display: flex; justify-content: center; padding: 20px; }"
+            + "canvas { background: #0a0e27; border: 1px solid #30363d; border-radius: 12px; box-shadow: 0 0 40px #7c4dff22; }"
+            + ".panels { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; padding: 0 24px 24px; }"
+            + ".card { background: #0d1117; border: 1px solid #30363d; border-radius: 12px; padding: 16px; max-height: 300px; overflow-y: auto; }"
+            + ".card h3 { color: #7c4dff; font-size: 14px; margin-bottom: 10px; letter-spacing: 1px; }"
+            + ".card .entry { padding: 4px 0; font-size: 12px; border-bottom: 1px solid #21262d; }"
+            + ".model-name { color: #4fc3f7; }"
+            + ".model-active { color: #ffab40; font-weight: bold; }"
+            + ".model-idle { color: #484f58; }"
+            + ".chat-input { display: flex; gap: 8px; margin-top: 10px; }"
+            + ".chat-input input { flex: 1; padding: 8px 12px; background: #161b22; border: 1px solid #30363d; border-radius: 6px; color: #c9d1d9; font-family: monospace; }"
+            + ".chat-input button { padding: 8px 16px; background: #7c4dff; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }"
+            + ".chat-input button:hover { background: #9c6fff; }"
+            + "@media (max-width: 800px) { .panels { grid-template-columns: 1fr; } }"
+            + "</style></head><body>"
+            + "<header><h1>SIMS1337 NEUROMORPHIC GRID</h1><span class='badge' id='badge'>Loading...</span></header>"
+            + "<div class='grid-wrap'><canvas id='grid' width='900' height='380'></canvas></div>"
+            + "<div class='panels'>"
+            + "  <div class='card'><h3>MODELS</h3><div id='modelsPanel'></div></div>"
+            + "  <div class='card'><h3>EVENT STREAM</h3><div id='chatPanel'></div><div class='chat-input'><input id='chatBox' placeholder='Send command to swarm...'><button onclick='sendChat()'>SEND</button></div></div>"
+            + "  <div class='card'><h3>GRID STATS</h3><div id='statsPanel'></div></div>"
+            + "</div>"
+            + "<script>"
+            + "let pulse=0;"
+            + "function hex(ctx,x,y,r,fill,stroke){"
+            + "  ctx.beginPath();"
+            + "  for(let i=0;i<6;i++){let a=Math.PI/3*i-Math.PI/6;i===0?ctx.moveTo(x+r*Math.cos(a),y+r*Math.sin(a)):ctx.lineTo(x+r*Math.cos(a),y+r*Math.sin(a));}"
+            + "  ctx.closePath();ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle=stroke;ctx.lineWidth=1.2;ctx.stroke();"
+            + "}"
+            + "function render(data){"
+            + "  pulse+=0.03;"
+            + "  let c=document.getElementById('grid'),ctx=c.getContext('2d');"
+            + "  ctx.clearRect(0,0,c.width,c.height);"
+            + "  let cx=c.width/2,cy=c.height/2,r=22;"
+            // Draw base grid
+            + "  for(let q=-4;q<=4;q++)for(let rr=Math.max(-4,-q-4);rr<=Math.min(4,-q+4);rr++){"
+            + "    let x=cx+r*Math.sqrt(3)*(q+rr/2),y=cy+r*1.5*rr;"
+            + "    hex(ctx,x,y,r,'rgba(26,31,58,0.4)','rgba(48,54,61,0.4)');"
+            + "  }"
+            // Draw models
+            + "  if(data.models) data.models.forEach(m=>{"
+            + "    let x=cx+r*Math.sqrt(3)*(m.q+m.r/2),y=cy+r*1.5*m.r;"
+            + "    let active=m.status==='ACTIVE';"
+            + "    let fill=active?'rgba(124,77,255,'+(0.4+0.2*Math.sin(pulse*2))+')':'rgba(30,41,59,0.5)';"
+            + "    let stroke=active?'#7c4dff':'rgba(79,195,247,0.3)';"
+            + "    hex(ctx,x,y,r,fill,stroke);"
+            + "    let os=active?5+2*Math.sin(pulse*3):3;"
+            + "    ctx.fillStyle=active?'#ffab40':'rgba(79,195,247,0.5)';"
+            + "    ctx.beginPath();ctx.arc(x,y,os,0,Math.PI*2);ctx.fill();"
+            + "    if(active){ctx.strokeStyle='rgba(255,171,64,0.3)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y,os*2,0,Math.PI*2);ctx.stroke();}"
+            + "    ctx.fillStyle='rgba(201,209,217,0.7)';ctx.font='9px Consolas';"
+            + "    let n=m.name.length>14?m.name.substring(0,13)+'..':m.name;"
+            + "    ctx.fillText(n,x-24,y+r+10);"
+            + "  });"
+            + "  document.getElementById('badge').textContent=(data.model_count||0)+' models online';"
+            // Models panel
+            + "  let mp='';"
+            + "  if(data.models) data.models.forEach(m=>{"
+            + "    let cls=m.status==='ACTIVE'?'model-active':'model-idle';"
+            + "    mp+='<div class=\"entry\"><span class=\"model-name\">'+m.name+'</span> <span class=\"'+cls+'\">'+m.status+'</span> '+m.params+' hex('+m.q+','+m.r+')</div>';"
+            + "  });"
+            + "  document.getElementById('modelsPanel').innerHTML=mp;"
+            // Chat panel
+            + "  let cp='';"
+            + "  if(data.chats) data.chats.slice(0,20).forEach(c=>{"
+            + "    cp+='<div class=\"entry\">['+c.sender+'] '+c.message+'</div>';"
+            + "  });"
+            + "  document.getElementById('chatPanel').innerHTML=cp+document.querySelector('.chat-input').outerHTML;"
+            // Stats
+            + "  let active=data.models?data.models.filter(m=>m.status==='ACTIVE').length:0;"
+            + "  let sp='<div class=\"entry\">Total Models: '+(data.model_count||0)+'</div>';"
+            + "  sp+='<div class=\"entry\">Active: '+active+'</div>';"
+            + "  sp+='<div class=\"entry\">Events: '+(data.chats?data.chats.length:0)+'</div>';"
+            + "  sp+='<div class=\"entry\">Grid Radius: 4 (61 hexes)</div>';"
+            + "  sp+='<div class=\"entry\">Time Pulse: '+pulse.toFixed(1)+'</div>';"
+            + "  document.getElementById('statsPanel').innerHTML=sp;"
+            + "}"
+            + "function update(){fetch('/api/status').then(r=>r.json()).then(render).catch(()=>{});}"
+            + "function sendChat(){let v=document.getElementById('chatBox').value;if(!v)return;fetch('/api/chat',{method:'POST',body:v});document.getElementById('chatBox').value='';}"
+            + "setInterval(update,1500);update();"
+            + "setInterval(()=>{let c=document.getElementById('grid'),ctx=c.getContext('2d');if(ctx)update();},50);"
+            + "</script></body></html>";
+    }
+}

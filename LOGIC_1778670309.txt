@@ -1,0 +1,5 @@
+LOGIC_0.9971
+EVENT: TRIPLET_HOUSE_REASONING
+DETAILS: Route=build lens=LENS_20260513T110509346662Z_a6940ca53b_5f3b talk: make a db vector point edit mode for blobs...
+NEURONS: 1269574
+HASH: 07ad44af30fef3b5c2669664691a1e8d8f9b750cdd2f68c63ac698d88abbd08c

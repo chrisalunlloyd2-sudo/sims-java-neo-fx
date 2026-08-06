@@ -1,0 +1,27 @@
+# 🚢 THE SOVEREIGN SHIP PROTOCOL (HOW_TO_SHIP.txt)
+
+## 🌌 THE DISCOVERY
+Standard Desktop paths ($HOME\Desktop) were bypassed by OneDrive management.
+Primary active target: C:\Users\Your User Name\OneDrive\Desktop
+
+## 🗺️ ARCHITECTURAL MAP
+[PROJECT_ROOT] 
+  ┕ [SHIPPER_AGENT] (Go/Java)
+      ┕ [TUNNEL] ─▶ [CLOUDFLARE_R2]
+      ┕ [LOCAL_PORTAL] ─▶ [ONEDRIVE_DESKTOP] 🏁 <--- ACTIVE TARGET
+
+## 🛠️ THE SHIPPING STEPS
+1. INGESTION: Files are staged in /Processing.
+2. VALIDATION: SHA-256 integrity check is performed.
+3. ONEDRIVE_DETECTION: Script checks for active OneDrive desktop path.
+4. FINAL_DELIVERY: Files are moved to:
+   C:\Users\Your User Name\OneDrive\Desktop\VIPER_SOVEREIGN_SUITE
+
+## 📜 CORE MANDATE
+Whenever the user commands "SHIP", the agent MUST:
+A. Target the OneDrive Desktop path specifically.
+B. Verify visibility on the primary user screen.
+C. Log the delivery to the head of ACTION_LOG.md.
+
+---
+*Protocol 2026-v1: ONEDRIVE_ACTIVE*

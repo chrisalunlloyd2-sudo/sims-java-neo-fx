@@ -1,0 +1,43 @@
+java_notes_suite
+|-- data
+|   |-- ab_tests.jsonl
+|   |-- algebraic_pattern_flows.jsonl
+|   |-- ascii_epoch_queue.jsonl
+|   |-- benchmark_snapshots.jsonl
+|   |-- darwin_algorithm_generations.jsonl
+|   |-- darwin_algorithm_registry.jsonl
+|   |-- darwin_algorithm_winners.jsonl
+|   |-- darwin_test_programs.jsonl
+|   |-- epoch_implementation_queue.jsonl
+|   |-- epoch_upgrade_proofs.jsonl
+|   |-- loihi_experiments.jsonl
+|   |-- persistence_events.jsonl
+|   |-- recursive_training_epochs.jsonl
+|   |-- sdk_settings.json
+|   |-- system_tests.jsonl
+|   |-- training_runs.jsonl
+|   `-- web_source_manifest.jsonl
+|-- dist
+|   |-- app-image
+|   |   `-- VIPERJavaSDK
+|   |       |-- app
+|   |       |-- runtime
+|   |       `-- VIPERJavaSDK.exe
+|   |-- jar-input
+|   |   `-- viper-java-sdk-standalone.jar
+|   |-- MANIFEST.MF
+|   `-- viper-java-sdk-standalone.jar
+|-- out
+|   `-- com
+|       `-- viper
+|           `-- notes
+|-- src
+|   `-- com
+|       `-- viper
+|           `-- notes
+|-- BUILD_STANDALONE_APP.ps1
+|-- README.md
+|-- RUN_STANDALONE_APP.ps1
+|-- START_LAB_SUITE.ps1
+|-- START_NOTES_SUITE.ps1
+`-- START_NOTES_TUNNEL.ps1

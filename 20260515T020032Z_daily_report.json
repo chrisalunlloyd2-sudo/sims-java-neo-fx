@@ -1,0 +1,596 @@
+{
+  "mode": "daily",
+  "timestamp": "2026-05-15T02:00:08Z",
+  "projects": {
+    "created": [],
+    "existing": [
+      "C:\\Users\\viper\\OneDrive\\Desktop\\SimAgentCity",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\DarwinGeneticLLMPIPE",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\GITAUTOSHIP",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\ViperNotes",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\JRMCHRONOS",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\COUNTER",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\BVD ASSIST",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\ViperAI",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\ViperAiTrain",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\Sprite"
+    ]
+  },
+  "temp_cleanup": {
+    "deleted": [
+      "C:\\Users\\viper\\AppData\\Local\\Temp\\codex-index-lTthvM\\index",
+      "C:\\Users\\viper\\AppData\\Local\\Temp\\codex-index-wbuWbe\\index"
+    ],
+    "errors": [
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\081b913b-036e-4978-99ef-3de9dcaf7a54.tmp",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\081b913b-036e-4978-99ef-3de9dcaf7a54.tmp'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\0dba1563-a1d6-492e-9139-34b3b631a089.tmp",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\0dba1563-a1d6-492e-9139-34b3b631a089.tmp'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\29eb2521-52a2-4616-a2a1-b3949e460d07.tmp",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\29eb2521-52a2-4616-a2a1-b3949e460d07.tmp'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\2ffd07c1-66f3-4d5c-86e5-8a489b629d6a.tmp",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\2ffd07c1-66f3-4d5c-86e5-8a489b629d6a.tmp'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\314ad939-b591-499f-8442-0cfc3105bf77.tmp",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\314ad939-b591-499f-8442-0cfc3105bf77.tmp'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\4c5d5085-f9e0-42c4-949f-8b30e05b0eae.tmp",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\4c5d5085-f9e0-42c4-949f-8b30e05b0eae.tmp'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\689f97d0-bd52-4c5a-8583-3f5617bf5b54.tmp",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\689f97d0-bd52-4c5a-8583-3f5617bf5b54.tmp'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\704c5779-018b-4084-8358-64cc1754aaa0.tmp",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\704c5779-018b-4084-8358-64cc1754aaa0.tmp'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\8190b784-5dc8-4b0b-9463-4410fbaa2fd6.tmp",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\8190b784-5dc8-4b0b-9463-4410fbaa2fd6.tmp'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\b11ad61a-6b8a-420d-ad5e-c7d2540fda0f.tmp",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\b11ad61a-6b8a-420d-ad5e-c7d2540fda0f.tmp'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\befca806-3af3-4984-9594-4984b7e0145a.tmp",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\befca806-3af3-4984-9594-4984b7e0145a.tmp'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\c7f8eadf-7c23-4ecd-a33b-92952dc8ddb7.tmp",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\c7f8eadf-7c23-4ecd-a33b-92952dc8ddb7.tmp'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\f1c99d83-d851-4e5c-b24e-53b0a8e46a0b.tmp",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\f1c99d83-d851-4e5c-b24e-53b0a8e46a0b.tmp'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\mat-debug-26984.log",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\mat-debug-26984.log'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\CrashpadMetrics-active.pma",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\CrashpadMetrics-active.pma'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\first_party_sets.db",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\first_party_sets.db'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\first_party_sets.db-journal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\first_party_sets.db-journal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\lockfile",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\lockfile'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Account Web Data",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Account Web Data'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Account Web Data-journal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Account Web Data-journal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Affiliation Database",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Affiliation Database'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Affiliation Database-journal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Affiliation Database-journal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\DIPS",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\DIPS'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Extension Activity",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Extension Activity'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Extension Activity-journal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Extension Activity-journal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Favicons",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Favicons'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Favicons-journal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Favicons-journal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\History",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\History'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\History-journal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\History-journal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Login Data",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Login Data'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Login Data For Account",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Login Data For Account'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Login Data For Account-journal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Login Data For Account-journal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Login Data-journal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Login Data-journal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Network Action Predictor",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Network Action Predictor'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Network Action Predictor-journal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Network Action Predictor-journal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\ServerCertificate",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\ServerCertificate'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\ServerCertificate-journal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\ServerCertificate-journal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\SharedStorage",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\SharedStorage'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\SharedStorage-wal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\SharedStorage-wal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Shortcuts",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Shortcuts'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Shortcuts-journal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Shortcuts-journal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Top Sites",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Top Sites'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Top Sites-journal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Top Sites-journal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Web Data",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Web Data'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Web Data-journal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Web Data-journal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Cache\\No_Vary_Search\\journal.baj",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Cache\\\\No_Vary_Search\\\\journal.baj'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Extension Rules\\000003.log",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Extension Rules\\\\000003.log'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Extension Rules\\LOCK",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Extension Rules\\\\LOCK'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Extension Rules\\LOG",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Extension Rules\\\\LOG'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Extension Rules\\MANIFEST-000001",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Extension Rules\\\\MANIFEST-000001'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Extension Scripts\\000003.log",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Extension Scripts\\\\000003.log'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Extension Scripts\\LOCK",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Extension Scripts\\\\LOCK'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Extension Scripts\\LOG",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Extension Scripts\\\\LOG'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Extension Scripts\\MANIFEST-000001",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Extension Scripts\\\\MANIFEST-000001'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Extension State\\000003.log",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Extension State\\\\000003.log'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Extension State\\LOCK",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Extension State\\\\LOCK'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Extension State\\LOG",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Extension State\\\\LOG'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Extension State\\MANIFEST-000001",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Extension State\\\\MANIFEST-000001'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\GCM Store\\LOCK",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\GCM Store\\\\LOCK'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\GCM Store\\LOG",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\GCM Store\\\\LOG'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\GCM Store\\MANIFEST-000001",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\GCM Store\\\\MANIFEST-000001'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Local Storage\\leveldb\\000003.log",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Local Storage\\\\leveldb\\\\000003.log'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Local Storage\\leveldb\\LOCK",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Local Storage\\\\leveldb\\\\LOCK'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Local Storage\\leveldb\\LOG",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Local Storage\\\\leveldb\\\\LOG'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Local Storage\\leveldb\\MANIFEST-000001",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Local Storage\\\\leveldb\\\\MANIFEST-000001'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Network\\Cookies",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Network\\\\Cookies'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Network\\Cookies-journal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Network\\\\Cookies-journal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Network\\Device Bound Sessions",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Network\\\\Device Bound Sessions'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Network\\Device Bound Sessions-journal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Network\\\\Device Bound Sessions-journal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Network\\Reporting and NEL",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Network\\\\Reporting and NEL'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Network\\Reporting and NEL-journal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Network\\\\Reporting and NEL-journal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Network\\Trust Tokens",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Network\\\\Trust Tokens'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Network\\Trust Tokens-journal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Network\\\\Trust Tokens-journal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Safe Browsing Network\\Safe Browsing Cookies",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Safe Browsing Network\\\\Safe Browsing Cookies'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Safe Browsing Network\\Safe Browsing Cookies-journal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Safe Browsing Network\\\\Safe Browsing Cookies-journal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Service Worker\\Database\\000003.log",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Service Worker\\\\Database\\\\000003.log'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Service Worker\\Database\\LOCK",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Service Worker\\\\Database\\\\LOCK'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Service Worker\\Database\\LOG",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Service Worker\\\\Database\\\\LOG'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Service Worker\\Database\\MANIFEST-000001",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Service Worker\\\\Database\\\\MANIFEST-000001'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Session Storage\\000003.log",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Session Storage\\\\000003.log'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Session Storage\\LOCK",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Session Storage\\\\LOCK'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Session Storage\\LOG",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Session Storage\\\\LOG'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Session Storage\\MANIFEST-000001",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Session Storage\\\\MANIFEST-000001'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Sessions\\Session_13421205396404772",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Sessions\\\\Session_13421205396404772'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Shared Dictionary\\db",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Shared Dictionary\\\\db'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Shared Dictionary\\db-journal",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Shared Dictionary\\\\db-journal'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\shared_proto_db\\LOCK",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\shared_proto_db\\\\LOCK'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\shared_proto_db\\LOG",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\shared_proto_db\\\\LOG'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\shared_proto_db\\MANIFEST-000001",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\shared_proto_db\\\\MANIFEST-000001'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\shared_proto_db\\metadata\\000003.log",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\shared_proto_db\\\\metadata\\\\000003.log'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\shared_proto_db\\metadata\\LOCK",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\shared_proto_db\\\\metadata\\\\LOCK'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\shared_proto_db\\metadata\\LOG",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\shared_proto_db\\\\metadata\\\\LOG'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\shared_proto_db\\metadata\\MANIFEST-000001",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\shared_proto_db\\\\metadata\\\\MANIFEST-000001'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Site Characteristics Database\\000003.log",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Site Characteristics Database\\\\000003.log'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Site Characteristics Database\\LOCK",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Site Characteristics Database\\\\LOCK'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Site Characteristics Database\\LOG",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Site Characteristics Database\\\\LOG'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Site Characteristics Database\\MANIFEST-000001",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Site Characteristics Database\\\\MANIFEST-000001'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Sync Data\\LevelDB\\000003.log",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Sync Data\\\\LevelDB\\\\000003.log'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Sync Data\\LevelDB\\LOCK",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Sync Data\\\\LevelDB\\\\LOCK'"
+      },
+      {
+        "path": "C:\\Users\\viper\\AppData\\Local\\Temp\\browser-use-user-data-dir-5dkgbgwy\\Default\\Sync Data\\LevelDB\\LOG",
+        "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\viper\\\\AppData\\\\Local\\\\Temp\\\\browser-use-user-data-dir-5dkgbgwy\\\\Default\\\\Sync Data\\\\LevelDB\\\\LOG'"
+      }
+    ],
+    "error_count": 748
+  },
+  "log_rotation": {
+    "rotated": [],
+    "missing": []
+  },
+  "desktop_archive": {
+    "candidates": [],
+    "archive_root": "C:\\Users\\viper\\OneDrive\\Desktop\\Archive.old",
+    "apply_enabled": false
+  },
+  "scrub_report": {
+    "files_scanned": 1047,
+    "match_count": 20,
+    "apply_enabled": false,
+    "matches": [
+      {
+        "path": "C:\\Users\\viper\\OneDrive\\Desktop\\Project Board\\.old\\AegisDrop\\AEGIS_UPGRADE_REPORT.txt",
+        "reason": "content_pattern"
+      },
+      {
+        "path": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_AGENT_NODE\\README.md",
+        "reason": "content_pattern"
+      },
+      {
+        "path": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_AGENT_NODE\\RESOURCE_NETWORK_PROTOCOL.md",
+        "reason": "content_pattern"
+      },
+      {
+        "path": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_AGENT_NODE\\java_notes_suite\\dist\\app-image\\VIPERJavaSDK\\runtime\\legal\\jdk.crypto.cryptoki\\pkcs11cryptotoken.md",
+        "reason": "filename_pattern"
+      },
+      {
+        "path": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_AGENT_NODE\\tools\\ledger_sync_readiness.py",
+        "reason": "content_pattern"
+      },
+      {
+        "path": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_AGENT_NODE\\tools\\viper_ai_test_suite.py",
+        "reason": "content_pattern"
+      },
+      {
+        "path": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_SOVEREIGN_SUITE\\EV_SYSTEM\\SEC\\token_manager.py",
+        "reason": "filename_pattern"
+      },
+      {
+        "path": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_SOVEREIGN_SUITE\\Shipper\\Cloudflare\\worker.js",
+        "reason": "content_pattern"
+      },
+      {
+        "path": "C:\\Users\\viper\\VIPER_JAVA_RISC\\logic_shipper_cloudflared.log",
+        "reason": "filename_pattern"
+      },
+      {
+        "path": "C:\\Users\\viper\\VIPER_JAVA_RISC\\LOGIC_SHIPPER_CLOUDFLARE_URL.txt",
+        "reason": "content_pattern"
+      },
+      {
+        "path": "C:\\Users\\viper\\VIPER_JAVA_RISC\\README.md",
+        "reason": "content_pattern"
+      },
+      {
+        "path": "C:\\Users\\viper\\VIPER_JAVA_RISC\\RESOURCE_NETWORK_PROTOCOL.md",
+        "reason": "content_pattern"
+      },
+      {
+        "path": "C:\\Users\\viper\\VIPER_JAVA_RISC\\.runtime\\jdk21\\legal\\jdk.crypto.cryptoki\\pkcs11cryptotoken.md",
+        "reason": "filename_pattern"
+      },
+      {
+        "path": "C:\\Users\\viper\\VIPER_JAVA_RISC\\java_notes_suite\\dist\\app-image\\VIPERJavaSDK\\runtime\\legal\\jdk.crypto.cryptoki\\pkcs11cryptotoken.md",
+        "reason": "filename_pattern"
+      },
+      {
+        "path": "C:\\Users\\viper\\VIPER_JAVA_RISC\\ledger_sync_readiness\\READINESS_20260507T021040Z.json",
+        "reason": "content_pattern"
+      },
+      {
+        "path": "C:\\Users\\viper\\VIPER_JAVA_RISC\\ops\\command_center_maintenance\\maintenance_policy.json",
+        "reason": "content_pattern"
+      },
+      {
+        "path": "C:\\Users\\viper\\VIPER_JAVA_RISC\\tools\\ledger_sync_readiness.py",
+        "reason": "content_pattern"
+      },
+      {
+        "path": "C:\\Users\\viper\\VIPER_JAVA_RISC\\tools\\viper_ai_test_suite.py",
+        "reason": "content_pattern"
+      },
+      {
+        "path": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_SOVEREIGN_SUITE\\EV_SYSTEM\\SEC\\token_manager.py",
+        "reason": "filename_pattern"
+      },
+      {
+        "path": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_SOVEREIGN_SUITE\\Shipper\\Cloudflare\\worker.js",
+        "reason": "content_pattern"
+      }
+    ]
+  },
+  "env_optimize": {
+    "protected": [
+      {
+        "pid": 22972,
+        "name": "python.exe",
+        "command_line": "\"C:\\Users\\viper\\AppData\\Local\\Programs\\Python\\Python311\\python.exe\" C:\\Users\\viper\\infinite_triplet_loop.py "
+      },
+      {
+        "pid": 31060,
+        "name": "python.exe",
+        "command_line": "\"C:\\Users\\viper\\AppData\\Local\\Programs\\Python\\Python311\\python.exe\" C:\\Users\\viper\\house_inference_engine.py"
+      },
+      {
+        "pid": 4936,
+        "name": "py.exe",
+        "command_line": "\"C:\\WINDOWS\\py.exe\" -3 C:\\Users\\viper\\risc_bridge_server.py"
+      },
+      {
+        "pid": 29872,
+        "name": "python.exe",
+        "command_line": "C:\\Users\\viper\\AppData\\Local\\Programs\\Python\\Python311\\python.exe C:\\Users\\viper\\risc_bridge_server.py"
+      },
+      {
+        "pid": 40860,
+        "name": "java.exe",
+        "command_line": "\"C:\\Users\\viper\\VIPER_JAVA_RISC\\.runtime\\jdk21\\bin\\java.exe\" -cp C:\\Users\\viper\\VIPER_JAVA_RISC\\java_notes_suite\\out com.viper.notes.ViperLabSuiteServer"
+      },
+      {
+        "pid": 39776,
+        "name": "python.exe",
+        "command_line": "\"C:\\Users\\viper\\AppData\\Local\\Programs\\Python\\Python311\\python.exe\" C:\\Users\\viper\\VIPER_JAVA_RISC\\tools\\logic_blockchain_shipper.py"
+      },
+      {
+        "pid": 40452,
+        "name": "py.exe",
+        "command_line": "\"C:\\WINDOWS\\py.exe\" -3 C:\\Users\\viper\\VIPER_JAVA_RISC\\tools\\command_center_maintenance.py --config C:\\Users\\viper\\VIPER_JAVA_RISC\\ops\\command_center_maintenance\\maintenance_policy.json daily"
+      },
+      {
+        "pid": 2960,
+        "name": "python.exe",
+        "command_line": "C:\\Users\\viper\\AppData\\Local\\Programs\\Python\\Python311\\python.exe C:\\Users\\viper\\VIPER_JAVA_RISC\\tools\\command_center_maintenance.py --config C:\\Users\\viper\\VIPER_JAVA_RISC\\ops\\command_center_maintenance\\maintenance_policy.json daily"
+      }
+    ],
+    "stale_candidates": [
+      {
+        "pid": 20396,
+        "name": "cloudflared.exe",
+        "command_line": "\"C:\\Users\\viper\\cloudflared.exe\" tunnel --url http://127.0.0.1:8080 --logfile C:\\Users\\viper\\tunnel_house.log --no-autoupdate "
+      },
+      {
+        "pid": 25788,
+        "name": "cloudflared.exe",
+        "command_line": "\"C:\\Users\\viper\\cloudflared.exe\" tunnel --url http://127.0.0.1:18081 --logfile \"C:\\Users\\viper\\VIPER_JAVA_RISC\\logic_shipper_cloudflared.log\" --no-autoupdate"
+      },
+      {
+        "pid": 31000,
+        "name": "node.exe",
+        "command_line": "C:\\Users\\viper\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\playwright\\driver\\node.exe C:\\Users\\viper\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\playwright\\driver\\package\\cli.js run-driver"
+      }
+    ],
+    "stop_enabled": false,
+    "note": "Report-only by default. Promote exact kill rules with a later global command."
+  },
+  "acl_kqml": {
+    "outbox": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING\\acl_kqml_outbox",
+    "generated": [
+      "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING\\acl_kqml_outbox\\20260515T020031Z_COMMAND_CENTER_daily.kqml",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING\\acl_kqml_outbox\\20260515T020031Z_LAPTOP_HD_daily.kqml",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING\\acl_kqml_outbox\\20260515T020031Z_OTHER_LAPTOP_daily.kqml",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING\\acl_kqml_outbox\\20260515T020031Z_ANDROID_PHONE_CLI_daily.kqml"
+    ]
+  }
+}

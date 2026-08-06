@@ -1,0 +1,9 @@
+ollama pull huihui_ai/qwen3-abliterated:8b-Q4_K_M
+
+weed 80
+drug 60
+bus 20
+nicotine 30\
+shop 90 
+
+https://script.google.com/macros/s/AKfycbywBogKY3rlc2tTmRmyWzAwpX-EfUxKCoS3emnLTShU52QJUG_A1QX4kaY5FjXHJpOlRA/exec

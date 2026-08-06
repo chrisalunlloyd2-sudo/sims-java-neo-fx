@@ -1,0 +1,5 @@
+LOGIC_0.9597
+EVENT: TRIPLET_HOUSE_REASONING
+DETAILS: Route=build lens=LENSFAST_20260513T035737Z_3799a93a talk: make sure successful code advances go to db and sp...
+NEURONS: 1000286
+HASH: 83e90937c3f8accc96697d5c87f92ddafda52817c357107bd98ec1521124de8f

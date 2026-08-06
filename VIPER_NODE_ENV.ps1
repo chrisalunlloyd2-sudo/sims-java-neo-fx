@@ -1,0 +1,5 @@
+﻿$env:VIPER_NODE_ROOT = "C:\Users\viper\OneDrive\Desktop\VIPER_AGENT_NODE"
+$env:VIPER_NAS_ROOT = ""
+$env:VIPER_TINY_CHOOSER_MODEL = "C:\Users\viper\OneDrive\Desktop\VIPER_AGENT_NODE\models\tiny\qwen2_5_0_5b_instruct\qwen2.5-0.5b-instruct-q4_k_m.gguf"
+$env:VIPER_RETRIEVAL_MATCHER_MODEL = "C:\Users\viper\OneDrive\Desktop\VIPER_AGENT_NODE\models\tiny\smollm2_360m_instruct\SmolLM2-360M-Instruct-Q4_K_M.gguf"
+$env:VIPER_RETRIEVAL_FALLBACK_MODEL = "C:\Users\viper\OneDrive\Desktop\VIPER_AGENT_NODE\models\tiny\h2o_danube3_500m_chat_fallback\h2o-danube3-500m-chat-Q4_K_M.gguf"

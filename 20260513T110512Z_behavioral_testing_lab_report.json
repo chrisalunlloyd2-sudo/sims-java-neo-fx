@@ -1,0 +1,52 @@
+{
+  "kind": "testing_lab_report",
+  "timestamp": "2026-05-13T11:05:12.453508+00:00",
+  "section": "behavioral",
+  "summary": {
+    "overall": "fail",
+    "counts": {
+      "fail": 1,
+      "pass": 2
+    }
+  },
+  "truth": {
+    "working": [
+      "BehaviorSet.distillation_memory",
+      "MemorySet.relay_backlog"
+    ],
+    "degraded": [],
+    "not_working": [
+      "BehaviorSet.pack_guardrail"
+    ],
+    "placeholder": []
+  },
+  "sections": {
+    "behavioral": [
+      {
+        "name": "BehaviorSet.pack_guardrail",
+        "status": "fail",
+        "details": "ModuleNotFoundError: No module named 'tools'",
+        "evidence": {}
+      },
+      {
+        "name": "BehaviorSet.distillation_memory",
+        "status": "pass",
+        "details": "successes=28 queue=28 nominal_facts=0",
+        "evidence": {
+          "successful_code_advances": 28,
+          "karoo_distillation_queue": 28,
+          "user_nominal_facts": 0
+        }
+      },
+      {
+        "name": "MemorySet.relay_backlog",
+        "status": "pass",
+        "details": "relay backlog under control",
+        "evidence": {
+          "pending": 22,
+          "unpresented": 21
+        }
+      }
+    ]
+  }
+}

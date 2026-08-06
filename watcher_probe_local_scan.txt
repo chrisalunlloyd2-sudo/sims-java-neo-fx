@@ -1,0 +1,3 @@
+Local watcher validation note.
+Unique token: AEGIS-WATCHER-TEXT-0426.
+This file proves the drop-folder watcher and local scan can ingest plain text automatically.

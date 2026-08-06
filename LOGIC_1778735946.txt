@@ -1,0 +1,5 @@
+LOGIC_0.9639
+EVENT: TRIPLET_HOUSE_REASONING
+DETAILS: Route=build lens=LENS_20260514T051808565115Z_a7e8ddc810_ce0c talk: VIPER algebraic flow lab. Objective: map algebraic...
+NEURONS: 1855745
+HASH: e79ca6b8a3c061ae38c2c9a17be3f0a9c1f3e5dace1a7f99cf91e26788c4a0ea

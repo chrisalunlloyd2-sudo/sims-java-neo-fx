@@ -1,0 +1,4 @@
+﻿Particle physics dataset comparison notes:
+- Distinguish simulated data from detector event data.
+- Track schema, uncertainty labels, and preprocessing pipelines.
+- Preserve provenance for every derived dataset used in evaluation.

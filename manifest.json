@@ -1,0 +1,17 @@
+
+{
+  "name": "GodHand 1337",
+  "short_name": "GodHand",
+  "description": "Neuromorphic Grid Orchestrator",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#FF00FF",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

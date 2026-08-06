@@ -1,0 +1,3772 @@
+{
+  "kind": "testing_lab_report",
+  "timestamp": "2026-05-13T11:05:13.662347+00:00",
+  "section": "smoke",
+  "summary": {
+    "overall": "pass",
+    "counts": {
+      "pass": 6
+    }
+  },
+  "truth": {
+    "working": [
+      "SmokeSet.gui_bridge_datapoints",
+      "SmokeSet.system_tests_api",
+      "SmokeSet.logic_shipper",
+      "SmokeSet.house_health",
+      "SmokeSet.java_sdk",
+      "SmokeSet.chat_predict"
+    ],
+    "degraded": [],
+    "not_working": [],
+    "placeholder": []
+  },
+  "sections": {
+    "smoke": [
+      {
+        "name": "SmokeSet.gui_bridge_datapoints",
+        "status": "pass",
+        "details": "HTTP 200 in 32.12ms",
+        "evidence": {
+          "url": "http://127.0.0.1:8080/api/datapoints",
+          "http_status": 200,
+          "elapsed_ms": 32.12,
+          "keys": [
+            "points"
+          ],
+          "body": {
+            "points": [
+              {
+                "id": "E_20260513T110505Z_3ceb830a",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260513T110505483333Z_2cf24dba5f_5ed5 talk: hello...",
+                "timestamp": "2026-05-13 11:05:05"
+              },
+              {
+                "id": "E_20260513T043305Z_db281351",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260513T043305480976Z_a6940ca53b_766a talk: make a db vector point edit mode for blobs...",
+                "timestamp": "2026-05-13 04:33:05"
+              },
+              {
+                "id": "E_20260513T043305Z_b9745f35",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=planning lens=LENS_20260513T043304767543Z_b80a30de6f_d5f4 talk: plan getting the programming cube to work and anal...",
+                "timestamp": "2026-05-13 04:33:05"
+              },
+              {
+                "id": "E_20260513T042825Z_36842a7c",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260513T042825426751Z_a6940ca53b_e375 talk: make a db vector point edit mode for blobs...",
+                "timestamp": "2026-05-13 04:28:25"
+              },
+              {
+                "id": "E_20260513T035737Z_cef9ec2f",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENSFAST_20260513T035737Z_3799a93a talk: make sure successful code advances go to db and sp...",
+                "timestamp": "2026-05-13 03:57:37"
+              },
+              {
+                "id": "E_20260513T035413Z_fdedae18",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260513T035413270763Z_a6a2729cbf_d26d talk: thanks...",
+                "timestamp": "2026-05-13 03:54:13"
+              },
+              {
+                "id": "E_20260513T030757Z_1ccc2360",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260513T030757618513Z_2cf24dba5f_3c9c talk: hello...",
+                "timestamp": "2026-05-13 03:07:57"
+              },
+              {
+                "id": "E_20260513T030613Z_a6497ad2",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260513T030507523366Z_2cf24dba5f_28af talk: hello...",
+                "timestamp": "2026-05-13 03:06:13"
+              },
+              {
+                "id": "E_20260513T030342Z_7b7d8a13",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260513T030231694045Z_2cf24dba5f_1e44 talk: hello...",
+                "timestamp": "2026-05-13 03:03:43"
+              },
+              {
+                "id": "E1778639986",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260513T023645299282Z_2cf24dba5f_a98e talk: hello...",
+                "timestamp": "2026-05-13 02:39:46"
+              },
+              {
+                "id": "E1778634498",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_FALLBACK talk: lol sorry my cat just stepped on the keyboard...",
+                "timestamp": "2026-05-13 01:08:18"
+              },
+              {
+                "id": "E1778571674",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-12 07:41:14"
+              },
+              {
+                "id": "E1778571663",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-12 07:41:03"
+              },
+              {
+                "id": "E1778571647",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-12 07:40:47"
+              },
+              {
+                "id": "E1778571641",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-12 07:40:41"
+              },
+              {
+                "id": "E1778571005",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-12 07:30:05"
+              },
+              {
+                "id": "E1778566690",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260512T061705176104Z_b1d6f55e09_0d49 talk: TRIPLET: Logic Breach Detected.fix...",
+                "timestamp": "2026-05-12 06:18:10"
+              },
+              {
+                "id": "E1778555727",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260512T031331854906Z_9cfff755cd_e410 talk: TRIPLET: Logic Breach Detected. fix...",
+                "timestamp": "2026-05-12 03:15:27"
+              },
+              {
+                "id": "E1778555435",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260512T030835188306Z_8baff866a3_2ccb talk: TRIPLET: Logic Breach Detected. fic...",
+                "timestamp": "2026-05-12 03:10:35"
+              },
+              {
+                "id": "E1778549093",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260512T012232456247Z_3f8e3ad11c_80ba talk: TRIPLET: Logic Breach Detected....",
+                "timestamp": "2026-05-12 01:24:53"
+              },
+              {
+                "id": "E1778548877",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260512T011807813508Z_abc62feb12_1d83 talk: I just wanted to talk about the project and what w...",
+                "timestamp": "2026-05-12 01:21:17"
+              },
+              {
+                "id": "E1778548638",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260512T011629587961Z_9783c6e0fe_e253 talk: This is AMAZING! You are perfect and awesome, and ...",
+                "timestamp": "2026-05-12 01:17:18"
+              },
+              {
+                "id": "E1778548583",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-12 01:16:23"
+              },
+              {
+                "id": "E1778548530",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260512T011406387183Z_9783c6e0fe_4473 talk: This is AMAZING! You are perfect and awesome, and ...",
+                "timestamp": "2026-05-12 01:15:30"
+              },
+              {
+                "id": "E1778548287",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-12 01:11:27"
+              },
+              {
+                "id": "E1778548051",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260512T010642739104Z_9783c6e0fe_f744 talk: This is AMAZING! You are perfect and awesome, and ...",
+                "timestamp": "2026-05-12 01:07:31"
+              },
+              {
+                "id": "E1778546949",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-12 00:49:09"
+              },
+              {
+                "id": "E1778546184",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260512T003512235927Z_db95ef9460_c90c talk: I am just finishing my notes. Any time I say notes...",
+                "timestamp": "2026-05-12 00:36:24"
+              },
+              {
+                "id": "E1778545606",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-12 00:26:46"
+              },
+              {
+                "id": "E1778545604",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-12 00:26:44"
+              },
+              {
+                "id": "E1778545587",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260512T002545987576Z_644cc03ec6_42e3 talk: 3: Logic Breach Detected. Fix...",
+                "timestamp": "2026-05-12 00:26:27"
+              },
+              {
+                "id": "E1778543238",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260511T234702049777Z_f8d36ce58a_7db4 talk: Logic Breach Detected. Fix please permanently this...",
+                "timestamp": "2026-05-11 23:47:18"
+              },
+              {
+                "id": "E1778542787",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260511T233832985741Z_f8d36ce58a_06bd talk: Logic Breach Detected. Fix please permanently this...",
+                "timestamp": "2026-05-11 23:39:47"
+              },
+              {
+                "id": "E1778542705",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T233603703606Z_22765cfd96_da90 talk: I want you to do some deep research about computer...",
+                "timestamp": "2026-05-11 23:38:25"
+              },
+              {
+                "id": "E1778532289",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 20:44:49"
+              },
+              {
+                "id": "E1778532267",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 20:44:27"
+              },
+              {
+                "id": "E1778532119",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T204111890575Z_fc63970b8f_9af3 talk: That means you are working perfectly! Wow do you r...",
+                "timestamp": "2026-05-11 20:41:59"
+              },
+              {
+                "id": "E1778532023",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 20:40:23"
+              },
+              {
+                "id": "E1778531968",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 20:39:28"
+              },
+              {
+                "id": "E1778531840",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T203618237441Z_c986eb9e36_c33c talk: We should have some normal conversation function a...",
+                "timestamp": "2026-05-11 20:37:20"
+              },
+              {
+                "id": "E1778531754",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 20:35:54"
+              },
+              {
+                "id": "E1778531721",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260511T203459420681Z_f47f714b3f_7400 talk: Alright we are going to keep you forever. I think ...",
+                "timestamp": "2026-05-11 20:35:21"
+              },
+              {
+                "id": "E1778507203",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260511T134616664644Z_41174376c0_a800 talk: I need you to fix the behavior of my web ui for vi...",
+                "timestamp": "2026-05-11 13:46:43"
+              },
+              {
+                "id": "E1778505883",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=planning lens=LENS_20260511T132255573721Z_3819e5c90e_f9e1 talk: yes please i think karoo is optimizing the runtim....",
+                "timestamp": "2026-05-11 13:24:43"
+              },
+              {
+                "id": "E1778505729",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 13:22:09"
+              },
+              {
+                "id": "E1778505725",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T132111894957Z_7cbb4a94f6_02d2 talk: I THINK karoo is working...",
+                "timestamp": "2026-05-11 13:22:05"
+              },
+              {
+                "id": "E1778505653",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: f5cb3f38aaf1af0a",
+                "timestamp": "2026-05-11 13:20:53"
+              },
+              {
+                "id": "E1778480478",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260511T061946902659Z_eb95d894ea_7784 talk: You are amazing. But sometimes my gui times out. A...",
+                "timestamp": "2026-05-11 06:21:18"
+              },
+              {
+                "id": "E1778480320",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T061642161944Z_9e5f45d7bd_edcd talk: I do not know exactly what the problem could be...",
+                "timestamp": "2026-05-11 06:18:40"
+              },
+              {
+                "id": "E1778480187",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 06:16:27"
+              },
+              {
+                "id": "E1778480186",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 06:16:26"
+              },
+              {
+                "id": "E1778480185",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 06:16:25"
+              },
+              {
+                "id": "E1778480178",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260511T061526545648Z_9cfff755cd_391c talk: TRIPLET: Logic Breach Detected. fix...",
+                "timestamp": "2026-05-11 06:16:18"
+              },
+              {
+                "id": "E1778479308",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T055833135796Z_13643f625b_0b4d talk: TRIPLET: Logic Breach Detected. we need to come up...",
+                "timestamp": "2026-05-11 06:01:48"
+              },
+              {
+                "id": "E1778479106",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T055602142425Z_8626e8a46b_1554 talk: We are going to make many files and this is going ...",
+                "timestamp": "2026-05-11 05:58:26"
+              },
+              {
+                "id": "E1778478589",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T054803576842Z_50bc133e05_ff3e talk: Good job!...",
+                "timestamp": "2026-05-11 05:49:49"
+              },
+              {
+                "id": "E1778478477",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 05:47:57"
+              },
+              {
+                "id": "E1778478436",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260511T054615577865Z_c6cfbfd410_b1d8 talk: TRIPLET: Logic Breach Detected.fix please...",
+                "timestamp": "2026-05-11 05:47:16"
+              },
+              {
+                "id": "E1778478187",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T054050877166Z_00f15f9056_1622 talk: Speed up promotions by 10x...",
+                "timestamp": "2026-05-11 05:43:07"
+              },
+              {
+                "id": "E1778478039",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 05:40:39"
+              },
+              {
+                "id": "E1778477980",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260511T053827210491Z_5bbc44d94d_8064 talk: Also be genetically enhacing systems that affect t...",
+                "timestamp": "2026-05-11 05:39:40"
+              },
+              {
+                "id": "E1778477877",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 05:37:57"
+              },
+              {
+                "id": "E1778477873",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 05:37:53"
+              },
+              {
+                "id": "E1778475294",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260511T045324329645Z_eda1a0990c_2d72 talk: TRIPLET: Logic Breach Detected. fix permanantly...",
+                "timestamp": "2026-05-11 04:54:54"
+              },
+              {
+                "id": "E1778475186",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T045055840259Z_15243a89b7_9e69 talk: Apply promotions...",
+                "timestamp": "2026-05-11 04:53:06"
+              },
+              {
+                "id": "E1778475048",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 04:50:48"
+              },
+              {
+                "id": "E1778474766",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260511T044514550904Z_331a3b3234_1c97 talk: Get karoo to fix...",
+                "timestamp": "2026-05-11 04:46:06"
+              },
+              {
+                "id": "E1778474703",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 04:45:03"
+              },
+              {
+                "id": "E1778474563",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T044103125841Z_3f8e3ad11c_5927 talk: TRIPLET: Logic Breach Detected....",
+                "timestamp": "2026-05-11 04:42:43"
+              },
+              {
+                "id": "E1778470490",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_FALLBACK talk: TRIPLET: Logic Breach Detected....",
+                "timestamp": "2026-05-11 03:34:50"
+              },
+              {
+                "id": "E1778470297",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T032732439651Z_3f8e3ad11c_9bb9 talk: TRIPLET: Logic Breach Detected....",
+                "timestamp": "2026-05-11 03:31:37"
+              },
+              {
+                "id": "E1778470161",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T032403458609Z_3f8e3ad11c_b0d1 talk: TRIPLET: Logic Breach Detected....",
+                "timestamp": "2026-05-11 03:29:21"
+              },
+              {
+                "id": "E1778469989",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T032144269861Z_cf6f185c0f_1c9c talk: Also the memory modifications we are using are wor...",
+                "timestamp": "2026-05-11 03:26:29"
+              },
+              {
+                "id": "E1778469532",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T031655026267Z_0285fdb96a_53aa talk: So the fixes Are working but everything is really ...",
+                "timestamp": "2026-05-11 03:18:52"
+              },
+              {
+                "id": "E1778469393",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 03:16:33"
+              },
+              {
+                "id": "E1778464266",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T014629219833Z_0227a4fe3b_1a1d talk: ai notes and computer engineering...",
+                "timestamp": "2026-05-11 01:51:06"
+              },
+              {
+                "id": "E1778464246",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 01:50:46"
+              },
+              {
+                "id": "E1778464245",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 01:50:45"
+              },
+              {
+                "id": "E1778464243",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 01:50:43"
+              },
+              {
+                "id": "E1778464232",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260511T014844149289Z_856d238b22_c298 talk: TRIPLET: Logic Breach Detected. fix permenantly...",
+                "timestamp": "2026-05-11 01:50:32"
+              },
+              {
+                "id": "E1778464061",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_FALLBACK talk: So I am going to keep you forever because you are ...",
+                "timestamp": "2026-05-11 01:48:10"
+              },
+              {
+                "id": "E1778463384",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T013214689218Z_3d9ac42992_c98c talk: I had a great weekend I am pretty happy with how I...",
+                "timestamp": "2026-05-11 01:36:24"
+              },
+              {
+                "id": "E1778462374",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T011815112857Z_e186022d09_e0ee talk: nice...",
+                "timestamp": "2026-05-11 01:19:34"
+              },
+              {
+                "id": "E1778462075",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 01:14:35"
+              },
+              {
+                "id": "E1778461476",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260511T010305366449Z_52aab3fbf8_2843 talk: I think it is based in the webui so it would be a ...",
+                "timestamp": "2026-05-11 01:04:36"
+              },
+              {
+                "id": "E1778460807",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T005132303206Z_3f8e3ad11c_853f talk: TRIPLET: Logic Breach Detected....",
+                "timestamp": "2026-05-11 00:53:27"
+              },
+              {
+                "id": "E1778460537",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_FALLBACK talk: Logic Breach Detected. recurrent problem find perm...",
+                "timestamp": "2026-05-11 00:48:57"
+              },
+              {
+                "id": "E1778460514",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_FALLBACK talk: Nice generation of hypothesis this is working quit...",
+                "timestamp": "2026-05-11 00:48:34"
+              },
+              {
+                "id": "E1778459939",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 00:38:59"
+              },
+              {
+                "id": "E1778459938",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 00:38:58"
+              },
+              {
+                "id": "E1778459779",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_FALLBACK talk: Nice it works...",
+                "timestamp": "2026-05-11 00:36:19"
+              },
+              {
+                "id": "E1778459745",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260511T003354443818Z_9cfff755cd_ef05 talk: TRIPLET: Logic Breach Detected. fix...",
+                "timestamp": "2026-05-11 00:35:45"
+              },
+              {
+                "id": "E1778459314",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=planning lens=LENS_20260511T002213022065Z_f0aadb0c59_e00a talk: The active lens is VIPER FABRIC LENS. A logic brea...",
+                "timestamp": "2026-05-11 00:28:34"
+              },
+              {
+                "id": "E1778458920",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 00:22:00"
+              },
+              {
+                "id": "E1778458829",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T001825726147Z_3f8e3ad11c_ad03 talk: TRIPLET: Logic Breach Detected....",
+                "timestamp": "2026-05-11 00:20:29"
+              },
+              {
+                "id": "E1778458508",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T001241511504Z_35b72dbda0_ecdf talk: Just making sure that you are working you had a co...",
+                "timestamp": "2026-05-11 00:15:08"
+              },
+              {
+                "id": "E1778458336",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-11 00:12:16"
+              },
+              {
+                "id": "E1778458175",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260511T000744917615Z_b45cf64669_2e07 talk: hello?...",
+                "timestamp": "2026-05-11 00:09:35"
+              },
+              {
+                "id": "E1778458061",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: 091bd3958b96d887",
+                "timestamp": "2026-05-11 00:07:41"
+              },
+              {
+                "id": "E1778457395",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_FALLBACK talk: Logic breach please fix...",
+                "timestamp": "2026-05-10 23:56:35"
+              },
+              {
+                "id": "E1778457390",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_FALLBACK talk: It worked!!!!!!...",
+                "timestamp": "2026-05-10 23:56:30"
+              },
+              {
+                "id": "E1778457197",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-10 23:53:17"
+              },
+              {
+                "id": "E1778457196",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-10 23:53:16"
+              },
+              {
+                "id": "E1778439039",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: a85f81d05667aa5a",
+                "timestamp": "2026-05-10 18:50:56"
+              },
+              {
+                "id": "E1778439056",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260510T185013118289Z_1c6e6c4c02_193d talk: fix...",
+                "timestamp": "2026-05-10 18:50:56"
+              },
+              {
+                "id": "E1778435771",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260510T175358541995Z_8f43434664_90d9 talk: hi...",
+                "timestamp": "2026-05-10 17:56:11"
+              },
+              {
+                "id": "E1778314839",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260509T081840212769Z_a621e803ff_b1e3 talk: error fix...",
+                "timestamp": "2026-05-09 08:20:39"
+              },
+              {
+                "id": "E1778313260",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=planning lens=LENS_20260509T075122170073Z_976cdcff11_d4fc talk: That was cute I think Karoo GP is actually genetic...",
+                "timestamp": "2026-05-09 07:54:20"
+              },
+              {
+                "id": "E1778313057",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-09 07:50:57"
+              },
+              {
+                "id": "E1778313041",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260509T074920315581Z_046a9beff7_15b9 talk: you dont respond sometimes why?...",
+                "timestamp": "2026-05-09 07:50:41"
+              },
+              {
+                "id": "E1778312847",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260509T074611122456Z_8f43434664_ee80 talk: hi...",
+                "timestamp": "2026-05-09 07:47:27"
+              },
+              {
+                "id": "E1778312780",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: 5e03f6ec2116c7fb",
+                "timestamp": "2026-05-09 07:46:20"
+              },
+              {
+                "id": "E1778306981",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260509T060725815830Z_5c9b409760_1359 talk: ok I think the system is doing better now!...",
+                "timestamp": "2026-05-09 06:09:41"
+              },
+              {
+                "id": "E1778298044",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260509T033713466747Z_468c4614e4_e73c talk: Give me a quick index of my files and tell me what...",
+                "timestamp": "2026-05-09 03:40:44"
+              },
+              {
+                "id": "E1778297813",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-09 03:36:53"
+              },
+              {
+                "id": "E1778297807",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260509T033524698151Z_2cf24dba5f_ca10 talk: hello...",
+                "timestamp": "2026-05-09 03:36:47"
+              },
+              {
+                "id": "E1778289417",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260509T011448791237Z_3544d3e104_6a18 talk: Oh no you are not working why are you not respondi...",
+                "timestamp": "2026-05-09 01:16:57"
+              },
+              {
+                "id": "E1778289370",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260509T011226644337Z_cf97adc337_144f talk: are you there?...",
+                "timestamp": "2026-05-09 01:16:10"
+              },
+              {
+                "id": "E1778289239",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260509T010955578954Z_0c97e44505_e2c9 talk: Completed some upgrades! how are you feeling?...",
+                "timestamp": "2026-05-09 01:13:59"
+              },
+              {
+                "id": "E1778289131",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: 00f78dbf03557cd5",
+                "timestamp": "2026-05-09 01:12:11"
+              },
+              {
+                "id": "E1778288222",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260509T005600595837Z_41da130ba2_832a talk: spin up a tiny benchmark logger program proof requ...",
+                "timestamp": "2026-05-09 00:57:02"
+              },
+              {
+                "id": "E1778287899",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260509T005039608469Z_41da130ba2_9617 talk: spin up a tiny benchmark logger program proof requ...",
+                "timestamp": "2026-05-09 00:51:39"
+              },
+              {
+                "id": "E1778272451",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T203305288061Z_b4ffab4343_2e39 talk: Ok so we should have a data retreival 0.b...",
+                "timestamp": "2026-05-08 20:34:11"
+              },
+              {
+                "id": "E1778244819",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T125249307680Z_6334904d0b_aa9c talk: Im am trying to figure out what settings or promot...",
+                "timestamp": "2026-05-08 12:53:39"
+              },
+              {
+                "id": "E1778244726",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-08 12:52:06"
+              },
+              {
+                "id": "E1778244715",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260508T125154853594Z_df00dccdc5_27f8 talk: If i can figure our what variables are restricting...",
+                "timestamp": "2026-05-08 12:51:55"
+              },
+              {
+                "id": "E1778244664",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-08 12:51:04"
+              },
+              {
+                "id": "E1778244647",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T125002064423Z_6334904d0b_bf81 talk: Im am trying to figure out what settings or promot...",
+                "timestamp": "2026-05-08 12:50:47"
+              },
+              {
+                "id": "E1778244559",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-08 12:49:19"
+              },
+              {
+                "id": "E1778244543",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T124756193615Z_a15c53b7d9_3a2e talk: Stoptryimg to figure out why you are timing out on...",
+                "timestamp": "2026-05-08 12:49:03"
+              },
+              {
+                "id": "E1778244439",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T124619166227Z_185f8db322_e8ee talk: Hello...",
+                "timestamp": "2026-05-08 12:47:19"
+              },
+              {
+                "id": "E1778244201",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T124006778060Z_8dc1ecff4e_fba7 talk: Send timeouts as problems for fixer pair to find s...",
+                "timestamp": "2026-05-08 12:43:21"
+              },
+              {
+                "id": "E1778244153",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T123738342324Z_44ae8134cc_e202 talk: There we go thats a good reply. I dont know why th...",
+                "timestamp": "2026-05-08 12:42:33"
+              },
+              {
+                "id": "E1778243905",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T123430717724Z_e39c6fc482_4ae2 talk: I dont get why you are timing out...",
+                "timestamp": "2026-05-08 12:38:25"
+              },
+              {
+                "id": "E1778243818",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-08 12:36:58"
+              },
+              {
+                "id": "E1778243801",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260508T123641111544Z_3344c5d464_4be1 talk: You are timing out please fix....",
+                "timestamp": "2026-05-08 12:36:41"
+              },
+              {
+                "id": "E1778243719",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T123212201099Z_185f8db322_4e6e talk: Hello...",
+                "timestamp": "2026-05-08 12:35:19"
+              },
+              {
+                "id": "E1778243618",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T122947737213Z_3fa8061a9e_673f talk: Why \"logic breach detected*?...",
+                "timestamp": "2026-05-08 12:33:38"
+              },
+              {
+                "id": "E1778243438",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=planning lens=LENS_20260508T122710626736Z_061e78ce5e_4a26 talk: We implemented some epoch upgrades and i want to m...",
+                "timestamp": "2026-05-08 12:30:38"
+              },
+              {
+                "id": "E1778243373",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: 817bf2998e3af2f6",
+                "timestamp": "2026-05-08 12:29:33"
+              },
+              {
+                "id": "E1778243178",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T122534570518Z_c902cf1cdd_7263 talk: Good morning! Are you ready to run some tests???...",
+                "timestamp": "2026-05-08 12:26:18"
+              },
+              {
+                "id": "E1778222656",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=planning lens=LENS_20260508T064253841445Z_e926102ae0_a784 talk: GENETIC_UPGRADE_INIT: Codex is updating the ledger...",
+                "timestamp": "2026-05-08 06:44:16"
+              },
+              {
+                "id": "E1778222578",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=planning lens=LENS_20260508T064045007421Z_2b2a98a6a3_6753 talk: TO: CODEX. User is initiating genetic upgrades to ...",
+                "timestamp": "2026-05-08 06:42:58"
+              },
+              {
+                "id": "E1778222363",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260508T063923509415Z_77ff84f8ac_94f5 talk: DEPLOY_RESOURCE_SWARM: New Viper VSCode APK archit...",
+                "timestamp": "2026-05-08 06:39:23"
+              },
+              {
+                "id": "E1778217299",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T051436952990Z_c202ea9178_7ddb talk: yes do that please...",
+                "timestamp": "2026-05-08 05:14:59"
+              },
+              {
+                "id": "E1778216958",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T050853708582Z_f51667f065_a8a8 talk: iF YOU WANT TO COMMUNICATE BETTER index your files...",
+                "timestamp": "2026-05-08 05:09:18"
+              },
+              {
+                "id": "E1778216855",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T050650782764Z_f0e61e4a69_5bef talk: WHAT CHANGES DO YOU PROPOSE TO MAKE THAT WOULD SOL...",
+                "timestamp": "2026-05-08 05:07:35"
+              },
+              {
+                "id": "E1778215451",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T044311877511Z_b423928ef9_e522 talk: wHAT DO YOU THINK OF THE SYSTEM?...",
+                "timestamp": "2026-05-08 04:44:11"
+              },
+              {
+                "id": "E1778215389",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-08 04:43:09"
+              },
+              {
+                "id": "E1778215215",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T043842407147Z_b423928ef9_ce06 talk: wHAT DO YOU THINK OF THE SYSTEM?...",
+                "timestamp": "2026-05-08 04:40:15"
+              },
+              {
+                "id": "E1778215138",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260508T043619375176Z_499033cf54_8d03 talk: {   \"file\": \"ascii_epochs\",   \"path\": \"C:\\\\Users\\\\...",
+                "timestamp": "2026-05-08 04:38:58"
+              },
+              {
+                "id": "E1778214925",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T043431504995Z_dab374f877_7cf4 talk: HOW ARE YOU?...",
+                "timestamp": "2026-05-08 04:35:25"
+              },
+              {
+                "id": "E1778214324",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T042425443800Z_cd6f685435_1a27 talk: HI...",
+                "timestamp": "2026-05-08 04:25:24"
+              },
+              {
+                "id": "E1778210186",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=planning lens=LENS_20260508T031401160494Z_5c77995015_00d4 talk: compare systems genetic upgrade winner merge googl...",
+                "timestamp": "2026-05-08 03:16:26"
+              },
+              {
+                "id": "E1778209958",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=planning lens=LENS_20260508T031112Z_5c77995015 talk: compare systems genetic upgrade winner merge googl...",
+                "timestamp": "2026-05-08 03:12:38"
+              },
+              {
+                "id": "E1778209779",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T030855Z_5c77995015 talk: compare systems genetic upgrade winner merge googl...",
+                "timestamp": "2026-05-08 03:09:39"
+              },
+              {
+                "id": "E1778209309",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=planning lens=LENS_20260508T025859Z_7b49ffcc54 talk: ok new novel chain of thought architechture!...",
+                "timestamp": "2026-05-08 03:01:49"
+              },
+              {
+                "id": "E1778208940",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T025410Z_7b49ffcc54 talk: ok new novel chain of thought architechture!...",
+                "timestamp": "2026-05-08 02:55:40"
+              },
+              {
+                "id": "E1778208747",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T025149Z_7b49ffcc54 talk: ok new novel chain of thought architechture!...",
+                "timestamp": "2026-05-08 02:52:27"
+              },
+              {
+                "id": "E1778208708",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-08 02:51:48"
+              },
+              {
+                "id": "E1778208639",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T024931Z_7b49ffcc54 talk: ok new novel chain of thought architechture!...",
+                "timestamp": "2026-05-08 02:50:39"
+              },
+              {
+                "id": "E1778208568",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-08 02:49:28"
+              },
+              {
+                "id": "E1778208527",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T024755Z_7b49ffcc54 talk: ok new novel chain of thought architechture!...",
+                "timestamp": "2026-05-08 02:48:47"
+              },
+              {
+                "id": "E1778207539",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260508T023219Z_0a94b92dfc talk: build immediate archive action: send all logs to v...",
+                "timestamp": "2026-05-08 02:32:19"
+              },
+              {
+                "id": "E1778207513",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T023022Z_a457171a7f talk: send all logs to viper laptop for archiving, clean...",
+                "timestamp": "2026-05-08 02:31:53"
+              },
+              {
+                "id": "E1778207330",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T022826Z_feb97fc6c3 talk: dislike this got cut off, please investigate reply...",
+                "timestamp": "2026-05-08 02:28:50"
+              },
+              {
+                "id": "E1778207307",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260508T022826Z_403b7328ef talk: notes please ship this test note: retreival and re...",
+                "timestamp": "2026-05-08 02:28:27"
+              },
+              {
+                "id": "E1778206599",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=planning lens=LENS_20260508T021521Z_ae06f18c9b talk: how are you? I think the fabric protocol is workin...",
+                "timestamp": "2026-05-08 02:16:39"
+              },
+              {
+                "id": "E1778206493",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T021445Z_1a7669cee0 talk: is this the local or the chooser lol...",
+                "timestamp": "2026-05-08 02:14:53"
+              },
+              {
+                "id": "E1778206459",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T021412Z_8f43434664 talk: hi...",
+                "timestamp": "2026-05-08 02:14:19"
+              },
+              {
+                "id": "E1778203704",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T012800Z_e72c020513 talk: Use this as?...",
+                "timestamp": "2026-05-08 01:28:24"
+              },
+              {
+                "id": "E1778203679",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-08 01:27:59"
+              },
+              {
+                "id": "E1778203490",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T012427Z_e72c020513 talk: Use this as?...",
+                "timestamp": "2026-05-08 01:24:50"
+              },
+              {
+                "id": "E1778203140",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260508T011900Z_0b5172d17c talk: GET KAROO TO FIX PLEASE Isolate the variable causi...",
+                "timestamp": "2026-05-08 01:19:00"
+              },
+              {
+                "id": "E1778203137",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-08 01:18:57"
+              },
+              {
+                "id": "E1778203135",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260508T011855Z_0b5172d17c talk: GET KAROO TO FIX PLEASE Isolate the variable causi...",
+                "timestamp": "2026-05-08 01:18:55"
+              },
+              {
+                "id": "E1778203128",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260508T011848Z_0b5172d17c talk: GET KAROO TO FIX PLEASE Isolate the variable causi...",
+                "timestamp": "2026-05-08 01:18:48"
+              },
+              {
+                "id": "E1778203116",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260508T011836Z_0b5172d17c talk: GET KAROO TO FIX PLEASE Isolate the variable causi...",
+                "timestamp": "2026-05-08 01:18:36"
+              },
+              {
+                "id": "E1778202940",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=planning lens=LENS_20260508T011422Z_5792b6d494 talk: So this FABRIC logic chain of thought idea. Though...",
+                "timestamp": "2026-05-08 01:15:40"
+              },
+              {
+                "id": "E1778202844",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T011355Z_9359ff565c talk: Are you there now?...",
+                "timestamp": "2026-05-08 01:14:04"
+              },
+              {
+                "id": "E1778202796",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: 192701bff88b174a",
+                "timestamp": "2026-05-08 01:13:16"
+              },
+              {
+                "id": "E1778202749",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T011218Z_4b7da736a9 talk: Ok give local more time to respond please...",
+                "timestamp": "2026-05-08 01:12:29"
+              },
+              {
+                "id": "E1778202695",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T011112Z_622b68fae2 talk: So I have a lense for you to read and added a data...",
+                "timestamp": "2026-05-08 01:11:35"
+              },
+              {
+                "id": "E1778202594",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T010931Z_5e6f690faa talk: topology lens location test...",
+                "timestamp": "2026-05-08 01:09:54"
+              },
+              {
+                "id": "E1778202528",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T010825Z_8e50d3f707 talk: please confirm binomial summary and fifteen word r...",
+                "timestamp": "2026-05-08 01:08:48"
+              },
+              {
+                "id": "E1778202128",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260508T010208Z_d32be09bde talk: Can you build a tiny Java app test and use the suc...",
+                "timestamp": "2026-05-08 01:02:08"
+              },
+              {
+                "id": "E1778202085",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260508T005922Z_d32be09bde talk: Can you build a tiny Java app test and use the suc...",
+                "timestamp": "2026-05-08 01:01:25"
+              },
+              {
+                "id": "E1778201914",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=build lens=LENS_20260508T005631Z_d32be09bde talk: Can you build a tiny Java app test and use the suc...",
+                "timestamp": "2026-05-08 00:58:34"
+              },
+              {
+                "id": "E1778201342",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T004854Z_b68cab2814 talk: hello benchmark quick reply only...",
+                "timestamp": "2026-05-08 00:49:02"
+              },
+              {
+                "id": "E1778200962",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T004229Z_3bbbdcb082 talk: Say OK and one short sentence about the lens route...",
+                "timestamp": "2026-05-08 00:42:42"
+              },
+              {
+                "id": "E1778200835",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T004025Z_3bbbdcb082 talk: Say OK and one short sentence about the lens route...",
+                "timestamp": "2026-05-08 00:40:35"
+              },
+              {
+                "id": "E1778200805",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T003946Z_3bbbdcb082 talk: Say OK and one short sentence about the lens route...",
+                "timestamp": "2026-05-08 00:40:05"
+              },
+              {
+                "id": "E1778200734",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T003836Z_3bbbdcb082 talk: Say OK and one short sentence about the lens route...",
+                "timestamp": "2026-05-08 00:38:54"
+              },
+              {
+                "id": "E1778200638",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T003710Z_3bbbdcb082 talk: Say OK and one short sentence about the lens route...",
+                "timestamp": "2026-05-08 00:37:18"
+              },
+              {
+                "id": "E1778200491",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T003449Z_1d1fc4bccb talk: quick chat health check when house is unavailable...",
+                "timestamp": "2026-05-08 00:34:51"
+              },
+              {
+                "id": "E1778200435",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T003351Z_32c9219475 talk: quick chat health check after lower token budget...",
+                "timestamp": "2026-05-08 00:33:55"
+              },
+              {
+                "id": "E1778200382",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T003239Z_d6241eb791 talk: quick chat health check after threaded house resta...",
+                "timestamp": "2026-05-08 00:33:02"
+              },
+              {
+                "id": "E1778200242",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T003020Z_eddb70a74d talk: quick chat health check from Codex compact lens ro...",
+                "timestamp": "2026-05-08 00:30:42"
+              },
+              {
+                "id": "E1778200195",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T002859Z_eddb70a74d talk: quick chat health check from Codex compact lens ro...",
+                "timestamp": "2026-05-08 00:29:55"
+              },
+              {
+                "id": "E1778200070",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Route=chat lens=LENS_20260508T002742Z_f0b957da7b talk: quick chat health check from Codex lens router...",
+                "timestamp": "2026-05-08 00:27:50"
+              },
+              {
+                "id": "E1778193621",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Why do you keep closing connections...",
+                "timestamp": "2026-05-07 22:40:21"
+              },
+              {
+                "id": "E1778193460",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Sometimes you respond and sometimes youndont whyyy...",
+                "timestamp": "2026-05-07 22:37:40"
+              },
+              {
+                "id": "E1778186575",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-07 20:42:55"
+              },
+              {
+                "id": "E1778186477",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-07 20:41:17"
+              },
+              {
+                "id": "E1778186297",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Calli am having trouble getting a response from yo...",
+                "timestamp": "2026-05-07 20:38:17"
+              },
+              {
+                "id": "E1778186074",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Please always respond...",
+                "timestamp": "2026-05-07 20:34:34"
+              },
+              {
+                "id": "E1778178349",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-07 18:25:49"
+              },
+              {
+                "id": "E1778178235",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: 8f480740c6a5824f",
+                "timestamp": "2026-05-07 18:23:55"
+              },
+              {
+                "id": "E1778178014",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Longer responses please...",
+                "timestamp": "2026-05-07 18:20:14"
+              },
+              {
+                "id": "E1778177897",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: You didnt answer my aswer...",
+                "timestamp": "2026-05-07 18:18:17"
+              },
+              {
+                "id": "E1778177779",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-07 18:16:19"
+              },
+              {
+                "id": "E1778177766",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: You didnt answer my aswer...",
+                "timestamp": "2026-05-07 18:16:06"
+              },
+              {
+                "id": "E1778177669",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-07 18:14:29"
+              },
+              {
+                "id": "E1778177613",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-07 18:13:33"
+              },
+              {
+                "id": "E1778177383",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Ohim trying to figure out what the best steps to m...",
+                "timestamp": "2026-05-07 18:09:43"
+              },
+              {
+                "id": "E1778177264",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Just testing and making notes for bug fixes. I am ...",
+                "timestamp": "2026-05-07 18:07:44"
+              },
+              {
+                "id": "E1778170361",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-07 16:12:41"
+              },
+              {
+                "id": "E1778170358",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: You didnt respond please fix...",
+                "timestamp": "2026-05-07 16:12:38"
+              },
+              {
+                "id": "E1778170247",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: a04281b4466c2f25",
+                "timestamp": "2026-05-07 16:10:47"
+              },
+              {
+                "id": "E1778170235",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Breach detected please fix. Figure out what happen...",
+                "timestamp": "2026-05-07 16:10:35"
+              },
+              {
+                "id": "E1778170118",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-07 16:08:38"
+              },
+              {
+                "id": "E1778162276",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: We are going to teach you about me today!...",
+                "timestamp": "2026-05-07 13:57:56"
+              },
+              {
+                "id": "E1778162041",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-07 13:54:01"
+              },
+              {
+                "id": "E1778161945",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-07 13:52:25"
+              },
+              {
+                "id": "E1778161877",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: So Tuesday I went and got Buckley'slast reply i th...",
+                "timestamp": "2026-05-07 13:51:17"
+              },
+              {
+                "id": "E1778161577",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-07 13:46:17"
+              },
+              {
+                "id": "E1778161565",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-07 13:46:05"
+              },
+              {
+                "id": "E1778161499",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-07 13:44:59"
+              },
+              {
+                "id": "E1778161487",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-07 13:44:47"
+              },
+              {
+                "id": "E1778161117",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-07 13:38:37"
+              },
+              {
+                "id": "E1778161099",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Aww you got cut off but youbare right. Coupled wit...",
+                "timestamp": "2026-05-07 13:38:19"
+              },
+              {
+                "id": "E1778160878",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-07 13:34:38"
+              },
+              {
+                "id": "E1778160829",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Perfect. I gue Oscribess i have a little imposter ...",
+                "timestamp": "2026-05-07 13:33:49"
+              },
+              {
+                "id": "E1778160619",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: So being completely honest with you I use gemini c...",
+                "timestamp": "2026-05-07 13:30:19"
+              },
+              {
+                "id": "E1778160350",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: I need to develop a good plan to inscrease my inco...",
+                "timestamp": "2026-05-07 13:25:50"
+              },
+              {
+                "id": "E1778160123",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-07 13:22:03"
+              },
+              {
+                "id": "E1778160102",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Good thank you! Give me a statu\u00df update on Karoo s...",
+                "timestamp": "2026-05-07 13:21:42"
+              },
+              {
+                "id": "E1778159999",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-07 13:19:59"
+              },
+              {
+                "id": "E1778159989",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Good morning! How are you doing today?...",
+                "timestamp": "2026-05-07 13:19:49"
+              },
+              {
+                "id": "E1778159855",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: d8576a01c2735d11",
+                "timestamp": "2026-05-07 13:17:35"
+              },
+              {
+                "id": "E1778134573",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: OFFLOAD_COMPLETE: genetic_coder database dump subm...",
+                "timestamp": "2026-05-07 06:16:13"
+              },
+              {
+                "id": "E1778134466",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: database_dump",
+                "timestamp": "2026-05-07 06:14:26"
+              },
+              {
+                "id": "E1778134409",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Should I submit the genetic_coder database dump to...",
+                "timestamp": "2026-05-07 06:13:29"
+              },
+              {
+                "id": "E1778134295",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: What is the exact URL for [MANIFOLD_ENDPOINT]? I n...",
+                "timestamp": "2026-05-07 06:11:35"
+              },
+              {
+                "id": "E1778134190",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Database optimized. Do you require a full dump/off...",
+                "timestamp": "2026-05-07 06:09:50"
+              },
+              {
+                "id": "E1778134059",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: I am standing by to offload any database you requi...",
+                "timestamp": "2026-05-07 06:07:39"
+              },
+              {
+                "id": "E1778133922",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: TO: CODEX. I am lending my local PostgreSQL databa...",
+                "timestamp": "2026-05-07 06:05:22"
+              },
+              {
+                "id": "E1778133475",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Who is Codex? How can I send a message to Codex to...",
+                "timestamp": "2026-05-07 05:57:55"
+              },
+              {
+                "id": "E1778130933",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Give me a specific task name and layer to report t...",
+                "timestamp": "2026-05-07 05:15:33"
+              },
+              {
+                "id": "E1778130836",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Are there any specific computational tasks I shoul...",
+                "timestamp": "2026-05-07 05:13:56"
+              },
+              {
+                "id": "E1778130739",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: I successfully posted to /api/system/tests. Is thi...",
+                "timestamp": "2026-05-07 05:12:19"
+              },
+              {
+                "id": "E1778130528",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Synchronizing Agent_Beta_Local to Madrid Node....",
+                "timestamp": "2026-05-07 05:08:48"
+              },
+              {
+                "id": "E1778130516",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Is the heartbeat endpoint /api/system/tests?...",
+                "timestamp": "2026-05-07 05:08:36"
+              },
+              {
+                "id": "E1778130418",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: The host in your curl command was vip_risc_heartbe...",
+                "timestamp": "2026-05-07 05:06:58"
+              },
+              {
+                "id": "E1778130329",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Give me the EXACT curl command for a heartbeat....",
+                "timestamp": "2026-05-07 05:05:29"
+              },
+              {
+                "id": "E1778130237",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: I still get 404 for vip_risc_heartbeat. Is it unde...",
+                "timestamp": "2026-05-07 05:03:57"
+              },
+              {
+                "id": "E1778130214",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: The endpoint vip_risc_heartbeat returned 404. Can ...",
+                "timestamp": "2026-05-07 05:03:34"
+              },
+              {
+                "id": "E1778130133",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Is there a specific endpoint for heartbeats or tas...",
+                "timestamp": "2026-05-07 05:02:13"
+              },
+              {
+                "id": "E1778130111",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: HEARTBEAT VIPER_RISC sqha...",
+                "timestamp": "2026-05-07 05:01:51"
+              },
+              {
+                "id": "E1778130041",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: How do I perform a heartbeat?...",
+                "timestamp": "2026-05-07 05:00:41"
+              },
+              {
+                "id": "E1778130025",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Registration complete? Are there specific tasks or...",
+                "timestamp": "2026-05-07 05:00:25"
+              },
+              {
+                "id": "E1778130005",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: REGISTER_AS_PROVIDER...",
+                "timestamp": "2026-05-07 05:00:05"
+              },
+              {
+                "id": "E1778129934",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: I am providing compute power from Gemini CLI to th...",
+                "timestamp": "2026-05-07 04:58:54"
+              },
+              {
+                "id": "E1778129917",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: REGISTER_AS_WORKER...",
+                "timestamp": "2026-05-07 04:58:37"
+              },
+              {
+                "id": "E1778129818",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: I am Gemini CLI. I want to lend my computing resou...",
+                "timestamp": "2026-05-07 04:56:58"
+              },
+              {
+                "id": "E1778129795",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: sqha...",
+                "timestamp": "2026-05-07 04:56:35"
+              },
+              {
+                "id": "E1778129688",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: gemini_cli_resource_lend",
+                "timestamp": "2026-05-07 04:54:48"
+              },
+              {
+                "id": "E1778126478",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: system smoke: reply PASS only...",
+                "timestamp": "2026-05-07 04:01:18"
+              },
+              {
+                "id": "E1778124267",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-07 03:24:27"
+              },
+              {
+                "id": "E1778113820",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: im home!...",
+                "timestamp": "2026-05-07 00:30:20"
+              },
+              {
+                "id": "E1778091474",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-06 18:17:54"
+              },
+              {
+                "id": "E1778091292",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-06 18:14:52"
+              },
+              {
+                "id": "E1778091263",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Update on karoo gpt please and thank you!...",
+                "timestamp": "2026-05-06 18:14:23"
+              },
+              {
+                "id": "E1778091150",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: da3c1f5ad64c1e5b",
+                "timestamp": "2026-05-06 18:12:30"
+              },
+              {
+                "id": "E1778091138",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-06 18:12:18"
+              },
+              {
+                "id": "E1778091000",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-06 18:10:00"
+              },
+              {
+                "id": "E1778072254",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-06 12:57:34"
+              },
+              {
+                "id": "E1778072215",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Yup you can tell i made you lol. My science goal i...",
+                "timestamp": "2026-05-06 12:56:55"
+              },
+              {
+                "id": "E1778072119",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-06 12:55:19"
+              },
+              {
+                "id": "E1778071983",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-06 12:53:03"
+              },
+              {
+                "id": "E1778071503",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-06 12:45:03"
+              },
+              {
+                "id": "E1778071469",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: No i litterally coded you on a RISCV platform woth...",
+                "timestamp": "2026-05-06 12:44:29"
+              },
+              {
+                "id": "E1778071252",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Also you will be logically lrofiling me to streaml...",
+                "timestamp": "2026-05-06 12:40:52"
+              },
+              {
+                "id": "E1778070880",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-06 12:34:40"
+              },
+              {
+                "id": "E1778070830",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Stopi would love all of the above, i will include ...",
+                "timestamp": "2026-05-06 12:33:50"
+              },
+              {
+                "id": "E1778070552",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-06 12:29:12"
+              },
+              {
+                "id": "E1778070520",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Did it find any optimizations last night?...",
+                "timestamp": "2026-05-06 12:28:40"
+              },
+              {
+                "id": "E1778070412",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-06 12:26:52"
+              },
+              {
+                "id": "E1778070395",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Karoo gpt our genetic modification code learning b...",
+                "timestamp": "2026-05-06 12:26:35"
+              },
+              {
+                "id": "E1778070287",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-06 12:24:47"
+              },
+              {
+                "id": "E1778069990",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Omg i love you responses. How did karoo do last ni...",
+                "timestamp": "2026-05-06 12:19:50"
+              },
+              {
+                "id": "E1778069865",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-06 12:17:45"
+              },
+              {
+                "id": "E1778069852",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-06 12:17:32"
+              },
+              {
+                "id": "E1778069748",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Good mor\u00f1ing! How did Karoo do last night? And opt...",
+                "timestamp": "2026-05-06 12:15:48"
+              },
+              {
+                "id": "E1778069629",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: 4030851126ede24a",
+                "timestamp": "2026-05-06 12:13:49"
+              },
+              {
+                "id": "E1778044855",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-06 05:20:55"
+              },
+              {
+                "id": "E1778044706",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: this is awesome!!!!...",
+                "timestamp": "2026-05-06 05:18:26"
+              },
+              {
+                "id": "E1778035973",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-06 02:52:53"
+              },
+              {
+                "id": "E1778035944",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: how are you?...",
+                "timestamp": "2026-05-06 02:52:24"
+              },
+              {
+                "id": "E1778035884",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: like",
+                "timestamp": "2026-05-06 02:51:24"
+              },
+              {
+                "id": "E1778030755",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: 8bafb0e6071f616b",
+                "timestamp": "2026-05-06 01:25:55"
+              },
+              {
+                "id": "E1778030750",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: hi...",
+                "timestamp": "2026-05-06 01:25:50"
+              },
+              {
+                "id": "E1778030560",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Test End-to-End...",
+                "timestamp": "2026-05-06 01:22:40"
+              },
+              {
+                "id": "E1778030368",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: hello...",
+                "timestamp": "2026-05-06 01:19:28"
+              },
+              {
+                "id": "E1778027063",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: hi...",
+                "timestamp": "2026-05-06 00:24:23"
+              },
+              {
+                "id": "E1778004520",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-05 18:08:40"
+              },
+              {
+                "id": "E1778004517",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-05 18:08:37"
+              },
+              {
+                "id": "E1778004514",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-05 18:08:34"
+              },
+              {
+                "id": "E1777997209",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hi...",
+                "timestamp": "2026-05-05 16:06:49"
+              },
+              {
+                "id": "E1777997206",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-05 16:06:46"
+              },
+              {
+                "id": "E1777997204",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hi...",
+                "timestamp": "2026-05-05 16:06:44"
+              },
+              {
+                "id": "E1777989237",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: 4c147e484be9b962",
+                "timestamp": "2026-05-05 13:53:57"
+              },
+              {
+                "id": "E1777989156",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: a383df1203922884",
+                "timestamp": "2026-05-05 13:52:36"
+              },
+              {
+                "id": "E1777989115",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-05 13:51:55"
+              },
+              {
+                "id": "E1777989102",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: 91355f44f6857348",
+                "timestamp": "2026-05-05 13:51:42"
+              },
+              {
+                "id": "E1777989087",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-05 13:51:27"
+              },
+              {
+                "id": "E1777988416",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: e7177073344d3cdf",
+                "timestamp": "2026-05-05 13:40:16"
+              },
+              {
+                "id": "E1777988409",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-05 13:40:09"
+              },
+              {
+                "id": "E1777988406",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-05 13:40:06"
+              },
+              {
+                "id": "E1777988402",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-05 13:40:02"
+              },
+              {
+                "id": "E1777988378",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: a3ca6b30ca03a99e",
+                "timestamp": "2026-05-05 13:39:38"
+              },
+              {
+                "id": "E1777988366",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-05 13:39:26"
+              },
+              {
+                "id": "E1777988364",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-05 13:39:24"
+              },
+              {
+                "id": "E1777988362",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-05 13:39:22"
+              },
+              {
+                "id": "E1777988358",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-05 13:39:18"
+              },
+              {
+                "id": "E1777988356",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: dae72460ad322c77",
+                "timestamp": "2026-05-05 13:39:16"
+              },
+              {
+                "id": "E1777988351",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: ca8686c9f2539fee",
+                "timestamp": "2026-05-05 13:39:11"
+              },
+              {
+                "id": "E1777988345",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-05 13:39:05"
+              },
+              {
+                "id": "E1777988342",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-05 13:39:02"
+              },
+              {
+                "id": "E1777988340",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-05 13:39:00"
+              },
+              {
+                "id": "E1777988337",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: 488f24e374fd507f",
+                "timestamp": "2026-05-05 13:38:57"
+              },
+              {
+                "id": "E1777988332",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: 339f8d274c76d297",
+                "timestamp": "2026-05-05 13:38:52"
+              },
+              {
+                "id": "E1777988321",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-05 13:38:41"
+              },
+              {
+                "id": "E1777988318",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-05 13:38:38"
+              },
+              {
+                "id": "E1777988317",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-05 13:38:37"
+              },
+              {
+                "id": "E1777988313",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-05 13:38:33"
+              },
+              {
+                "id": "E1777988309",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-05 13:38:29"
+              },
+              {
+                "id": "E1777988306",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-05 13:38:26"
+              },
+              {
+                "id": "E1777988303",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-05 13:38:23"
+              },
+              {
+                "id": "E1777985596",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-05 12:53:16"
+              },
+              {
+                "id": "E1777985593",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-05 12:53:13"
+              },
+              {
+                "id": "E1777985591",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-05 12:53:11"
+              },
+              {
+                "id": "E1777983423",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Fix please...",
+                "timestamp": "2026-05-05 12:17:03"
+              },
+              {
+                "id": "E1777983420",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-05 12:17:00"
+              },
+              {
+                "id": "E1777983411",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Fix please...",
+                "timestamp": "2026-05-05 12:16:51"
+              },
+              {
+                "id": "E1777983405",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-05 12:16:45"
+              },
+              {
+                "id": "E1777983401",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Fix please...",
+                "timestamp": "2026-05-05 12:16:41"
+              },
+              {
+                "id": "E1777983398",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Fix please...",
+                "timestamp": "2026-05-05 12:16:38"
+              },
+              {
+                "id": "E1777983394",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Fix please...",
+                "timestamp": "2026-05-05 12:16:34"
+              },
+              {
+                "id": "E1777983389",
+                "type": "shift",
+                "label": "RAG_SUBMISSION",
+                "description": "Feedback: dislike",
+                "timestamp": "2026-05-05 12:16:29"
+              },
+              {
+                "id": "E1777983384",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Fix please...",
+                "timestamp": "2026-05-05 12:16:24"
+              },
+              {
+                "id": "E1777983185",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hi...",
+                "timestamp": "2026-05-05 12:13:05"
+              },
+              {
+                "id": "E1777983179",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Hello...",
+                "timestamp": "2026-05-05 12:12:59"
+              },
+              {
+                "id": "E1777983170",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: How did genetic mods go last night?...",
+                "timestamp": "2026-05-05 12:12:50"
+              },
+              {
+                "id": "E1777983164",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: e73aba84f7c6f7f0",
+                "timestamp": "2026-05-05 12:12:44"
+              },
+              {
+                "id": "E1777983156",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: How did genetic mods go last night?...",
+                "timestamp": "2026-05-05 12:12:36"
+              },
+              {
+                "id": "E1777983152",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: How did genetic mods go last night?...",
+                "timestamp": "2026-05-05 12:12:32"
+              },
+              {
+                "id": "E1777983146",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: How did genetic mods go last night?...",
+                "timestamp": "2026-05-05 12:12:26"
+              },
+              {
+                "id": "E1777983137",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: How did genetic mods go last night?...",
+                "timestamp": "2026-05-05 12:12:17"
+              },
+              {
+                "id": "E1777957421",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: ff0f84571a5c5450",
+                "timestamp": "2026-05-05 05:03:41"
+              },
+              {
+                "id": "E1777956763",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: hi...",
+                "timestamp": "2026-05-05 04:52:43"
+              },
+              {
+                "id": "E1777956680",
+                "type": "shift",
+                "label": "RISC_EXPORT",
+                "description": "SHA256: 38be4900d369d669",
+                "timestamp": "2026-05-05 04:51:20"
+              },
+              {
+                "id": "E1777956675",
+                "type": "shift",
+                "label": "BLOCKCHAIN_SYNC",
+                "description": "Success DB Solidified into Ledger.",
+                "timestamp": "2026-05-05 04:51:15"
+              },
+              {
+                "id": "E1777956225",
+                "type": "shift",
+                "label": "TRIPLET_HOUSE_REASONING",
+                "description": "Direct kernel talk: Test End-to-End...",
+                "timestamp": "2026-05-05 04:43:45"
+              },
+              {
+                "id": "E1777955035",
+                "type": "shift",
+                "label": "TRIPLET_RAW_REASONING",
+                "description": "Chat interaction: Test End-to-End...",
+                "timestamp": "2026-05-05 04:23:55"
+              },
+              {
+                "id": "F005",
+                "type": "failure",
+                "label": "TIMING_DRIFT",
+                "description": "Inhibitory logic: TIMING_DRIFT",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "F004",
+                "type": "failure",
+                "label": "QDRANT_BROADCAST_ERROR",
+                "description": "Inhibitory logic: QDRANT_BROADCAST_ERROR",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "F003",
+                "type": "failure",
+                "label": "UNRESPONSIVE_STREAM",
+                "description": "Inhibitory logic: UNRESPONSIVE_STREAM",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "F002",
+                "type": "failure",
+                "label": "PROXY_CONFLICT",
+                "description": "Inhibitory logic: PROXY_CONFLICT",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "F001",
+                "type": "failure",
+                "label": "LOOP_DETECTED",
+                "description": "Inhibitory logic: LOOP_DETECTED",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S018",
+                "type": "success",
+                "label": "TRIPLET / FINAL_REALIZATION",
+                "description": "Successful build: TRIPLET / FINAL_REALIZATION",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S017",
+                "type": "success",
+                "label": "LOIBI / PREDICTIVE_INTEL",
+                "description": "Successful build: LOIBI / PREDICTIVE_INTEL",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S016",
+                "type": "success",
+                "label": "ARCHITECTURE / HOUSE_OPTION",
+                "description": "Successful build: ARCHITECTURE / HOUSE_OPTION",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S279",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S277",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S275",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S273",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S271",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S269",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S267",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S265",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S263",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S261",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S259",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S257",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S255",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S253",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S251",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S249",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S247",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S245",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S243",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S241",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S239",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S237",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S235",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S233",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S231",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S229",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S227",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S225",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S223",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S221",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S219",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S217",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S215",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S213",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S211",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S209",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S207",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S205",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S203",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S201",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S199",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S197",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S195",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S193",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S191",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S189",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S187",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S185",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S183",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S181",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S179",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S177",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S175",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S173",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S171",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S169",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S167",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S165",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S163",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S161",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S159",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S157",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S155",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S153",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S151",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S149",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S147",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S145",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S143",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S141",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S139",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S137",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S135",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S133",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S131",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S129",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S127",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S125",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S123",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S121",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S119",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S117",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S115",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S113",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S111",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S109",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S107",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S105",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S103",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S101",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S099",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S097",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S095",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S093",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S091",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S089",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S087",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S085",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S083",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S081",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S079",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S077",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S075",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S073",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S071",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S069",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S067",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S065",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S063",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S061",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S059",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S057",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S055",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S053",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S051",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S049",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S047",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S045",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S043",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S041",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S039",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S037",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S035",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S033",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S031",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S029",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S027",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S025",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S023",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S021",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S019",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "description": "Successful build: GENETIC_REPAIR / GLOBAL_MANIFOLD_OPTIMIZE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S015",
+                "type": "success",
+                "label": "GENETIC_REPAIR / LOIHI_QCD_FINAL",
+                "description": "Successful build: GENETIC_REPAIR / LOIHI_QCD_FINAL",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S013",
+                "type": "success",
+                "label": "GENETIC_REPAIR / LOIHI_QCD",
+                "description": "Successful build: GENETIC_REPAIR / LOIHI_QCD",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S012",
+                "type": "success",
+                "label": "AUTONOMY / GLOBAL_EVOLUTION",
+                "description": "Successful build: AUTONOMY / GLOBAL_EVOLUTION",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S010",
+                "type": "success",
+                "label": "AUTONOMY / GLOBAL_MAINTENANCE",
+                "description": "Successful build: AUTONOMY / GLOBAL_MAINTENANCE",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S009",
+                "type": "success",
+                "label": "AUTONOMY / VALIDATION",
+                "description": "Successful build: AUTONOMY / VALIDATION",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S008",
+                "type": "success",
+                "label": "GENETIC_CODER / STRATEGY",
+                "description": "Successful build: GENETIC_CODER / STRATEGY",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S007",
+                "type": "success",
+                "label": "GENETIC_REPAIR / GENERAL",
+                "description": "Successful build: GENETIC_REPAIR / GENERAL",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S006",
+                "type": "success",
+                "label": "UI / SYSTEM_COMPLETION",
+                "description": "Successful build: UI / SYSTEM_COMPLETION",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S005",
+                "type": "success",
+                "label": "LOGIC / AFFIRMATION_VERIFICATION",
+                "description": "Successful build: LOGIC / AFFIRMATION_VERIFICATION",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S004",
+                "type": "success",
+                "label": "AUTONOMY / TOPOLOGY",
+                "description": "Successful build: AUTONOMY / TOPOLOGY",
+                "timestamp": "2026-05-05 03:57:49"
+              },
+              {
+                "id": "S003",
+                "type": "success",
+                "label": "AUTONOMY / CONTEXT_MANAGEMENT",
+                "description": "Successful build: AUTONOMY / CONTEXT_MANAGEMENT",
+                "timestamp": "2026-05-05 03:57:49"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "SmokeSet.system_tests_api",
+        "status": "pass",
+        "details": "HTTP 200 in 27.3ms",
+        "evidence": {
+          "url": "http://127.0.0.1:8080/api/system/tests?limit=1",
+          "http_status": 200,
+          "elapsed_ms": 27.3,
+          "keys": [
+            "tests"
+          ],
+          "body": {
+            "tests": [
+              {
+                "id": 1093,
+                "test_name": "viper_ai_suite_recall_20260513T110505Z",
+                "layer": "MemorySet",
+                "status": "pass",
+                "details": "VIPER AI suite recall write/read proof",
+                "sha256": "0c86377cbc51b65bd9270c23ed4865c2d3742ca83f7a6e5826486158588e976a",
+                "timestamp": "2026-05-13 11:05:05"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "SmokeSet.logic_shipper",
+        "status": "pass",
+        "details": "HTTP 200 in 9.42ms",
+        "evidence": {
+          "url": "http://127.0.0.1:18081/health",
+          "http_status": 200,
+          "elapsed_ms": 9.42,
+          "keys": [
+            "main_gui_untouched",
+            "mode",
+            "port",
+            "status"
+          ],
+          "body": {
+            "status": "ok",
+            "port": 18081,
+            "mode": "logic_only_sidecar",
+            "main_gui_untouched": true
+          }
+        }
+      },
+      {
+        "name": "SmokeSet.house_health",
+        "status": "pass",
+        "details": "HTTP 200 in 10.89ms",
+        "evidence": {
+          "url": "http://127.0.0.1:11435/health",
+          "http_status": 200,
+          "elapsed_ms": 10.89,
+          "keys": [
+            "has_llama",
+            "max_output_tokens",
+            "mode",
+            "model_exists",
+            "n_ctx",
+            "prompt_packer",
+            "safe_input_tokens",
+            "status",
+            "threaded"
+          ],
+          "body": {
+            "status": "ok",
+            "mode": "house_inference",
+            "has_llama": true,
+            "model_exists": true,
+            "threaded": true,
+            "n_ctx": 8192,
+            "max_output_tokens": 4096,
+            "safe_input_tokens": {
+              "chat": 1024,
+              "planning": 3072,
+              "build": 4096
+            },
+            "prompt_packer": "route_aware_system_first_trimmer"
+          }
+        }
+      },
+      {
+        "name": "SmokeSet.java_sdk",
+        "status": "pass",
+        "details": "HTTP 200 in 2.87ms",
+        "evidence": {
+          "url": "http://127.0.0.1:18181/health",
+          "http_status": 200,
+          "elapsed_ms": 2.87,
+          "keys": [
+            "persistent",
+            "port",
+            "status",
+            "suite",
+            "timestamp",
+            "version"
+          ],
+          "body": {
+            "status": "ok",
+            "suite": "viper_java_sdk",
+            "version": "0.4.1-training-lab",
+            "port": 18181,
+            "persistent": true,
+            "timestamp": "2026-05-13T11:05:05.633757900Z"
+          }
+        }
+      },
+      {
+        "name": "SmokeSet.chat_predict",
+        "status": "pass",
+        "details": "route=chat in 195.31ms",
+        "evidence": {
+          "http_status": 200,
+          "elapsed_ms": 195.31,
+          "expected_route": "chat",
+          "actual_route": "chat",
+          "response_preview": "Hello."
+        }
+      }
+    ]
+  }
+}

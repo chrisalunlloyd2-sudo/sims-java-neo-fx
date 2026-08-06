@@ -1,0 +1,26 @@
+from __future__ import annotations
+import asyncio, time, uuid
+from dataclasses import dataclass, field
+from typing import Callable, Awaitable
+@dataclass
+class SpikeEvent:
+    source: str
+    value: float
+    timestamp: float = field(default_factory=time.monotonic)
+    spike_id: str = field(default_factory=lambda: uuid.uuid4().hex[:8])
+    metadata: dict = field(default_factory=dict)
+class RefractoryGate:
+    def __init__(self, period_ms: float = 2.0):
+        self.period_s = period_ms / 1000.0; self._last = {}
+    def is_refractory(self, source: str) -> bool: return (time.monotonic() - self._last.get(source, 0.0)) < self.period_s
+    def set(self, source: str): self._last[source] = time.monotonic()
+class SpikeBus:
+    def __init__(self, latency_ms=0.3, max_fanout=64, refractory_ms=2.0, buffer_size=4096):
+        self.latency_ms = latency_ms; self.max_fanout = max_fanout; self._channels = {}; self._hooks = []; self._gate = RefractoryGate(refractory_ms)
+    async def subscribe(self, name: str) -> asyncio.Queue:
+        q = asyncio.Queue(maxsize=4096); self._channels[name] = q; return q
+    def on_spike(self, cb): self._hooks.append(cb)
+    async def emit(self, source: str, spike: SpikeEvent):
+        if self._gate.is_refractory(source): return
+        self._gate.set(source)
+        await asyncio.gather(*[ch.put(spike) for ch in self._channels.values()], *[h(spike) for h in self._hooks], return_exceptions=True)

@@ -1,0 +1,5 @@
+﻿Compiler parsing notes:
+- LL parsers are simple but grammar-restrictive.
+- LR parsers handle a larger grammar family and are common in production tooling.
+- Semantic analysis should track symbol tables, type constraints, and scope resolution.
+- Retrieval systems for compiler research should keep parser, AST, and IR sources separate.

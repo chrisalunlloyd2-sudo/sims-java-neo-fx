@@ -1,0 +1,222 @@
+{
+  "desktop_root": "C:\\Users\\viper\\OneDrive\\Desktop",
+  "sync_root": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING",
+  "archive_root": "C:\\Users\\viper\\OneDrive\\Desktop\\Archive.old",
+  "desktop_window_days": 14,
+  "archive_apply": false,
+  "keep_desktop_items": [
+    "AI Suggestion Panel",
+    "Autonomy Toggle",
+    "GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}",
+    "Project Board",
+    "VIPER_AGENT_NODE",
+    "VIPER_NAS_SYNC_STAGING",
+    "VIPER_SOVEREIGN_SUITE",
+    "COMMANDER_INIT.bat",
+    "HOW_TO_SHIP.txt",
+    "SHIP_PORTAL.py",
+    "desktop.ini",
+    "Google Cloud SDK Shell.lnk",
+    "Google Gemini.lnk",
+    "Outlook (PWA).lnk"
+  ],
+  "temp_cleanup": {
+    "older_than_days": 1,
+    "roots": [
+      "%TEMP%",
+      "C:\\Users\\viper\\AppData\\Local\\Temp"
+    ]
+  },
+  "log_rotation": {
+    "version_root": "C:\\Users\\viper\\VIPER_JAVA_RISC\\logs\\versions",
+    "truncate_if_over_mb": 10,
+    "files": [
+      "C:\\Users\\viper\\VIPER_JAVA_RISC\\logic_blockchain_shipper.log",
+      "C:\\Users\\viper\\VIPER_JAVA_RISC\\logic_shipper_cloudflared.log",
+      "C:\\Users\\viper\\VIPER_JAVA_RISC\\system_log.txt",
+      "C:\\Users\\viper\\VIPER_JAVA_RISC\\topology_sidecar_loop.log",
+      "C:\\Users\\viper\\VIPER_JAVA_RISC\\house_inference_stdout.log",
+      "C:\\Users\\viper\\VIPER_JAVA_RISC\\house_inference_stderr.log"
+    ]
+  },
+  "scrub_policy": {
+    "apply_quarantine": false,
+    "content_scan_max_bytes": 2097152,
+    "max_files": 6000,
+    "max_matches": 500,
+    "roots": [
+      "C:\\Users\\viper\\OneDrive\\Desktop",
+      "C:\\Users\\viper\\VIPER_JAVA_RISC",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_SOVEREIGN_SUITE"
+    ],
+    "file_extensions": [
+      ".md",
+      ".txt",
+      ".json",
+      ".yaml",
+      ".yml",
+      ".env",
+      ".ps1",
+      ".py",
+      ".java",
+      ".js",
+      ".ts",
+      ".bat",
+      ".ini",
+      ".log"
+    ],
+    "exclude_paths": [
+      "C:\\Users\\viper\\VIPER_JAVA_RISC\\.git",
+      "C:\\Users\\viper\\VIPER_JAVA_RISC\\models",
+      "C:\\Users\\viper\\VIPER_JAVA_RISC\\ops\\command_center_maintenance\\generated",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\Archive.old",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING",
+      "C:\\Users\\viper\\VIPER_JAVA_RISC\\testing_lab_reports"
+    ],
+    "filename_patterns": [
+      "gemini",
+      "chat",
+      "cloudflared",
+      "api[_-]?key",
+      "secret",
+      "token",
+      "\\.env",
+      "personal"
+    ],
+    "content_patterns": [
+      "https://[A-Za-z0-9.-]+\\.trycloudflare\\.com",
+      "sk-[A-Za-z0-9]{12,}",
+      "api[_-]?key",
+      "authorization:\\s*bearer",
+      "x-ai-key"
+    ]
+  },
+  "env_optimize": {
+    "protected_terms": [
+      "logic_blockchain_shipper.py",
+      "risc_bridge_server.py",
+      "topology_sidecar.py",
+      "ViperLabSuiteServer",
+      "java_notes_suite",
+      "house_inference_engine.py",
+      "infinite_triplet_loop.py",
+      "cloudflared tunnel --url http://127.0.0.1:8080",
+      "cloudflared tunnel --url http://127.0.0.1:18081",
+      "cloudflared tunnel --url http://127.0.0.1:8091"
+    ]
+  },
+  "projects": [
+    {
+      "name": "SimAgentCity",
+      "status": "placeholder_pending_hookup",
+      "node_owner": "pending"
+    },
+    {
+      "name": "DarwinGeneticLLMPIPE",
+      "status": "placeholder_pending_hookup",
+      "node_owner": "pending"
+    },
+    {
+      "name": "GITAUTOSHIP",
+      "status": "placeholder_pending_hookup",
+      "node_owner": "pending"
+    },
+    {
+      "name": "ViperNotes",
+      "status": "local_active",
+      "node_owner": "COMMAND_CENTER",
+      "source_path": "C:\\Users\\viper\\VIPER_JAVA_RISC\\java_notes_suite"
+    },
+    {
+      "name": "JRMCHRONOS",
+      "status": "placeholder_pending_hookup",
+      "node_owner": "pending"
+    },
+    {
+      "name": "COUNTER",
+      "status": "placeholder_pending_hookup",
+      "node_owner": "pending"
+    },
+    {
+      "name": "BVD ASSIST",
+      "status": "placeholder_pending_hookup",
+      "node_owner": "pending"
+    },
+    {
+      "name": "ViperAI",
+      "status": "local_active",
+      "node_owner": "COMMAND_CENTER",
+      "source_path": "C:\\Users\\viper\\VIPER_JAVA_RISC"
+    },
+    {
+      "name": "ViperAiTrain",
+      "status": "placeholder_pending_hookup",
+      "node_owner": "pending"
+    },
+    {
+      "name": "Sprite",
+      "status": "placeholder_pending_hookup",
+      "node_owner": "pending"
+    }
+  ],
+  "nodes": [
+    {
+      "agent_id": "COMMAND_CENTER",
+      "actions": {
+        "daily": [
+          "cleanup.temp_files",
+          "rotate.logs",
+          "report.archive_candidates",
+          "report.scrub_candidates",
+          "report.env_optimize"
+        ],
+        "weekly_docs": [
+          "generate.full_docs",
+          "sync.weekly_docs"
+        ]
+      }
+    },
+    {
+      "agent_id": "LAPTOP_HD",
+      "actions": {
+        "daily": [
+          "report.local_temp",
+          "report.local_archive_candidates",
+          "sync.node_receipts"
+        ],
+        "weekly_docs": [
+          "sync.project_docs",
+          "report.missing_projects"
+        ]
+      }
+    },
+    {
+      "agent_id": "OTHER_LAPTOP",
+      "actions": {
+        "daily": [
+          "report.local_temp",
+          "report.local_archive_candidates",
+          "sync.node_receipts"
+        ],
+        "weekly_docs": [
+          "sync.project_docs",
+          "report.missing_projects"
+        ]
+      }
+    },
+    {
+      "agent_id": "ANDROID_PHONE_CLI",
+      "actions": {
+        "daily": [
+          "report.termux_temp",
+          "report.termux_sync_status",
+          "sync.node_receipts"
+        ],
+        "weekly_docs": [
+          "sync.project_docs",
+          "report.missing_projects"
+        ]
+      }
+    }
+  ]
+}

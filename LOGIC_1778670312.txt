@@ -1,0 +1,5 @@
+LOGIC_0.9699
+EVENT: TRIPLET_HOUSE_REASONING
+DETAILS: Route=planning lens=LENS_20260513T110512256683Z_b80a30de6f_beb6 talk: plan getting the programming cube to work and anal...
+NEURONS: 1269605
+HASH: a08ec3bc08cbfd962d3398631a9923675d430d8930ed5e8327e12f82b847a67a

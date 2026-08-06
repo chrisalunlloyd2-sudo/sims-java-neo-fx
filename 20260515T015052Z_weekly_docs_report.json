@@ -1,0 +1,92 @@
+{
+  "mode": "weekly_docs",
+  "timestamp": "2026-05-15T01:50:50Z",
+  "projects": {
+    "created": [],
+    "existing": [
+      "C:\\Users\\viper\\OneDrive\\Desktop\\SimAgentCity",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\DarwinGeneticLLMPIPE",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\GITAUTOSHIP",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\ViperNotes",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\JRMCHRONOS",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\COUNTER",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\BVD ASSIST",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\ViperAI",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\ViperAiTrain",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\Sprite"
+    ]
+  },
+  "docs": {
+    "local_root": "C:\\Users\\viper\\VIPER_JAVA_RISC\\ops\\command_center_maintenance\\generated\\2026-05-15",
+    "sync_root": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING\\weekly_project_docs\\2026-05-15",
+    "bundles": [
+      {
+        "project": "SimAgentCity",
+        "output": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING\\weekly_project_docs\\2026-05-15\\SimAgentCity",
+        "source": "C:\\Users\\viper\\OneDrive\\Desktop\\SimAgentCity",
+        "todo_count": 0
+      },
+      {
+        "project": "DarwinGeneticLLMPIPE",
+        "output": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING\\weekly_project_docs\\2026-05-15\\DarwinGeneticLLMPIPE",
+        "source": "C:\\Users\\viper\\OneDrive\\Desktop\\DarwinGeneticLLMPIPE",
+        "todo_count": 0
+      },
+      {
+        "project": "GITAUTOSHIP",
+        "output": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING\\weekly_project_docs\\2026-05-15\\GITAUTOSHIP",
+        "source": "C:\\Users\\viper\\OneDrive\\Desktop\\GITAUTOSHIP",
+        "todo_count": 0
+      },
+      {
+        "project": "ViperNotes",
+        "output": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING\\weekly_project_docs\\2026-05-15\\ViperNotes",
+        "source": "C:\\Users\\viper\\VIPER_JAVA_RISC\\java_notes_suite",
+        "todo_count": 2
+      },
+      {
+        "project": "JRMCHRONOS",
+        "output": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING\\weekly_project_docs\\2026-05-15\\JRMCHRONOS",
+        "source": "C:\\Users\\viper\\OneDrive\\Desktop\\JRMCHRONOS",
+        "todo_count": 0
+      },
+      {
+        "project": "COUNTER",
+        "output": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING\\weekly_project_docs\\2026-05-15\\COUNTER",
+        "source": "C:\\Users\\viper\\OneDrive\\Desktop\\COUNTER",
+        "todo_count": 0
+      },
+      {
+        "project": "BVD ASSIST",
+        "output": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING\\weekly_project_docs\\2026-05-15\\BVD_ASSIST",
+        "source": "C:\\Users\\viper\\OneDrive\\Desktop\\BVD ASSIST",
+        "todo_count": 0
+      },
+      {
+        "project": "ViperAI",
+        "output": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING\\weekly_project_docs\\2026-05-15\\ViperAI",
+        "source": "C:\\Users\\viper\\VIPER_JAVA_RISC",
+        "todo_count": 40
+      },
+      {
+        "project": "ViperAiTrain",
+        "output": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING\\weekly_project_docs\\2026-05-15\\ViperAiTrain",
+        "source": "C:\\Users\\viper\\OneDrive\\Desktop\\ViperAiTrain",
+        "todo_count": 0
+      },
+      {
+        "project": "Sprite",
+        "output": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING\\weekly_project_docs\\2026-05-15\\Sprite",
+        "source": "C:\\Users\\viper\\OneDrive\\Desktop\\Sprite",
+        "todo_count": 0
+      }
+    ]
+  },
+  "acl_kqml": {
+    "outbox": "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING\\acl_kqml_outbox",
+    "generated": [
+      "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING\\acl_kqml_outbox\\20260515T015052Z_COMMAND_CENTER_weekly_docs.kqml",
+      "C:\\Users\\viper\\OneDrive\\Desktop\\VIPER_NAS_SYNC_STAGING\\acl_kqml_outbox\\20260515T015052Z_LAPTOP_HD_weekly_docs.kqml"
+    ]
+  }
+}

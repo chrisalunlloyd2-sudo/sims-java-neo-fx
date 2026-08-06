@@ -1,0 +1,5 @@
+LOGIC_0.9276
+EVENT: TRIPLET_HOUSE_REASONING
+DETAILS: Route=planning lens=LENS_20260508T025859Z_7b49ffcc54 talk: ok new novel chain of thought architechture!...
+NEURONS: 1000149
+HASH: 7fa52382b433165e11c885706476aed8fbd5408eccae1816a066f1d079abe2f5

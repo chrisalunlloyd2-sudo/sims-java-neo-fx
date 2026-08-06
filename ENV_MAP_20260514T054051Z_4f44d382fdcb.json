@@ -1,0 +1,260 @@
+{
+  "chunk_count": 167,
+  "created_at": "2026-05-14T05:40:51.743542+00:00",
+  "files": [
+    {
+      "broad_except_count": 0,
+      "bytes": 23352,
+      "hardcoded_localhost_count": 0,
+      "line_count": 443,
+      "locked": true,
+      "path": "C:\\Users\\viper\\VIPER_JAVA_RISC\\public\\index.html",
+      "sha256": "8a6b858b35d9488d88a052e0dbe351cba46b2deb689777f0087c42fc12b5720a",
+      "subsystem_id": "GUI_LOCKED",
+      "todo_count": 0
+    },
+    {
+      "broad_except_count": 0,
+      "bytes": 21414,
+      "hardcoded_localhost_count": 0,
+      "line_count": 400,
+      "locked": true,
+      "path": "C:\\Users\\viper\\KWEB\\index.html",
+      "sha256": "c0e09823428a9257194f0fe9682f930835033179b9af39ae9c8433e884f4fd44",
+      "subsystem_id": "GUI_LOCKED",
+      "todo_count": 0
+    },
+    {
+      "broad_except_count": 0,
+      "bytes": 7498,
+      "hardcoded_localhost_count": 0,
+      "line_count": 179,
+      "locked": false,
+      "path": "C:\\Users\\viper\\VIPER_JAVA_RISC\\src\\com\\viper\\risc\\RiscServer.java",
+      "sha256": "845562be5b3b9801f8d40ef8bf92246bd4cc70deac705c314d6c7e221240cff4",
+      "subsystem_id": "JAVA_BACKEND",
+      "todo_count": 0
+    },
+    {
+      "broad_except_count": 24,
+      "bytes": 90850,
+      "class_count": 1,
+      "function_count": 69,
+      "hardcoded_localhost_count": 2,
+      "imports": [
+        "BaseHTTPRequestHandler",
+        "Path",
+        "ThreadingHTTPServer",
+        "datetime",
+        "hashlib",
+        "importlib",
+        "json",
+        "os",
+        "parse_qs",
+        "random",
+        "re",
+        "requests",
+        "shutil",
+        "sqlite3",
+        "subprocess",
+        "sys",
+        "threading",
+        "time",
+        "tiny_generate",
+        "tiny_model_status",
+        "urlparse"
+      ],
+      "line_count": 1997,
+      "locked": false,
+      "path": "C:\\Users\\viper\\risc_bridge_server.py",
+      "potential_missing_imports": [],
+      "sha256": "eecfe423493d3b3794becad8f7988e8a87b662c2776252f95068aaf0d0c26824",
+      "subsystem_id": "RISC_BRIDGE",
+      "todo_count": 0
+    },
+    {
+      "broad_except_count": 2,
+      "bytes": 8741,
+      "class_count": 1,
+      "function_count": 8,
+      "hardcoded_localhost_count": 0,
+      "imports": [
+        "BaseHTTPRequestHandler",
+        "Llama",
+        "Path",
+        "ThreadingHTTPServer",
+        "json",
+        "os",
+        "sqlite3",
+        "sys",
+        "threading",
+        "time"
+      ],
+      "line_count": 202,
+      "locked": false,
+      "path": "C:\\Users\\viper\\house_inference_engine.py",
+      "potential_missing_imports": [],
+      "sha256": "75a29692f039600b22a87122e997c434e06b801b209176a3396b90a7e4bbde7a",
+      "subsystem_id": "HOUSE_INFERENCE",
+      "todo_count": 0
+    },
+    {
+      "broad_except_count": 4,
+      "bytes": 4242,
+      "class_count": 0,
+      "function_count": 2,
+      "hardcoded_localhost_count": 2,
+      "imports": [
+        "Path",
+        "datetime",
+        "json",
+        "karoo_gp_manager",
+        "os",
+        "requests",
+        "sys",
+        "time"
+      ],
+      "line_count": 98,
+      "locked": false,
+      "path": "C:\\Users\\viper\\infinite_triplet_loop.py",
+      "potential_missing_imports": [
+        "subprocess"
+      ],
+      "sha256": "273abdd85bafcf83ab1e6a45c42fbecf78b1effe94d1539740a70795e9183889",
+      "subsystem_id": "TRIPLET_LOOP",
+      "todo_count": 0
+    },
+    {
+      "broad_except_count": 1,
+      "bytes": 1766,
+      "class_count": 0,
+      "function_count": 1,
+      "hardcoded_localhost_count": 0,
+      "imports": [
+        "Path",
+        "os",
+        "re",
+        "sqlite3"
+      ],
+      "line_count": 48,
+      "locked": false,
+      "path": "C:\\Users\\viper\\logic_crawler.py",
+      "potential_missing_imports": [],
+      "sha256": "675fbecd10ac84ee5e2340ad2ff04cb914055a1fe03f86f7523407052b9a6171",
+      "subsystem_id": "LOGIC_CRAWLER",
+      "todo_count": 0
+    },
+    {
+      "broad_except_count": 0,
+      "bytes": 948,
+      "hardcoded_localhost_count": 0,
+      "line_count": 18,
+      "locked": false,
+      "path": "C:\\Users\\viper\\VIPER_JAVA_RISC\\LOGIC_TABLE.md",
+      "sha256": "d9f192e06e353b4a5cf17c72c8d7ac12ab612964cc2852f2c1fa7a1d1f25832f",
+      "subsystem_id": "LOGIC_TABLES",
+      "todo_count": 0
+    },
+    {
+      "broad_except_count": 0,
+      "bytes": 3229,
+      "hardcoded_localhost_count": 0,
+      "line_count": 68,
+      "locked": false,
+      "path": "C:\\Users\\viper\\VIPER_JAVA_RISC\\LOIBI_LOGIC_TABLE.md",
+      "sha256": "675229cf07910ebc65bd9449b5664ec927bce0104b8c81dc617dd02cee6ef75f",
+      "subsystem_id": "LOGIC_TABLES",
+      "todo_count": 0
+    }
+  ],
+  "id": "ENV_MAP_20260514T054051Z",
+  "policy": {
+    "genetic_rule": "one_changed_variable_per_test",
+    "gui_locked": true,
+    "karoo_mode": "topological_compare_and_submit_only",
+    "system_edits_require_approval": true
+  },
+  "recent_dislike_hashes": [
+    {
+      "feedback_type": "dislike",
+      "message_sha256": "9783c6e0fe53fdf48d8cbd6f3ec15ed72c2d80198a5de0bb9fa98af55266273c",
+      "rag_id": 89,
+      "timestamp": "2026-05-12 01:16:23"
+    },
+    {
+      "feedback_type": "dislike",
+      "message_sha256": "b423928ef9b12aeec19d8fe0ba9025bec94a18d431a3d53492402e81c333c0de",
+      "rag_id": 50,
+      "timestamp": "2026-05-08 04:43:09"
+    },
+    {
+      "feedback_type": "dislike",
+      "message_sha256": "7b49ffcc54042ed9c071203fa1016b806ace29b10557e7e6c7c968c9a73e48c3",
+      "rag_id": 49,
+      "timestamp": "2026-05-08 02:51:47"
+    },
+    {
+      "feedback_type": "dislike",
+      "message_sha256": "7b49ffcc54042ed9c071203fa1016b806ace29b10557e7e6c7c968c9a73e48c3",
+      "rag_id": 48,
+      "timestamp": "2026-05-08 02:49:28"
+    },
+    {
+      "feedback_type": "dislike",
+      "message_sha256": "e72c020513170e04f6a8281a94e505de166cf3a9c7f57faa0b7397f6789a4ba5",
+      "rag_id": 47,
+      "timestamp": "2026-05-08 01:27:59"
+    },
+    {
+      "feedback_type": "dislike",
+      "message_sha256": "0b5172d17ccdb1c3f03e409104a4a0e20f1cc52df2dea4cd7c1a64819ba3b9f4",
+      "rag_id": 46,
+      "timestamp": "2026-05-08 01:18:57"
+    },
+    {
+      "feedback_type": "dislike",
+      "message_sha256": "30d3fa648305332926b4d80b1c844bff37a4c86b86006d0eb529fd537683270d",
+      "rag_id": 45,
+      "timestamp": "2026-05-07 20:42:55"
+    },
+    {
+      "feedback_type": "dislike",
+      "message_sha256": "9dfa8fa092c48682fe86791f0e782d01e7dbf1649107a7f0d0c23a5756d4f9cc",
+      "rag_id": 44,
+      "timestamp": "2026-05-07 20:41:17"
+    },
+    {
+      "feedback_type": "dislike",
+      "message_sha256": "e95c396138aa2091f23bde1d662f768dfdaf3d95987857ceabafffa639c8cbb8",
+      "rag_id": 43,
+      "timestamp": "2026-05-07 18:25:49"
+    },
+    {
+      "feedback_type": "dislike",
+      "message_sha256": "74b3b3b7e236cc59ba5df83963119c2b8847b387c1b53df01c3cec4f21d3137d",
+      "rag_id": 42,
+      "timestamp": "2026-05-07 18:16:19"
+    },
+    {
+      "feedback_type": "dislike",
+      "message_sha256": "07944ec5cb483c848cd753e5ef4d28a882cb75987373e4806b59d3c3af08f86b",
+      "rag_id": 41,
+      "timestamp": "2026-05-07 18:14:29"
+    },
+    {
+      "feedback_type": "dislike",
+      "message_sha256": "07944ec5cb483c848cd753e5ef4d28a882cb75987373e4806b59d3c3af08f86b",
+      "rag_id": 40,
+      "timestamp": "2026-05-07 18:13:33"
+    }
+  ],
+  "subsystems": [
+    "GUI_LOCKED",
+    "HOUSE_INFERENCE",
+    "JAVA_BACKEND",
+    "LOGIC_CRAWLER",
+    "LOGIC_TABLES",
+    "RISC_BRIDGE",
+    "TRIPLET_LOOP"
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "kind": "testing_lab_report",
+  "timestamp": "2026-05-13T11:05:42.267776+00:00",
+  "section": "behavioral",
+  "summary": {
+    "overall": "pass",
+    "counts": {
+      "pass": 3
+    }
+  },
+  "truth": {
+    "working": [
+      "BehaviorSet.pack_guardrail",
+      "BehaviorSet.distillation_memory",
+      "MemorySet.relay_backlog"
+    ],
+    "degraded": [],
+    "not_working": [],
+    "placeholder": []
+  },
+  "sections": {
+    "behavioral": [
+      {
+        "name": "BehaviorSet.pack_guardrail",
+        "status": "pass",
+        "details": "behavior_pack=5 nominal_keys=['active_goals', 'condensed_context', 'frequent_terms', 'nominal_facts', 'recent_summaries']",
+        "evidence": {
+          "behavior_pack_size": 5,
+          "behavior_pack": [
+            {
+              "kind": "related_db_logic",
+              "weight": 89,
+              "summary_15": "queued_proposal_only",
+              "reason": "WEBCRAWL_RESEARCH_REQUESTS sha=4e91def740bd"
+            },
+            {
+              "kind": "related_db_logic",
+              "weight": 89,
+              "summary_15": "queued_proposal_only",
+              "reason": "WEBCRAWL_RESEARCH_REQUESTS sha=7048d84c19a4"
+            },
+            {
+              "kind": "related_db_logic",
+              "weight": 89,
+              "summary_15": "queued_proposal_only",
+              "reason": "WEBCRAWL_RESEARCH_REQUESTS sha=01fc3fb966d9"
+            },
+            {
+              "kind": "feedback_dislike",
+              "weight": 26,
+              "summary_15": "disliked intents: So today we are going to be testing and learning about me. Basically",
+              "reason": "feedback_count=21"
+            },
+            {
+              "kind": "feedback_like",
+              "weight": 22,
+              "summary_15": "liked intents: Stopi would love all of the above, i will include dynamic temperature control",
+              "reason": "feedback_count=23"
+            }
+          ],
+          "nominal_context_keys": [
+            "active_goals",
+            "condensed_context",
+            "frequent_terms",
+            "nominal_facts",
+            "recent_summaries"
+          ]
+        }
+      },
+      {
+        "name": "BehaviorSet.distillation_memory",
+        "status": "pass",
+        "details": "successes=33 queue=33 nominal_facts=0",
+        "evidence": {
+          "successful_code_advances": 33,
+          "karoo_distillation_queue": 33,
+          "user_nominal_facts": 0
+        }
+      },
+      {
+        "name": "MemorySet.relay_backlog",
+        "status": "pass",
+        "details": "relay backlog under control",
+        "evidence": {
+          "pending": 22,
+          "unpresented": 21
+        }
+      }
+    ]
+  }
+}
