@@ -232,9 +232,17 @@ public class GodHandApp extends Application {
                     lastMove = now;
                     triggerAutonomousInferenceMovement();
                 }
-                if (now - lastEnterpriseTick > 30_000_000_000L) { // 30 seconds
+                // Periodic 15-Second Gist Quorum Direction Poller
+                if (now - lastEnterpriseTick > 15_000_000_000L) {
                     lastEnterpriseTick = now;
                     threadPool.submit(() -> {
+                        List<String> directions = gistSync.fetchQuorumDirections();
+                        if (!directions.isEmpty()) {
+                            String activeDir = directions.get(rand.nextInt(directions.size()));
+                            lexicalQueue.offer(new LexicalTask(2, "GIST_DIRECTION", activeDir, () -> {
+                                System.out.println("[GIST MASLOW QUEUE] Priority-2 Gist Direction Enqueued: " + activeDir);
+                            }));
+                        }
                         watchdog.auditTopology(agents);
                         mcts.executeRollout("Hex_Topology_Alpha");
                         fuzzer.fuzzNetwork();
