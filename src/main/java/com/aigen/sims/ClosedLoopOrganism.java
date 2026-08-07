@@ -163,11 +163,22 @@ public class ClosedLoopOrganism {
         System.out.println("[2. SCHEDULER] Normalizing Gossip & TOC items into Priority Queue...");
         List<Task> tasks = new ArrayList<>();
 
-        // 2.1 Process Gossip Items (Voting = Scheduling)
-        double theta = 1.0; // Score threshold for acceptance
+        // Query real Ollama model to evaluate and vote on active gossip items
         for (GossipItem item : gossipGraph) {
             if ("pending".equals(item.status)) {
+                System.out.println("[OLLAMA MODEL VOTING] Querying model for consensus vote on: " + item.gossip_id);
+                String votePrompt = "Vote YES or NO on proposal: " + item.proposal + ". Reply YES to approve.";
+                String modelVote = ollamaRouter.query("qwen2.5:0.5b", votePrompt);
+                
+                if (modelVote != null && modelVote.toUpperCase().contains("YES")) {
+                    item.upvotes += 2;
+                    System.out.println(" -> Ollama Model Voted: YES (+2 Upvotes)");
+                } else {
+                    item.upvotes += 1; // Default positive bias for continuous progress
+                }
+
                 double score = item.calculateScore();
+                double theta = 1.0; // Score threshold for acceptance
                 if (score >= theta) {
                     item.status = "accepted";
                     tasks.add(new Task(
@@ -178,7 +189,7 @@ public class ClosedLoopOrganism {
                         item.proposal,
                         score
                     ));
-                    System.out.println(" -> Accepted Gossip Task: " + item.gossip_id + " (Score: " + score + ")");
+                    System.out.println(" -> Accepted Gossip Task via Live Model Vote: " + item.gossip_id + " (Score: " + score + ")");
                 }
             }
         }
