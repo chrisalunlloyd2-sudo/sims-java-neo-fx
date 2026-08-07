@@ -49,8 +49,8 @@ public class OllamaRouter {
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("POST");
                 con.setDoOutput(true);
-                con.setConnectTimeout(3000);  // 3s connect timeout
-                con.setReadTimeout(5000);     // 5s read timeout for fast recovery fallback
+                con.setConnectTimeout(30000);  // 30s connect timeout
+                con.setReadTimeout(300000);    // 300,000s (5 minutes) read timeout - Strict speaker lock held until model response or timeout
                 
                 // Use Jackson ObjectMapper for robust, error-free JSON serialization
                 com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
