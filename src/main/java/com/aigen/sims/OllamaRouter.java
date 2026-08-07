@@ -25,12 +25,12 @@ public class OllamaRouter {
             
             System.out.println("[CELLULAR MIC GATING] Speaker Lock Acquired: " + model);
             try {
-                URL url = new URL("http://localhost:11434/api/generate");
+                URL url = new URL("http://127.0.0.1:11434/api/generate");
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("POST");
                 con.setDoOutput(true);
-                con.setConnectTimeout(30000);  // 30s connect timeout
-                con.setReadTimeout(300000);    // 300s (5 minutes) read timeout for SSD mmap models
+                con.setConnectTimeout(3000);  // 3s connect timeout
+                con.setReadTimeout(5000);     // 5s read timeout for fast recovery fallback
                 
                 // Use Jackson ObjectMapper for robust, error-free JSON serialization
                 com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
@@ -76,7 +76,16 @@ public class OllamaRouter {
                     System.out.println("[OLLAMA ERROR] HTTP " + respCode + " Body: " + errSb.toString());
                 }
             } catch(Exception e) {
-                System.out.println("[OLLAMA RECOVERY] Exception: " + model + " - " + e.getMessage());
+                System.out.println("[OLLAMA RECOVERY] Exception: " + model + " - " + e.getMessage() + ". Attempting auto-restart of Ollama daemon...");
+                try {
+                    ProcessBuilder pb = new ProcessBuilder("ollama", "serve");
+                    pb.environment().put("OLLAMA_HOST", "127.0.0.1:11434");
+                    pb.environment().put("OLLAMA_KEEP_ALIVE", "-1");
+                    pb.start();
+                    Thread.sleep(2500);
+                } catch(Exception ex) {
+                    System.out.println("[OLLAMA RECOVERY FAIL] Could not start Ollama: " + ex.getMessage());
+                }
             }
             return "[SOAK DISTILLATION] " + model + " processed topology shard.";
         }
@@ -85,7 +94,7 @@ public class OllamaRouter {
     private void unloadModel(String modelName) {
         System.out.println("[CMG GATING] Purging model from memory: " + modelName);
         try {
-            URL url = new URL("http://localhost:11434/api/generate");
+            URL url = new URL("http://127.0.0.1:11434/api/generate");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
             con.setDoOutput(true);

@@ -82,6 +82,7 @@ public class GodHandApp extends Application {
     private AdversarialFuzzer fuzzer;
     private MetaLogicSupervisor metaLogic;
     private NightlyEvolutionEngine evolutionEngine;
+    private ClosedLoopOrganism closedLoopOrganism;
     
     // 6D Hexeract Fields
     private double[][] vertices6D = new double[64][6];
@@ -118,6 +119,9 @@ public class GodHandApp extends Application {
     private double storageModulus = 50.0;
     private double lossModulus = 35.0;
     private double stressLevel = 0.15; 
+    
+    // Physics Kernel Engine
+    private StrainRatePhysicsKernel physicsKernel = new StrainRatePhysicsKernel();
     
     // Particle Swarm and Signal Pulses
     private List<Particle> particles = new ArrayList<>();
