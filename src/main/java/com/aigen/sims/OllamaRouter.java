@@ -14,10 +14,30 @@ import java.net.URL;
 public class OllamaRouter {
     private static String activeModel = null;
     private static final Object micLock = new Object();
+    private static long lastCallTimestamp = 0;
 
     public String query(String model, String prompt) {
-        // Cellular Microphone Gating (CMG): Strict single-speaker lock
+        // Dynamic Adaptive Pacing: Synchronized with CPU Load, Stress & Breathing Cycle
         synchronized (micLock) {
+            double cpuLoad = com.sun.management.OperatingSystemMXBean.class.isInstance(
+                java.lang.management.ManagementFactory.getOperatingSystemMXBean()) ?
+                ((com.sun.management.OperatingSystemMXBean) java.lang.management.ManagementFactory.getOperatingSystemMXBean()).getCpuLoad() : 0.50;
+            if (Double.isNaN(cpuLoad) || cpuLoad < 0) cpuLoad = 0.50;
+
+            // Exponential Pacing Factor: High CPU load scales delay exponentially (1.0s up to 16.0s factor)
+            long basePacingMs = 2000; 
+            double cpuMultiplier = Math.pow(2.0, cpuLoad * 4.0); // Factor of 1x to 16x multiplier
+            long requiredDelayMs = (long) (basePacingMs * cpuMultiplier);
+
+            long elapsed = System.currentTimeMillis() - lastCallTimestamp;
+            if (elapsed < requiredDelayMs) {
+                long sleepTime = requiredDelayMs - elapsed;
+                System.out.println(String.format("[BREATHING PACING] CPU Load: %.1f%% | Dynamic Delay Factor: %.2fx | Throttling Ollama call for %d ms...", 
+                    cpuLoad * 100.0, cpuMultiplier, sleepTime));
+                try { Thread.sleep(sleepTime); } catch(Exception ignored) {}
+            }
+            lastCallTimestamp = System.currentTimeMillis();
+
             if (activeModel != null && !activeModel.equals(model)) {
                 unloadModel(activeModel);
             }
