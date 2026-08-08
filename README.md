@@ -1,15 +1,21 @@
 <div align="center">
   <img src="docs/screenshots/sims1337_repo_banner.jpg" alt="SIMS1337 Banner" width="100%" />
-  
   <br/><br/>
 
-  <img src="https://img.shields.io/badge/STATUS-ARMED_AND_ACTIVE-00ff00?style=for-the-badge&logo=power&logoColor=white" />
-  <img src="https://img.shields.io/badge/ARCH-NEUROMORPHIC_SWARM-8a2be2?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/MODELS-37_SLMS_ONLINE-cyan?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/TESTS-37%2F37_PASS-00ff00?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/GUI-JAVAFX_v0.23-ff00ff?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/WEB_UI-PORT_1337-00F2FE?style=for-the-badge" />
+  <a href="https://github.com/chrisalunlloyd2-sudo/sims-java-neo-fx/actions"><img src="https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge&logo=githubactions&logoColor=white" /></a>
+  <img src="https://img.shields.io/badge/models-37-blue?style=for-the-badge&logo=cpu" />
+  <img src="https://img.shields.io/badge/night--cycle-armed-purple?style=for-the-badge&logo=moon" />
+  <img src="https://img.shields.io/badge/gui-javafx_v0.23-ff00ff?style=for-the-badge" />
   <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/chrisalunlloyd2-sudo/sims-java-neo-fx&count_bg=%237928CA&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=VISITORS&edge_flat=false" />
+  <br/><br/>
+
+  <h3>
+    <a href="#quickstart">Quickstart</a> •
+    <a href="docs/index.md">Documentation</a> •
+    <a href="https://github.com/chrisalunlloyd2-sudo/sims-java-neo-fx/releases">Downloads</a> •
+    <a href="SECURITY.md">Security</a> •
+    <a href="CHANGELOG.md">Changelog</a>
+  </h3>
 </div>
 
 <h1 align="center">SIMS1337: NEUROMORPHIC SLM GRID</h1>
@@ -20,71 +26,32 @@
 
 ---
 
-## 1. What is this?
-SIMS1337 is an autonomous neuromorphic operating system powered by 37 Small Language Models (SLMs) working in a closed-loop execution organism on a 4D hex grid with real-time viscoelastic stress/strain physics.
+## Feature Overview
 
-## 2. Why does it exist?
-Traditional AI workflows rely on single, high-cost monolithic models. SIMS1337 coordinates specialized, lightweight local SLMs (`qwen2.5`, `tinyllama`, `deepseek-r1`, `phi`) over a distributed SQLite ledger, utilizing Cellular Microphone Gating (CMG) for dynamic VRAM isolation and zero memory collision.
-
----
-
-## 3. Project Structure
-
-```text
-sims-java-neo-fx/
-├── docs/
-│   ├── index.md                 # GitHub Pages documentation site
-│   ├── screenshots/             # Repository visual assets & screenshots
-│   └── demo-gifs/                # Animated UI walkthroughs
-├── src/main/java/com/aigen/sims/
-│   ├── GodHandApp.java           # JavaFX 4D Canvas Renderer & UI
-│   ├── ClosedLoopOrganism.java   # Local Git Agent & Gossip Task Engine
-│   ├── StrainRatePhysicsKernel.java # Viscoelastic Rheology Math & Interstitial Cells
-│   ├── OllamaRouter.java         # CMG Single-Speaker Lock & Exponential CPU Pacing
-│   ├── MoltbookSystem.java       # Unrestricted Model Chat Feed & 2KB Log Archiver
-│   ├── BruteFoundryCronPipeline.java # Qwen Tool-Native Code Block Mining
-│   ├── QwenRepoEditor.java       # Autonomous File & Folder Editing Engine
-│   ├── GitSecurityScrubber.java  # Token & Password Redaction Scrubber
-│   └── ScreenshotRecordingLab.java # State Snapshot & Telemetry Recorder
-├── hex_projects.json            # Local Repository Registry
-├── CHANGELOG.md                 # Project release notes & changelog
-├── CONTRIBUTING.md              # Contributor guidelines
-├── LICENSE                      # MIT Sovereign License
-└── README.md                    # Repository centerpiece
-```
+- ⬡ **4D Hex Grid Renderer**: Real-time JavaFX canvas rendering deep-space visual field & model orb coordinates.
+- ⚡ **37 Cortical SLMs**: Local Small Language Models (`qwen2.5`, `tinyllama`, `deepseek-r1`, `phi3`) coordinated over SQLite ledger.
+- 🛡️ **Cellular Microphone Gating (CMG)**: Strict single-speaker lock preventing VRAM memory collisions.
+- 🧪 **Viscoelastic Physics Kernel**: Dynamic strain rate ($\dot{\gamma}$), viscosity ($\eta$), and stress ($\sigma$) math.
+- 🌙 **Autonomous Night Cycle**: Unattended dreaming, A/B testing, proposal evaluation, and quorum voting.
+- 🔒 **Git Security Scrubber**: Redacts OAuth tokens, PATs, and passwords from all git uploads.
 
 ---
 
-## 4. Quick Start
+## Quickstart
 
-### Prerequisites
-- **Java JDK**: 17 or 21 (`choco install openjdk17`)
-- **Ollama**: Latest (`ollama.com`)
-- **Maven**: 3.8+ (`choco install maven`)
-
-### Copy-Paste Run Commands
-
-```powershell
-# 1. Clone the repository
+```bash
+# Clone the repository
 git clone https://github.com/chrisalunlloyd2-sudo/sims-java-neo-fx.git
 cd sims-java-neo-fx
 
-# 2. Compile source files
+# Compile & Run GodHand JavaFX GUI
 mvn compile
-
-# 3. Launch the GodHand JavaFX GUI
 mvn javafx:run
 ```
 
 ---
 
-## 5. Downloads & Binary Assets
-- **Prebuilt JARs**: Check out [`/releases`](https://github.com/chrisalunlloyd2-sudo/sims-java-neo-fx/releases) for compiled SNAPSHOT binaries (`sims-java-neo-fx-0.2.0-SNAPSHOT.jar`).
-- **Startup Script**: Includes automated Windows Startup launcher `LAUNCH_GODHAND.bat`.
-
----
-
-## 6. Architecture Overview
+## Architecture Diagram
 
 ```text
                     +---------------------------+
@@ -121,44 +88,43 @@ mvn javafx:run
 
 ---
 
-## 7. Model Zoo (Cortical SLM Array)
+## Project Structure Map
 
-| Model | Family | Size | Capabilities |
-|-------|--------|------|-------------|
-| `qwen2.5:0.5b` | Qwen | 0.5B | Tool-native completion, fast code generation |
-| `qwen2.5-coder:0.5b` | Qwen | 0.5B | Code block mining, structural refactoring |
-| `tinyllama:1.1b` | Llama | 1.1B | Rapid gossip voting & consensus |
-| `deepseek-r1:1.5b` | DeepSeek | 1.5B | Deep reasoning, AST expansion |
-| `phi3:mini` | Phi | 3.8B | Architectural logic analysis |
-| `codellama:7b` | Llama | 6.7B | Complex backend module synthesis |
-
----
-
-## 8. Development Roadmap
-
-- [x] **Viscoelastic Stress/Strain Physics Kernel** ($\dot{\gamma}, \eta, \sigma$)
-- [x] **Cellular Microphone Gating (CMG)** Single-Speaker VRAM Lock
-- [x] **Exponential CPU Load Adaptive Pacing** & 5-Minute Timeout Protection
-- [x] **Unrestricted Moltbook Chat Feed** & 2KB Log Auto-Archiver
-- [x] **Qwen Autonomous Repository File & Folder Editor**
-- [x] **Automated Git Security Scrubber** for Tokens & Secrets
-- [x] **Windows Auto-Start Launch Integration**
-- [ ] **Native GGUF Model Zoo Direct Download Manager**
-- [ ] **Cloudflare Tunnel Automated Live Demo Renderer**
-
----
-
-## 9. Tech Stack
-
-- **Languages**: Java 21, Python 3.11, PowerShell
-- **Frameworks**: OpenJFX (JavaFX 17/21), Maven
-- **AI / SLM Engine**: Ollama (37 Local Models), Jackson JSON Mapper
-- **Database**: SQLite (`swarm_ledger.db`, `aegis_ledger.db`)
-- **Security**: Regex Security Scrubber, OAuth / PAT Auto-Redactor
+```text
+sims-java-neo-fx/
+├── docs/                        # GitHub Pages Documentation Site
+│   ├── index.md                 # Documentation homepage
+│   ├── install.md               # Installation & setup guide
+│   ├── architecture.md          # Neuromorphic core architecture
+│   ├── agents.md                # 37 SLM Cortical Array topology
+│   ├── night-cycle.md           # Night Cycle autonomous schedule
+│   ├── api.md                   # REST API documentation
+│   ├── faq.md                   # Frequently Asked Questions
+│   └── screenshots/             # Repository visual assets & banners
+├── src/main/java/com/aigen/sims/ # Core Java Engine
+│   ├── GodHandApp.java           # JavaFX 4D Canvas Renderer & UI
+│   ├── ClosedLoopOrganism.java   # Local Git Agent & Gossip Scheduler
+│   ├── StrainRatePhysicsKernel.java # Rheology Math & Interstitial Cells
+│   ├── OllamaRouter.java         # CMG Lock & Exponential CPU Pacing
+│   ├── MoltbookSystem.java       # Model Chat Feed & 2KB Log Archiver
+│   ├── BruteFoundryCronPipeline.java # Qwen Code Block Mining
+│   ├── QwenRepoEditor.java       # Autonomous Repo File & Folder Editor
+│   └── GitSecurityScrubber.java  # Token & Password Redactor
+├── CHANGELOG.md                 # Project changelog
+├── CONTRIBUTING.md              # Contributor guidelines
+├── SECURITY.md                  # Security policy & scrubber docs
+├── LICENSE                      # MIT Sovereign License
+└── README.md                    # Repository centerpiece
+```
 
 ---
 
-## 10. License & Support
+## Downloads & Releases
 
-- **License**: [MIT License](LICENSE) — Sovereign Systems Architecture.
-- **Support & Issues**: Feel free to submit questions and feedback in [GitHub Issues](https://github.com/chrisalunlloyd2-sudo/sims-java-neo-fx/issues) or [Discussions](https://github.com/chrisalunlloyd2-sudo/sims-java-neo-fx/discussions).
+Visit [/releases](https://github.com/chrisalunlloyd2-sudo/sims-java-neo-fx/releases) to download compiled binaries (`sims-java-neo-fx-0.2.0-SNAPSHOT.jar`).
+
+---
+
+## License & Sovereign Policy
+
+This project is licensed under the [MIT License](LICENSE).
