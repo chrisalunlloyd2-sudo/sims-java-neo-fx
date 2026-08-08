@@ -25,6 +25,8 @@ nav:
     link: screenshots/
   - name: FAQ
     link: faq.md
+  - name: Troubleshooting
+    link: troubleshooting.md
 
 # GitHub Pages options
 markdown: kramdown
