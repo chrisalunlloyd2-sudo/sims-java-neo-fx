@@ -1,0 +1,7 @@
+{
+  "phases": ["DREAM", "ANALYZE", "TEST", "VOTE", "DEPLOY", "EMAIL"],
+  "cycle_ms": 3600000,
+  "quorum_vote_threshold": 0.80,
+  "auto_commit_approved": true,
+  "email_reports_to": "chrisalunlloyd2@gmail.com"
+}

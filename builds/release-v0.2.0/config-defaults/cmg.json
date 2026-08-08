@@ -1,0 +1,6 @@
+{
+  "cmg_enabled": true,
+  "speaker_lock_timeout_ms": 300000,
+  "max_vram_isolation_mb": 4096,
+  "auto_purge_on_switch": true
+}

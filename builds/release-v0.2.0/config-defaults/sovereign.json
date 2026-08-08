@@ -1,0 +1,6 @@
+{
+  "sovereign_mode": true,
+  "local_first_offline": true,
+  "ledger_database": "swarm_ledger.db",
+  "security_scrubber_active": true
+}
