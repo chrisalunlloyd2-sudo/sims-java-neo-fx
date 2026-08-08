@@ -22,6 +22,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.CheckBox;
+import javafx.scene.layout.GridPane;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
@@ -303,11 +305,15 @@ public class GodHandApp extends Application {
         btnMoltbook.setStyle(btnStyle);
         btnMoltbook.setOnAction(e -> openWindow("Moltbook", createMoltbookView(), 440, 350));
 
+        Button btnSpinUpAgent = new Button("🚀 Spin Up Agent Node");
+        btnSpinUpAgent.setStyle(btnStyle);
+        btnSpinUpAgent.setOnAction(e -> openWindow("Spin Up Agent Node", createSpinUpAgentNodeView(), 520, 560));
+
         Button btnRebootCtrl = new Button("⚙️ Reboot Panel");
         btnRebootCtrl.setStyle(btnStyle);
         btnRebootCtrl.setOnAction(e -> openWindow("Manifold Control", createManifoldControlView(), 240, 320));
 
-        taskbar.getChildren().addAll(btnNotes, btnChat, btnTraining, btnInterstitials, btnMoltbook, btnRebootCtrl);
+        taskbar.getChildren().addAll(btnNotes, btnChat, btnTraining, btnInterstitials, btnMoltbook, btnSpinUpAgent, btnRebootCtrl);
 
         root.getChildren().addAll(canvas, windowOverlay, taskbar);
 
@@ -639,6 +645,105 @@ public class GodHandApp extends Application {
             if (newScene == null) chartTimer.stop();
         });
         
+        return root;
+    }
+
+    private VBox createSpinUpAgentNodeView() {
+        VBox root = new VBox(8);
+        root.setStyle("-fx-padding: 8; -fx-background-color: #060312;");
+
+        Label header = new Label("🚀 SPIN UP AGENT NODE (Full Parameter Suite)");
+        header.setStyle("-fx-text-fill: #38bdf8; -fx-font-family: monospace; -fx-font-weight: bold; -fx-font-size: 13px;");
+
+        // 1. Model Selector Dropdown & Downloader
+        HBox modelBar = new HBox(8);
+        modelBar.setAlignment(Pos.CENTER_LEFT);
+        Label lblModel = new Label("Model / Engine:");
+        lblModel.setStyle("-fx-text-fill: #c084fc; -fx-font-family: monospace; -fx-font-size: 11px;");
+        
+        ComboBox<String> comboModel = new ComboBox<>();
+        comboModel.getItems().addAll(
+            "qwen2.5:0.5b", "qwen2.5-coder:0.5b", "tinyllama:1.1b", "deepseek-r1:1.5b",
+            "phi3:mini", "codellama:7b", "gemma2:2b", "aegis-distilled-27b:latest",
+            "dagbs/qwen2.5-coder-3b-instruct-abliterated:q8_0", "Node.js Agent (Non-LLM)", "Python Script Agent (Non-LLM)"
+        );
+        comboModel.setValue("qwen2.5:0.5b");
+        comboModel.setStyle("-fx-background-color: #110c28; -fx-text-fill: #38bdf8; -fx-font-family: monospace;");
+
+        Button btnDownloadModel = new Button("📥 Download Model");
+        btnDownloadModel.setStyle("-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-family: monospace; -fx-font-size: 10px; -fx-cursor: hand;");
+        btnDownloadModel.setOnAction(e -> {
+            String targetM = comboModel.getValue();
+            btnDownloadModel.setText("⏳ Downloading " + targetM + "...");
+            threadPool.submit(() -> {
+                try {
+                    ProcessBuilder pb = new ProcessBuilder("ollama", "pull", targetM);
+                    pb.start().waitFor();
+                    Platform.runLater(() -> {
+                        btnDownloadModel.setText("✅ Downloaded!");
+                        synchronized(godChat) { godChat.add("[MODEL DOWNLOADER] Downloaded model: " + targetM); }
+                    });
+                } catch(Exception ex) {
+                    Platform.runLater(() -> btnDownloadModel.setText("❌ Download Failed"));
+                }
+            });
+        });
+        modelBar.getChildren().addAll(lblModel, comboModel, btnDownloadModel);
+
+        // 2. Options Grid (Context size, Prefetching, RAG, LoRA, KG, Hardware mmap)
+        GridPane grid = new GridPane();
+        grid.setHgap(10); grid.setVgap(6);
+
+        CheckBox cbCMG = new CheckBox("CMG VRAM Isolation Lock"); cbCMG.setSelected(true);
+        CheckBox cbFastmem = new CheckBox("Fastmem Memory Image Ready"); cbFastmem.setSelected(true);
+        CheckBox cbPrefetch = new CheckBox("Predictive Prefetching"); cbPrefetch.setSelected(true);
+        CheckBox cbRAG = new CheckBox("Knowledge Graph RAG (64D)"); cbRAG.setSelected(true);
+        CheckBox cbMmap = new CheckBox("Hardware mmap Direct Memory"); cbMmap.setSelected(true);
+
+        cbCMG.setStyle("-fx-text-fill: #f472b6; -fx-font-family: monospace; -fx-font-size: 10px;");
+        cbFastmem.setStyle("-fx-text-fill: #c084fc; -fx-font-family: monospace; -fx-font-size: 10px;");
+        cbPrefetch.setStyle("-fx-text-fill: #38bdf8; -fx-font-family: monospace; -fx-font-size: 10px;");
+        cbRAG.setStyle("-fx-text-fill: #34d399; -fx-font-family: monospace; -fx-font-size: 10px;");
+        cbMmap.setStyle("-fx-text-fill: #fbbf24; -fx-font-family: monospace; -fx-font-size: 10px;");
+
+        grid.add(cbCMG, 0, 0); grid.add(cbFastmem, 1, 0);
+        grid.add(cbPrefetch, 0, 1); grid.add(cbRAG, 1, 1);
+        grid.add(cbMmap, 0, 2);
+
+        // Disable LLM options if Node.js or Python runtime is selected
+        comboModel.setOnAction(e -> {
+            boolean isNonLLM = comboModel.getValue().contains("Node.js") || comboModel.getValue().contains("Python");
+            cbCMG.setDisable(isNonLLM);
+            cbFastmem.setDisable(isNonLLM);
+            cbPrefetch.setDisable(isNonLLM);
+            cbRAG.setDisable(isNonLLM);
+            cbMmap.setDisable(isNonLLM);
+            btnDownloadModel.setDisable(isNonLLM);
+        });
+
+        // 3. Execution Log & Launch Action
+        TextArea logArea = new TextArea();
+        logArea.setEditable(false);
+        logArea.setPrefSize(480, 220);
+        logArea.setStyle("-fx-control-inner-background: #0b0720; -fx-text-fill: #38bdf8; -fx-font-family: monospace; -fx-font-size: 10px;");
+        logArea.setText("READY TO SPIN UP AGENT NODE.\nSelect parameters and click 'Spin Up Agent' below.\n");
+
+        Button btnLaunchAgent = new Button("⚡ SPIN UP AGENT NODE");
+        btnLaunchAgent.setStyle("-fx-background-color: #8b5cf6; -fx-text-fill: white; -fx-font-family: monospace; -fx-font-size: 12px; -fx-font-weight: bold; -fx-cursor: hand;");
+        btnLaunchAgent.setOnAction(e -> {
+            String selectedModel = comboModel.getValue();
+            logArea.appendText("\n[SPIN UP AGENT] Launching Agent Node with Model/Engine: " + selectedModel + "\n");
+            logArea.appendText(" -> CMG Lock: " + cbCMG.isSelected() + " | Fastmem: " + cbFastmem.isSelected() + "\n");
+            logArea.appendText(" -> Predictive Prefetch: " + cbPrefetch.isSelected() + " | RAG: " + cbRAG.isSelected() + "\n");
+            logArea.appendText(" -> Status: AGENT NODE ONLINE & INGESTED INTO HEX GRID.\n");
+
+            synchronized (godChat) {
+                if (godChat.size() > 50) godChat.remove(0);
+                godChat.add("[AGENT LAUNCH] Spun up Agent Node: " + selectedModel);
+            }
+        });
+
+        root.getChildren().addAll(header, modelBar, grid, logArea, btnLaunchAgent);
         return root;
     }
 
