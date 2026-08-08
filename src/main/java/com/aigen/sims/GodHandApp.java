@@ -196,7 +196,9 @@ public class GodHandApp extends Application {
                 stressLevel = Math.max(0.05, stressLevel - 0.001);
                 systemStabilityIndex += 0.0001; // The longer left running, the higher the stability index
                 
-                // Integrate physical solvers on each frame step
+                // Integrate physical solvers and StrainRatePhysicsKernel on each frame step
+                physicsKernel.updateStrainRate(0.05 + 0.02 * Math.sin(timePulse), dt);
+
                 updateGiesekus(dt);
                 updateCahnHilliard(dt);
                 updateGatingDynamics(dt);

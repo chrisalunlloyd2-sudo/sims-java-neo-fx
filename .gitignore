@@ -1,9 +1,28 @@
-__pycache__/
-*.db
+# Maven Build Outputs
+target/
+*.class
+
+# Logs & Temporary Files
 *.log
+moltbook_archives/
+*.db
+aegis_ledger.db
+
+# Sensitive Secrets & Security Scrubber Rules
+.env
+.git-credentials
+*.pem
+*.key
+*token*
+*pat*
+*secret*
+*password*
+
+# Python & Node Runtime Outputs
+__pycache__/
+*.pyc
 venv/
 env/
 node_modules/
-.env
 gui_state.json
 telemetry.json
