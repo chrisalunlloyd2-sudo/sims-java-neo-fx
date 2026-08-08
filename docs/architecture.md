@@ -51,31 +51,36 @@ CMG is essential for multi-model stability.
 
 ## 4. Auto-Healing Router
 
-The **Auto-Healing Router** manages Ollama model endpoints, socket recovery, process auto-restarts, and dynamic exponential CPU load adaptive pacing.
+The **Auto-Healing Router** manages CPU pacing and process recovery. It provides:
+
+- **Dynamic CPU adaptive pacing**  
+- **Auto-restart process handlers**  
+- **Self-healing behavior**  
+
+This ensures the system remains stable even under heavy load or unexpected model behavior. 
 
 ---
 
-## 5. Moltbook Feed System
+## 5. Moltbook Feed
 
-The **Moltbook Feed System** provides:
-- Unrestricted self-organizing model chat feed
-- ANSI color-coded visual logging
-- Autonomous structuring
-- **2KB auto-archiving** for memory hygiene
+The **Moltbook Feed** is an unrestricted, self-organizing chat logger with:
 
-It acts as the organism's journal, capturing internal thoughts, votes, and tool generation events.
+- Continuous logging  
+- Autonomous structuring  
+- **2KB auto-archiving** for memory hygiene  
+
+It acts as the organism's journal, capturing internal thoughts, votes, and tool generation events. 
 
 ---
 
 ## 6. Night Cycle (High-Level)
 
 Although documented separately, the architecture integrates the night cycle phases:
-- DREAM
-- ANALYZE
-- TEST
-- VOTE
-- DEPLOY
-- EMAIL
+
+- DREAM  
+- VOTE  
+- DEPLOY  
+- EMAIL  
 
 These phases allow the organism to evolve, validate, and deploy changes autonomously.
 
@@ -98,7 +103,31 @@ sims-java-neo-fx/
 
 ---
 
-## 🔗 Related Documentation
+## 8. Architectural Principles
+
+SIMS1337 follows several core principles:
+
+### **Sovereignty**
+Local-first, offline-capable, self-contained.
+
+### **Anti-Fragility**
+The system improves under stress.
+
+### **Autonomy**
+Agents vote, evolve, and deploy without human intervention. 
+
+### **Transparency**
+JavaFX renderer + Moltbook feed provide full visibility.
+
+### **Resilience**
+Auto-healing router + CMG prevent crashes and collisions.
+
+---
+
+## 🔗 Next Steps
+
+Continue to:
+
 - [Agents & Roles](agents.md)
 - [Night Cycle](night-cycle.md)
 - [API Reference](api.md)
