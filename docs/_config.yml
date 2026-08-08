@@ -1,0 +1,37 @@
+theme: jekyll-theme-cayman
+title: SIMS1337 Java Neo FX
+description: Sovereign neuromorphic engine with 4D hex-grid, agents, night cycle, and analytics.
+
+# Enable clean URLs
+permalink: pretty
+
+# Sidebar navigation
+nav:
+  - name: Home
+    link: index.md
+  - name: Installation
+    link: install.md
+  - name: Architecture
+    link: architecture.md
+  - name: Agents & Roles
+    link: agents.md
+  - name: Night Cycle
+    link: night-cycle.md
+  - name: API Reference
+    link: api.md
+  - name: Game Engine Bridges
+    link: game_engine_bridges/README.md
+  - name: Screenshots
+    link: screenshots/
+  - name: FAQ
+    link: faq.md
+
+# GitHub Pages options
+markdown: kramdown
+kramdown:
+  input: GFM
+
+# Plugins
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
