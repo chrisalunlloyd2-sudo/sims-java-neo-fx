@@ -590,39 +590,44 @@ public class GodHandApp extends Application {
                 for (int x = 20; x < 380; x += 40) mgc.strokeLine(x, 0, x, 160);
                 for (int y = 20; y < 160; y += 40) mgc.strokeLine(0, y, 380, y);
                 
-                // Draw storage modulus G' (violet curve)
+                // Tie curve math directly to StrainRatePhysicsKernel: strain_rate, viscosity, and stress
+                double liveStrain = physicsKernel.getStrainRate();
+                double liveViscosity = physicsKernel.getViscosity();
+                double liveStress = physicsKernel.getStress();
+
+                // Draw Strain Rate & Stress response curve (violet curve)
                 mgc.setStroke(Color.web("#c084fc"));
                 mgc.beginPath();
                 for (int x = 0; x < 380; x++) {
                     double freqVal = x * 0.02;
-                    double gPrime = 40.0 + 20.0 * Math.sin(freqVal + step) + 15.0 * Math.sin(freqVal * 2.3 + step);
-                    double y = 120 - gPrime;
+                    double curveVal = 40.0 + (liveStress * 15.0) * Math.sin(freqVal + step) + (liveStrain * 10.0) * Math.sin(freqVal * 2.3 + step);
+                    double y = Math.max(10, Math.min(150, 140 - curveVal));
                     if (x == 0) mgc.moveTo(x, y);
                     else mgc.lineTo(x, y);
                 }
                 mgc.stroke();
                 
-                // Draw loss modulus G'' (sky blue curve)
+                // Draw Dynamic Viscosity & Relaxation curve (sky blue curve)
                 mgc.setStroke(Color.web("#38bdf8"));
                 mgc.beginPath();
                 for (int x = 0; x < 380; x++) {
                     double freqVal = x * 0.02;
-                    double gDoublePrime = 30.0 + 10.0 * Math.cos(freqVal * 1.5 - step) + 5.0 * Math.sin(freqVal * 3.0 + step);
-                    double y = 140 - gDoublePrime;
+                    double curveVal = 30.0 + (liveViscosity * 20.0) * Math.cos(freqVal * 1.5 - step);
+                    double y = Math.max(10, Math.min(150, 150 - curveVal));
                     if (x == 0) mgc.moveTo(x, y);
                     else mgc.lineTo(x, y);
                 }
                 mgc.stroke();
                 
-                storageModulus = 50.0 + 10.0 * Math.sin(step);
-                lossModulus = 35.0 + 8.0 * Math.cos(step);
+                storageModulus = liveStress * 45.0;
+                lossModulus = liveViscosity * 30.0;
                 
                 statsLabel.setText(String.format(
-                    "Elastic Storage G'(ω): %.3f Pa\n" +
-                    "Viscous Loss G''(ω):   %.3f Pa\n" +
-                    "Deborah Number (De):   %.4f\n" +
-                    "Shear Thinning Exp:    n = 0.600",
-                    storageModulus, lossModulus, (viscosity / 0.8)
+                    "Strain Rate (γ̇):     %.4f s⁻¹\n" +
+                    "Dynamic Viscosity (η): %.4f Pa·s\n" +
+                    "Internal Stress (σ):   %.4f Pa\n" +
+                    "Deborah Number (De):   %.4f | n = 0.600",
+                    liveStrain, liveViscosity, liveStress, (liveViscosity / 0.8)
                 ));
             }
         };
