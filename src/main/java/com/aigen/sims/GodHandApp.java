@@ -23,6 +23,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
@@ -652,8 +655,18 @@ public class GodHandApp extends Application {
         VBox root = new VBox(8);
         root.setStyle("-fx-padding: 8; -fx-background-color: #060312;");
 
-        Label header = new Label("🚀 SPIN UP AGENT NODE (Full Parameter Suite)");
+        Label header = new Label("🚀 SPIN UP AGENT NODE (Advanced Parameter & Cron Suite)");
         header.setStyle("-fx-text-fill: #38bdf8; -fx-font-family: monospace; -fx-font-weight: bold; -fx-font-size: 13px;");
+
+        TabPane nodeTabPane = new TabPane();
+        nodeTabPane.setStyle("-fx-tab-min-width: 140; -fx-tab-max-width: 180;");
+
+        // --- TAB 1: AGENT CONFIGURATION & PARAMETERS ---
+        Tab configTab = new Tab("⚙️ Agent & Model Config");
+        configTab.setClosable(false);
+
+        VBox configBox = new VBox(8);
+        configBox.setStyle("-fx-padding: 8; -fx-background-color: #0b0720;");
 
         // 1. Model Selector Dropdown & Downloader
         HBox modelBar = new HBox(8);
@@ -690,41 +703,117 @@ public class GodHandApp extends Application {
         });
         modelBar.getChildren().addAll(lblModel, comboModel, btnDownloadModel);
 
-        // 2. Options Grid (Context size, Prefetching, RAG, LoRA, KG, Hardware mmap)
-        GridPane grid = new GridPane();
-        grid.setHgap(10); grid.setVgap(6);
+        // 2. Nominal Values & Selectors Grid (Temperature, Token Limits, KG Nodes, Personality, RAG DB Engine)
+        GridPane paramGrid = new GridPane();
+        paramGrid.setHgap(10); paramGrid.setVgap(6);
 
-        CheckBox cbCMG = new CheckBox("CMG VRAM Isolation Lock"); cbCMG.setSelected(true);
-        CheckBox cbFastmem = new CheckBox("Fastmem Memory Image Ready"); cbFastmem.setSelected(true);
-        CheckBox cbPrefetch = new CheckBox("Predictive Prefetching"); cbPrefetch.setSelected(true);
-        CheckBox cbRAG = new CheckBox("Knowledge Graph RAG (64D)"); cbRAG.setSelected(true);
-        CheckBox cbMmap = new CheckBox("Hardware mmap Direct Memory"); cbMmap.setSelected(true);
+        Label lblTemp = new Label("Temperature:"); lblTemp.setStyle("-fx-text-fill: #38bdf8; -fx-font-family: monospace; -fx-font-size: 10px;");
+        TextField tfTemp = new TextField("0.70"); tfTemp.setPrefWidth(60); tfTemp.setStyle("-fx-background-color: #110c28; -fx-text-fill: #38bdf8; -fx-font-family: monospace;");
+
+        Label lblMaxTokens = new Label("Max Tokens:"); lblMaxTokens.setStyle("-fx-text-fill: #38bdf8; -fx-font-family: monospace; -fx-font-size: 10px;");
+        TextField tfMaxTokens = new TextField("4096"); tfMaxTokens.setPrefWidth(70); tfMaxTokens.setStyle("-fx-background-color: #110c28; -fx-text-fill: #38bdf8; -fx-font-family: monospace;");
+
+        Label lblCtx = new Label("Context Window:"); lblCtx.setStyle("-fx-text-fill: #38bdf8; -fx-font-family: monospace; -fx-font-size: 10px;");
+        TextField tfCtx = new TextField("8192"); tfCtx.setPrefWidth(70); tfCtx.setStyle("-fx-background-color: #110c28; -fx-text-fill: #38bdf8; -fx-font-family: monospace;");
+
+        Label lblKGNode = new Label("KG Node Target:"); lblKGNode.setStyle("-fx-text-fill: #c084fc; -fx-font-family: monospace; -fx-font-size: 10px;");
+        ComboBox<String> comboKGNode = new ComboBox<>();
+        comboKGNode.getItems().addAll("Node_01_HexCore", "Node_02_ToolSynthesizer", "Node_03_RheologyState", "Node_04_MoltbookArchiver");
+        comboKGNode.setValue("Node_01_HexCore"); comboKGNode.setStyle("-fx-background-color: #110c28; -fx-text-fill: #c084fc; -fx-font-family: monospace;");
+
+        Label lblPersonality = new Label("Agent Personality:"); lblPersonality.setStyle("-fx-text-fill: #f472b6; -fx-font-family: monospace; -fx-font-size: 10px;");
+        ComboBox<String> comboPersonality = new ComboBox<>();
+        comboPersonality.getItems().addAll("Analytical Architect", "Autonomic Repair Specialist", "Swarm Consensus Evaluator", "Unrestricted Explorer");
+        comboPersonality.setValue("Analytical Architect"); comboPersonality.setStyle("-fx-background-color: #110c28; -fx-text-fill: #f472b6; -fx-font-family: monospace;");
+
+        Label lblRAGEngine = new Label("RAG DB Engine:"); lblRAGEngine.setStyle("-fx-text-fill: #34d399; -fx-font-family: monospace; -fx-font-size: 10px;");
+        ComboBox<String> comboRAGEngine = new ComboBox<>();
+        comboRAGEngine.getItems().addAll("SQLite (swarm_ledger.db)", "DuckDB", "EulerSpace DB", "TimescaleDB");
+        comboRAGEngine.setValue("SQLite (swarm_ledger.db)"); comboRAGEngine.setStyle("-fx-background-color: #110c28; -fx-text-fill: #34d399; -fx-font-family: monospace;");
+
+        paramGrid.add(lblTemp, 0, 0); paramGrid.add(tfTemp, 1, 0);
+        paramGrid.add(lblMaxTokens, 2, 0); paramGrid.add(tfMaxTokens, 3, 0);
+        paramGrid.add(lblCtx, 0, 1); paramGrid.add(tfCtx, 1, 1);
+        paramGrid.add(lblKGNode, 2, 1); paramGrid.add(comboKGNode, 3, 1);
+        paramGrid.add(lblPersonality, 0, 2); paramGrid.add(comboPersonality, 1, 2);
+        paramGrid.add(lblRAGEngine, 2, 2); paramGrid.add(comboRAGEngine, 3, 2);
+
+        // Hardware & Isolation Toggles
+        GridPane grid = new GridPane(); grid.setHgap(10); grid.setVgap(4);
+        CheckBox cbCMG = new CheckBox("CMG VRAM Lock"); cbCMG.setSelected(true);
+        CheckBox cbFastmem = new CheckBox("Fastmem Ready"); cbFastmem.setSelected(true);
+        CheckBox cbPrefetch = new CheckBox("Predictive Prefetch"); cbPrefetch.setSelected(true);
+        CheckBox cbMmap = new CheckBox("Hardware mmap"); cbMmap.setSelected(true);
 
         cbCMG.setStyle("-fx-text-fill: #f472b6; -fx-font-family: monospace; -fx-font-size: 10px;");
         cbFastmem.setStyle("-fx-text-fill: #c084fc; -fx-font-family: monospace; -fx-font-size: 10px;");
         cbPrefetch.setStyle("-fx-text-fill: #38bdf8; -fx-font-family: monospace; -fx-font-size: 10px;");
-        cbRAG.setStyle("-fx-text-fill: #34d399; -fx-font-family: monospace; -fx-font-size: 10px;");
         cbMmap.setStyle("-fx-text-fill: #fbbf24; -fx-font-family: monospace; -fx-font-size: 10px;");
 
-        grid.add(cbCMG, 0, 0); grid.add(cbFastmem, 1, 0);
-        grid.add(cbPrefetch, 0, 1); grid.add(cbRAG, 1, 1);
-        grid.add(cbMmap, 0, 2);
+        grid.add(cbCMG, 0, 0); grid.add(cbFastmem, 1, 0); grid.add(cbPrefetch, 2, 0); grid.add(cbMmap, 3, 0);
 
-        // Disable LLM options if Node.js or Python runtime is selected
         comboModel.setOnAction(e -> {
             boolean isNonLLM = comboModel.getValue().contains("Node.js") || comboModel.getValue().contains("Python");
-            cbCMG.setDisable(isNonLLM);
-            cbFastmem.setDisable(isNonLLM);
-            cbPrefetch.setDisable(isNonLLM);
-            cbRAG.setDisable(isNonLLM);
-            cbMmap.setDisable(isNonLLM);
-            btnDownloadModel.setDisable(isNonLLM);
+            cbCMG.setDisable(isNonLLM); cbFastmem.setDisable(isNonLLM); cbPrefetch.setDisable(isNonLLM); cbMmap.setDisable(isNonLLM);
+            tfTemp.setDisable(isNonLLM); tfMaxTokens.setDisable(isNonLLM); tfCtx.setDisable(isNonLLM);
+            comboPersonality.setDisable(isNonLLM); comboKGNode.setDisable(isNonLLM); btnDownloadModel.setDisable(isNonLLM);
         });
+
+        configBox.getChildren().addAll(modelBar, paramGrid, grid);
+        configTab.setContent(configBox);
+
+        // --- TAB 2: CRON SCHEDULE MANAGER ---
+        Tab cronTab = new Tab("⏰ Cron Schedule Manager");
+        cronTab.setClosable(false);
+
+        VBox cronBox = new VBox(8);
+        cronBox.setStyle("-fx-padding: 8; -fx-background-color: #0b0720;");
+
+        Label cronHeader = new Label("Autonomous Cycle & Cron Task Registry:");
+        cronHeader.setStyle("-fx-text-fill: #fbbf24; -fx-font-family: monospace; -fx-font-size: 11px;");
+
+        ListView<String> cronList = new ListView<>();
+        cronList.getItems().addAll(
+            "[CRON 01] Every 5 min: Brute Foundry Code Block Mining",
+            "[CRON 02] Every 15 min: Night Cycle Homology Sweep",
+            "[CRON 03] Every 30 min: Gist Context & Knowledge Graph Sync",
+            "[CRON 04] Every 60 min: Fastmem Snapshot & Memory Hygiene Check"
+        );
+        cronList.setPrefHeight(130);
+        cronList.setStyle("-fx-control-inner-background: #110c28; -fx-text-fill: #38bdf8; -fx-font-family: monospace; -fx-font-size: 10px;");
+
+        HBox cronActionBar = new HBox(8);
+        TextField tfNewCron = new TextField("Every 10 min: Interstitial Cell Rotation");
+        tfNewCron.setPromptText("Enter new cron cycle instruction...");
+        tfNewCron.setStyle("-fx-background-color: #110c28; -fx-text-fill: #38bdf8; -fx-font-family: monospace;");
+        HBox.setHgrow(tfNewCron, Priority.ALWAYS);
+
+        Button btnAddCron = new Button("➕ Add Cycle");
+        btnAddCron.setStyle("-fx-background-color: #059669; -fx-text-fill: white; -fx-font-family: monospace; -fx-font-size: 10px; -fx-cursor: hand;");
+        btnAddCron.setOnAction(e -> {
+            if (!tfNewCron.getText().trim().isEmpty()) {
+                cronList.getItems().add("[CRON " + (cronList.getItems().size() + 1) + "] " + tfNewCron.getText().trim());
+                tfNewCron.clear();
+            }
+        });
+
+        Button btnRemoveCron = new Button("➖ Remove Selected");
+        btnRemoveCron.setStyle("-fx-background-color: #dc2626; -fx-text-fill: white; -fx-font-family: monospace; -fx-font-size: 10px; -fx-cursor: hand;");
+        btnRemoveCron.setOnAction(e -> {
+            String selected = cronList.getSelectionModel().getSelectedItem();
+            if (selected != null) cronList.getItems().remove(selected);
+        });
+
+        cronActionBar.getChildren().addAll(tfNewCron, btnAddCron, btnRemoveCron);
+        cronBox.getChildren().addAll(cronHeader, cronList, cronActionBar);
+        cronTab.setContent(cronBox);
+
+        nodeTabPane.getTabs().addAll(configTab, cronTab);
 
         // 3. Execution Log & Launch Action
         TextArea logArea = new TextArea();
         logArea.setEditable(false);
-        logArea.setPrefSize(480, 220);
+        logArea.setPrefSize(480, 150);
         logArea.setStyle("-fx-control-inner-background: #0b0720; -fx-text-fill: #38bdf8; -fx-font-family: monospace; -fx-font-size: 10px;");
         logArea.setText("READY TO SPIN UP AGENT NODE.\nSelect parameters and click 'Spin Up Agent' below.\n");
 
@@ -733,17 +822,18 @@ public class GodHandApp extends Application {
         btnLaunchAgent.setOnAction(e -> {
             String selectedModel = comboModel.getValue();
             logArea.appendText("\n[SPIN UP AGENT] Launching Agent Node with Model/Engine: " + selectedModel + "\n");
-            logArea.appendText(" -> CMG Lock: " + cbCMG.isSelected() + " | Fastmem: " + cbFastmem.isSelected() + "\n");
-            logArea.appendText(" -> Predictive Prefetch: " + cbPrefetch.isSelected() + " | RAG: " + cbRAG.isSelected() + "\n");
+            logArea.appendText(" -> Nominal Params: Temp=" + tfTemp.getText() + " | MaxTokens=" + tfMaxTokens.getText() + " | Ctx=" + tfCtx.getText() + "\n");
+            logArea.appendText(" -> Personality: " + comboPersonality.getValue() + " | KG Target: " + comboKGNode.getValue() + "\n");
+            logArea.appendText(" -> RAG DB Engine: " + comboRAGEngine.getValue() + " | Active Crons: " + cronList.getItems().size() + "\n");
             logArea.appendText(" -> Status: AGENT NODE ONLINE & INGESTED INTO HEX GRID.\n");
 
             synchronized (godChat) {
                 if (godChat.size() > 50) godChat.remove(0);
-                godChat.add("[AGENT LAUNCH] Spun up Agent Node: " + selectedModel);
+                godChat.add("[AGENT LAUNCH] Spun up Agent Node: " + selectedModel + " (" + comboPersonality.getValue() + ")");
             }
         });
 
-        root.getChildren().addAll(header, modelBar, grid, logArea, btnLaunchAgent);
+        root.getChildren().addAll(header, nodeTabPane, logArea, btnLaunchAgent);
         return root;
     }
 
