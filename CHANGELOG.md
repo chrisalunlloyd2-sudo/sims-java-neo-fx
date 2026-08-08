@@ -1,12 +1,11 @@
-# Command Center Maintenance Changelog
+# Changelog
 
-## 2026-05-14
+All notable changes to **SIMS1337** will be documented in this file.
 
-- Added command-center maintenance policy and orchestrator CLI.
-- Added daily cleanup flow for temp files and log rotation.
-- Added desktop archive candidate scan with a 14-day active window.
-- Added sensitive file scrub report for Gemini/chat/API/cloudflared patterns.
-- Added Friday project documentation generator with README, ASCII tree, blueprint, and TODO capture.
-- Added ACL/KQML outbox generation so commands remain specific to each agent.
-- Mapped `ViperAI` and `ViperNotes` to live local source paths.
-- Added placeholder creation for unresolved project folders.
+## [0.2.0-SNAPSHOT] - 2026-08-08
+### Added
+- **StrainRatePhysicsKernel**: Implemented strain rate equation $\dot{\gamma} = \Delta \text{deformation} / \Delta t$, dynamic viscosity $\eta = \text{base} \cdot (1 + k \cdot \dot{\gamma})$, internal stress $\sigma = \eta \cdot \dot{\gamma}$, and fastmem interstitial cell reloads.
+- **GitSecurityScrubber**: Automated redaction of OAuth tokens, GitHub PATs, and passwords.
+- **BruteFoundryCronPipeline**: Scheduled code block mining tied to Gossip Quorum votes.
+- **Moltbook Logger**: Unrestricted full model chat feed with ANSI color-coding and 2KB auto-archiving.
+- **ScreenshotRecordingLab**: Autonomous snapshot recording suite.
