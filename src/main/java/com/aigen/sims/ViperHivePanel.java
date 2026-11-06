@@ -120,7 +120,7 @@ public final class ViperHivePanel {
         }
     }
 
-    private static String decisionRow(JsonNode d, double total) {
+    static String decisionRow(JsonNode d, double total) {
         StringBuilder veto = new StringBuilder();
         for (JsonNode v : d.path("vetoed")) veto.append(veto.length() == 0 ? "" : ",").append(v.asText());
         return String.format("%s  %s  %4.1f/%-4.1f  %s%s",
@@ -129,7 +129,7 @@ public final class ViperHivePanel {
                 veto.length() == 0 ? "" : "  VETO " + veto);
     }
 
-    private static String ballotText(JsonNode d) {
+    static String ballotText(JsonNode d) {
         StringBuilder sb = new StringBuilder(d.path("module").asText()).append("\n");
         for (JsonNode b : d.path("ballots")) {
             sb.append(String.format("%s %-15s %3.1f  %s%n", b.path("approve").asBoolean() ? "yes" : " NO",
@@ -138,7 +138,7 @@ public final class ViperHivePanel {
         return sb.toString();
     }
 
-    private static String cellsText(JsonNode h) {
+    static String cellsText(JsonNode h) {
         StringBuilder sb = new StringBuilder(String.format("total %d   healthy %d   failing %d   retired %d%nthrottle %s%n%n",
                 h.path("total").asInt(), h.path("healthy").asInt(), h.path("failing").asInt(),
                 h.path("retired").asInt(), h.path("throttle")));
@@ -164,7 +164,7 @@ public final class ViperHivePanel {
         return sb.toString();
     }
 
-    private static String jobsText(JsonNode m) {
+    static String jobsText(JsonNode m) {
         StringBuilder sb = new StringBuilder(String.format("results %d   ok %d   pushes %d%n%nMINER (newest last)%n",
                 m.path("result_count").asInt(), m.path("success_count").asInt(), m.path("push_total").asInt()));
         for (JsonNode j : m.path("daemon_log")) {

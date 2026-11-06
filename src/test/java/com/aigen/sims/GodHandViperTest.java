@@ -1,0 +1,135 @@
+package com.aigen.sims;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * 2026-11-05: guards for the GodHand <-> Viper wiring. No network, no models, no GUI:
+ * everything here runs headless in a second or two. Live checks are in C:\Viper\scripts\godhand_check.py.
+ */
+class GodHandViperTest {
+    private static final ObjectMapper JSON = new ObjectMapper();
+
+    // ---- box mic reader (OllamaRouter yields to the Viper mic) ----
+
+    @Test
+    void boxMicReportsModelWhileHeld(@TempDir Path dir) throws Exception {
+        Path mic = dir.resolve("mic.json");
+        Files.writeString(mic, "{\"model\":\"qwen2.5-coder:1.5b\",\"holders\":[{\"pid\":1,\"tier\":1,\"reason\":\"house\"}]}");
+        assertEquals("qwen2.5-coder:1.5b", OllamaRouter.boxMicModel(mic));
+    }
+
+    @Test
+    void boxMicIsFreeWithNoHolders(@TempDir Path dir) throws Exception {
+        Path mic = dir.resolve("mic.json");
+        Files.writeString(mic, "{\"model\":\"granite3.1-moe:1b\",\"holders\":[],\"last_model\":\"granite3.1-moe:1b\"}");
+        assertNull(OllamaRouter.boxMicModel(mic));
+    }
+
+    @Test
+    void boxMicTornWriteOrMissingFileReadsAsFree(@TempDir Path dir) throws Exception {
+        Path torn = dir.resolve("torn.json");
+        Files.writeString(torn, "{\"model\":\"qwen");
+        assertNull(OllamaRouter.boxMicModel(torn));
+        assertNull(OllamaRouter.boxMicModel(dir.resolve("absent.json")));
+    }
+
+    // ---- physics kernel driven by real CPU ----
+
+    private static double settle(StrainRatePhysicsKernel k, double cpu) {
+        double dt = 0.02;
+        for (int i = 0; i < 8; i++) k.updateStrainRate(cpu * 4.0 * dt, dt);
+        return k.getStress();
+    }
+
+    @Test
+    void stressStaysUnderThresholdAtHalfCpu() {
+        assertTrue(settle(new StrainRatePhysicsKernel(), 0.5) <= 1.5);
+    }
+
+    @Test
+    void stressCrossesThresholdAtHighCpu() {
+        StrainRatePhysicsKernel k = new StrainRatePhysicsKernel();
+        PrintStream old = System.out;
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+        try {
+            for (int i = 0; i < 200; i++) k.updateStrainRate(0.9 * 4.0 * 0.02, 0.02);
+        } finally {
+            System.setOut(old);
+        }
+        String log = out.toString();
+        int count = log.split("High Stress Detected", -1).length - 1;
+        // The bug this guards: one line per frame (32,910 lines in half an hour). Entering high stress logs at most a few times.
+        assertTrue(count >= 1, "high CPU should register as high stress");
+        assertTrue(count <= 10, "logged " + count + " times in 200 frames; should log on transitions only");
+    }
+
+    // ---- vitals ----
+
+    @Test
+    void vitalsAreInRange() {
+        double cpu = ViperVitals.cpu();
+        assertTrue(cpu >= 0.0 && cpu <= 1.0, "cpu " + cpu);
+        assertTrue(ViperVitals.totalRamGb() > 0.5);
+        assertTrue(ViperVitals.freeRamGb() <= ViperVitals.totalRamGb());
+    }
+
+    // ---- Viper Hive panel formatting (hexflow JSON shapes as of 2026-11-05) ----
+
+    @Test
+    void quorumRowShowsVerdictWeightAndVeto() throws Exception {
+        JsonNode d = JSON.readTree("{\"t\":\"2026-11-05 10:00:00\",\"passed\":false,\"approve_weight\":9.0,"
+            + "\"module\":\"foo_bot\",\"vetoed\":[\"parses\"],\"ballots\":[]}");
+        String row = ViperHivePanel.decisionRow(d, 18.0);
+        assertTrue(row.contains("FAIL"));
+        assertTrue(row.contains("9.0/18.0"));
+        assertTrue(row.contains("foo_bot"));
+        assertTrue(row.contains("VETO parses"));
+    }
+
+    @Test
+    void ballotsListEveryVoterWithReason() throws Exception {
+        JsonNode d = JSON.readTree("{\"module\":\"m\",\"ballots\":["
+            + "{\"approve\":true,\"voter\":\"parses\",\"weight\":3.0,\"why\":\"python ast\"},"
+            + "{\"approve\":false,\"voter\":\"not_duplicate\",\"weight\":2.0,\"why\":\"identical body already sealed\"}]}");
+        String text = ViperHivePanel.ballotText(d);
+        assertTrue(text.contains("yes parses"));
+        assertTrue(text.contains(" NO not_duplicate"));
+        assertTrue(text.contains("identical body already sealed"));
+    }
+
+    @Test
+    void cellsListFailingButNotRetired() throws Exception {
+        JsonNode h = JSON.readTree("{\"total\":3,\"healthy\":1,\"failing\":1,\"retired\":1,\"throttle\":{},\"cells\":["
+            + "{\"cell\":\"good\",\"last_ok\":true,\"retired\":false,\"tier\":1,\"last_secs\":1.0},"
+            + "{\"cell\":\"broken\",\"last_ok\":false,\"retired\":false,\"tier\":2,\"consecutive_fails\":3,\"last_error\":\"boom\",\"last_secs\":2.0},"
+            + "{\"cell\":\"old\",\"last_ok\":false,\"retired\":true,\"tier\":3,\"last_secs\":9.0}]}");
+        String text = ViperHivePanel.cellsText(h);
+        String failing = text.substring(text.indexOf("FAILING NOW"), text.indexOf("SLOWEST"));
+        assertTrue(failing.contains("broken"));
+        assertTrue(failing.contains("boom"));
+        assertFalse(failing.contains("old"), "retired cells are not failures");
+        assertFalse(text.contains("old "), "retired cells are left out of the slow list too");
+    }
+
+    @Test
+    void jobsShowPromotedAndErrors() throws Exception {
+        JsonNode m = JSON.readTree("{\"result_count\":2,\"success_count\":1,\"push_total\":0,\"daemon_log\":["
+            + "{\"ok\":true,\"action\":\"mined\",\"best_tier\":3,\"promoted\":true,\"secs\":12.0,\"task\":\"Write a.py\"},"
+            + "{\"ok\":false,\"action\":\"mined\",\"best_tier\":0,\"promoted\":false,\"secs\":5.0,\"task\":\"Write b.py\"}]}");
+        String text = ViperHivePanel.jobsText(m);
+        assertTrue(text.contains("PROMOTED"));
+        assertTrue(text.contains("ERR"));
+        assertTrue(text.contains("results 2"));
+    }
+}
