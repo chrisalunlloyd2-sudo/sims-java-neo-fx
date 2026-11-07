@@ -201,7 +201,8 @@ public class GodHandApp extends Application {
                 
                 // Decay stress level slowly towards baseline homeostatic stability
                 stressLevel = Math.max(0.05, stressLevel - 0.001);
-                systemStabilityIndex += 0.0001; // The longer left running, the higher the stability index
+                // 2026-11-07: stability = healthy share of live hive cells (it used to only count up).
+                if (!Double.isNaN(ViperLiveFeed.stability)) systemStabilityIndex = ViperLiveFeed.stability;
                 
                 // Integrate physical solvers and StrainRatePhysicsKernel on each frame step
                 // 2026-11-05: strain = real box CPU (0..4); the old sine input sat above the stress threshold every frame.
@@ -215,8 +216,9 @@ public class GodHandApp extends Application {
                 
                 // Heartbeat pulse emitted to Watch Logs every 5 seconds
                 if (now - lastHeartbeat > 5_000_000_000L) {
+                    // 2026-11-07: measured pulse rate (was a sine of timePulse); first beat reads 0.
+                    double dynamicHeartbeat = lastHeartbeat == 0 ? 0.0 : 1e9 / (now - lastHeartbeat);
                     lastHeartbeat = now;
-                    double dynamicHeartbeat = 1.20 + 0.3 * Math.sin(timePulse * 2.0);
                     String hbMsg = String.format("[HEARTBEAT] Hive Daemon Pulse: %.2f Hz | Stability Index: %.4f | Stress: %.3f", 
                         dynamicHeartbeat, systemStabilityIndex, stressLevel);
                     synchronized (godChat) {
@@ -334,6 +336,7 @@ public class GodHandApp extends Application {
         primaryStage.setTitle("SIMS1337 v0.26.0 - 6D Hexeract Geospatial Manifold Organism");
         primaryStage.setScene(scene);
         ViperTray.install(primaryStage); // X = hide to tray; tray menu exits
+        ViperLiveFeed.start();           // real quorum / hive / KQML data for the dashboard
         primaryStage.show();
         
         timer.start();
@@ -888,19 +891,9 @@ public class GodHandApp extends Application {
             public void handle(long now) {
                 if (now - lastUpdate > 1_500_000_000L) { // 1.5 seconds
                     lastUpdate = now;
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("--- ACL/KQML MESSAGE QUEUE (MASLOW PRIORITIZED) ---\n");
-                    
-                    // SYSTEM Need (Priority 1)
-                    sb.append(String.format("[PRIORITY 1: SYSTEM] (tell\n  :sender StabilityDaemon\n  :receiver OllamaServer\n  :content (achieve :status \"active\" :heartbeat %.2f :stress %.2f))\n\n", heartbeatFreq, stressLevel));
-                    
-                    // OBJECTIVE (Priority 2)
-                    sb.append("[PRIORITY 2: OBJECTIVE] (ask-one\n  :sender Alpha\n  :receiver SQLiteMemory\n  :content (remembers :key \"repo_042\" :val \"Curvature projection weights\"))\n\n");
-                    
-                    // WANT (Priority 3)
-                    sb.append("[PRIORITY 3: WANT] (tell\n  :sender Beta\n  :receiver Gamma\n  :content (gossip :topic \"Orion Kernel Forge crystal stars alignment\"))\n");
-                    
-                    msgArea.setText(sb.toString());
+                    // 2026-11-07: the real C:\Viper\kqml_channel queues (were three hardcoded messages).
+                    String text = ViperLiveFeed.kqml;
+                    if (!text.equals(msgArea.getText())) msgArea.setText(text);
                 }
             }
         };
@@ -1627,23 +1620,28 @@ public class GodHandApp extends Application {
         int cellSize = 10;
         int cellGap = 3;
         int activeNodeCount = 0;
-        
+        // 2026-11-07: one cell per real quorum decision (hexflow /api/voting), lit = passed. Was random.
+        boolean[] votes = ViperLiveFeed.votes;
+        int known = votes == null ? 0 : votes.length;
+
         for (int i = 0; i < 64; i++) {
             int row = i / 8;
             int col = i % 8;
             double vx = gridX + col * (cellSize + cellGap);
             double vy = gridY + row * (cellSize + cellGap);
-            
-            boolean active = (rand.nextDouble() > 0.25);
+
+            boolean active = i < known && votes[i];
             if (active) activeNodeCount++;
-            
-            gc.setFill(active ? Color.web("#c084fc", 0.8) : Color.web("#c084fc", 0.15));
+
+            gc.setFill(active ? Color.web("#c084fc", 0.8)
+                    : i < known ? Color.web("#f472b6", 0.35) : Color.web("#c084fc", 0.08));
             gc.fillRect(vx, vy, cellSize, cellSize);
         }
-        
+
         gc.setFont(Font.font("Consolas", 10));
         gc.setFill(Color.web("#f472b6"));
-        gc.fillText("Consensus: " + activeNodeCount + " / 64 Nodes (⅔ Supermajority)", 30, 540);
+        gc.fillText(votes == null ? "Quorum: hexflow :7766 not reached yet"
+                : "Quorum: " + activeNodeCount + " passed / " + known + " latest decisions", 30, 540);
 
         // Heartbeat Monitor
         gc.setFill(Color.rgb(8, 4, 24, 0.75));

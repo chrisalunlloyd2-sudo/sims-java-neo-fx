@@ -159,6 +159,42 @@ class GodHandViperTest {
         assertFalse(ViperTray.ringExisting(port));   // a port nobody holds: no copy answers
     }
 
+    // ---- live feed (2026-11-07): dashboard grid / stability / KQML from real sources ----
+
+    @Test
+    void quorumGridTakesPassedFlagsInOrderCappedAt64() throws Exception {
+        StringBuilder sb = new StringBuilder("{\"decisions\":[");
+        for (int i = 0; i < 70; i++) sb.append(i == 0 ? "" : ",").append("{\"passed\":").append(i % 3 == 0).append("}");
+        boolean[] v = ViperLiveFeed.votes(JSON.readTree(sb.append("]}").toString()), 64);
+        assertEquals(64, v.length);
+        assertTrue(v[0]);
+        assertFalse(v[1]);
+        assertEquals(0, ViperLiveFeed.votes(JSON.readTree("{}"), 64).length, "no decisions = no lit cells");
+    }
+
+    @Test
+    void stabilityIsHealthyShareOfLiveCells() throws Exception {
+        JsonNode h = JSON.readTree("{\"cells\":["
+            + "{\"consecutive_fails\":0,\"retired\":false},{\"consecutive_fails\":2,\"retired\":false},"
+            + "{\"consecutive_fails\":0,\"retired\":false},{\"consecutive_fails\":0,\"retired\":false},"
+            + "{\"consecutive_fails\":9,\"retired\":true}]}");
+        assertEquals(0.75, ViperLiveFeed.stability(h), 1e-9);
+        assertTrue(Double.isNaN(ViperLiveFeed.stability(JSON.readTree("{\"cells\":[]}"))));
+    }
+
+    @Test
+    void kqmlViewShowsRealMessagesOrSaysEmpty(@TempDir Path dir) throws Exception {
+        for (String q : ViperLiveFeed.QUEUES) Files.createDirectories(dir.resolve(q));
+        String empty = ViperLiveFeed.kqmlText(dir, 4);
+        assertTrue(empty.contains("[queue empty]"));
+        assertFalse(empty.contains("StabilityDaemon"), "no invented traffic");
+        Files.writeString(dir.resolve("to_kai").resolve("moe_1.json"), "{\"acl\":\"(ask\\n  :sender moe\\n  :receiver kai)\"}");
+        String one = ViperLiveFeed.kqmlText(dir, 4);
+        assertTrue(one.contains("to_kai  1 message(s)"));
+        assertTrue(one.contains(":sender moe"));
+        assertFalse(one.contains("[queue empty]"));
+    }
+
     @Test
     void trayIconIsDrawnWithoutResources() {
         java.awt.image.BufferedImage img = ViperTray.image();
