@@ -36,28 +36,28 @@ public class ModelRouter {
             case VERY_LOW:
             case LOW:
                 selected = modelPool.getQwen2_0_5b();
-                logger.debug("Routed LOW complexity task '{}' to qwen2.5:0.5b", task.getName());
+                logger.debug("Routed LOW complexity task '{}' to qwen2.5-coder:1.5b", task.getName());
                 break;
             
             case MEDIUM:
                 selected = modelPool.getTinyllama_1_1b();
-                logger.debug("Routed MEDIUM complexity task '{}' to tinyllama:1.1b", task.getName());
+                logger.debug("Routed MEDIUM complexity task '{}' to codegemma:2b", task.getName());
                 break;
             
             case HIGH:
                 selected = modelPool.getPhiLatest();
-                logger.debug("Routed HIGH complexity task '{}' to phi:latest", task.getName());
+                logger.debug("Routed HIGH complexity task '{}' to qwen2.5-coder:1.5b", task.getName());
                 break;
             
             case VERY_HIGH:
             case CRITICAL:
                 selected = modelPool.getPhi3Mini();
-                logger.debug("Routed CRITICAL task '{}' to phi3:mini", task.getName());
+                logger.debug("Routed CRITICAL task '{}' to qwen2.5-coder:1.5b", task.getName());
                 break;
             
             default:
                 selected = modelPool.getTinyllama_1_1b();
-                logger.debug("Routed default task '{}' to tinyllama:1.1b", task.getName());
+                logger.debug("Routed default task '{}' to codegemma:2b", task.getName());
         }
         
         return selected;
@@ -69,11 +69,11 @@ public class ModelRouter {
     public SLMAgent selectModelWithLatency(Task task, long maxLatencyMs) {
         if (maxLatencyMs < 200) {
             // Must use fastest model regardless of complexity
-            logger.debug("Latency-constrained (<200ms) routing for '{}' to qwen2.5:0.5b", task.getName());
+            logger.debug("Latency-constrained (<200ms) routing for '{}' to qwen2.5-coder:1.5b", task.getName());
             return modelPool.getQwen2_0_5b();
         } else if (maxLatencyMs < 1000) {
             // Can use balanced model
-            logger.debug("Latency-constrained (<1000ms) routing for '{}' to tinyllama:1.1b", task.getName());
+            logger.debug("Latency-constrained (<1000ms) routing for '{}' to codegemma:2b", task.getName());
             return modelPool.getTinyllama_1_1b();
         } else {
             // Use complexity-based selection
@@ -99,17 +99,14 @@ public class ModelRouter {
         // Base latency by model (milliseconds)
         long baseLatency;
         switch (model.getModelName()) {
-            case "qwen2.5:0.5b":
+            case "qwen2.5-coder:1.5b":
                 baseLatency = 50;
                 break;
-            case "tinyllama:1.1b":
-                baseLatency = 500;
-                break;
-            case "phi:latest":
+            case "qwen2.5:1.5b":
                 baseLatency = 2000;
                 break;
-            case "phi3:mini":
-                baseLatency = 5000;
+            case "qwen2.5-coder:0.5b":
+                baseLatency = 500;
                 break;
             default:
                 baseLatency = 1000;
@@ -127,14 +124,14 @@ public class ModelRouter {
         switch (task.getComplexity()) {
             case VERY_LOW:
             case LOW:
-                return "Simple task - using fastest model (qwen2.5:0.5b)";
+                return "Simple task - using fastest model (qwen2.5-coder:1.5b)";
             case MEDIUM:
-                return "Medium complexity - using balanced model (tinyllama:1.1b)";
+                return "Medium complexity - using balanced model (codegemma:2b)";
             case HIGH:
-                return "Complex task - using reasoning model (phi:latest)";
+                return "Complex task - using reasoning model (qwen2.5-coder:1.5b)";
             case VERY_HIGH:
             case CRITICAL:
-                return "Critical task - using deep reasoning model (phi3:mini)";
+                return "Critical task - using deep reasoning model (qwen2.5-coder:1.5b)";
             default:
                 return "Default routing - using balanced model";
         }

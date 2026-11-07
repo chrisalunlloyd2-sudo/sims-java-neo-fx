@@ -55,6 +55,8 @@ public class ViperLabSuiteServer {
     private static final Path DARWIN_ALGORITHM_REGISTRY_LOG = DATA_DIR.resolve("darwin_algorithm_registry.jsonl");
     private static final Path DARWIN_GENERATION_LOG = DATA_DIR.resolve("darwin_algorithm_generations.jsonl");
     private static final Path DARWIN_WINNER_LOG = DATA_DIR.resolve("darwin_algorithm_winners.jsonl");
+    private static final Path CHAOS_LOG = DATA_DIR.resolve("chaos_tests.jsonl");
+    private static final Path DBLOCK_LOG = DATA_DIR.resolve("dblock_replays.jsonl");
     private static final HttpClient HTTP = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(3))
             .build();
@@ -81,6 +83,8 @@ public class ViperLabSuiteServer {
         server.createContext("/api/library-growth", new LibraryGrowthHandler());
         server.createContext("/api/log-tail", new LogTailHandler());
         server.createContext("/api/design", new DesignHandler());
+        server.createContext("/api/chaos-test", new AppendJsonHandler(CHAOS_LOG, "chaos_test"));
+        server.createContext("/api/dblock-replay", new AppendJsonHandler(DBLOCK_LOG, "dblock_replay"));
         server.setExecutor(null);
         server.start();
         appendJsonLine(PERSISTENCE_LOG, mapOf(
@@ -125,6 +129,8 @@ public class ViperLabSuiteServer {
         touch(DARWIN_ALGORITHM_REGISTRY_LOG);
         touch(DARWIN_GENERATION_LOG);
         touch(DARWIN_WINNER_LOG);
+        touch(CHAOS_LOG);
+        touch(DBLOCK_LOG);
         ensureWebSourceManifest();
         ensureDarwinTestPrograms();
         ensureDarwinAlgorithmRegistry();
@@ -236,7 +242,9 @@ public class ViperLabSuiteServer {
                     "darwinTestPrograms", countLines(DARWIN_TEST_PROGRAM_LOG),
                     "darwinAlgorithms", countLines(DARWIN_ALGORITHM_REGISTRY_LOG),
                     "darwinGenerations", countLines(DARWIN_GENERATION_LOG),
-                    "darwinWinners", countLines(DARWIN_WINNER_LOG)
+                    "darwinWinners", countLines(DARWIN_WINNER_LOG),
+                    "chaosTests", countLines(CHAOS_LOG),
+                    "dbLockReplays", countLines(DBLOCK_LOG)
             ));
             state.put("services", serviceHealth());
             state.put("logs", mapOf(
@@ -687,6 +695,8 @@ public class ViperLabSuiteServer {
                 case "epoch_upgrades" -> EPOCH_UPGRADE_LOG;
                 case "epoch_implementations" -> EPOCH_IMPLEMENT_LOG;
                 case "algebraic_flows" -> ALGEBRAIC_FLOW_LOG;
+                case "chaos" -> CHAOS_LOG;
+                case "dblock" -> DBLOCK_LOG;
                 case "persistence" -> PERSISTENCE_LOG;
                 case "darwin_programs" -> DARWIN_TEST_PROGRAM_LOG;
                 case "darwin_algorithms" -> DARWIN_ALGORITHM_REGISTRY_LOG;
@@ -4070,6 +4080,8 @@ public class ViperLabSuiteServer {
         <button onclick="tail('darwin_generations')">darwin_algorithm_generations.jsonl</button>
         <button onclick="tail('darwin_winners')">darwin_algorithm_winners.jsonl</button>
         <button onclick="tail('persistence')">persistence_events.jsonl</button>
+        <button onclick="tail('chaos')">chaos_tests.jsonl</button>
+        <button onclick="tail('dblock')">dblock_replays.jsonl</button>
       </div>
                     </div>
                     <main>
@@ -4110,6 +4122,19 @@ public class ViperLabSuiteServer {
                           <label>Changed variable</label><input id="epochVariable" value="retrieval_lens_rerank_weight">
                           <label>Dataset slice</label><input id="epochDataset" value="liked_logic_successful_code_recent_failures">
                           <button class="cmd" onclick="logRecursiveEpoch()">Log Proposal Epoch</button>
+                        </div>
+                        <div class="panel">
+                          <h2>Chaos Testing</h2>
+                          <label>Target Subsystem</label><input id="chaosTarget" value="Swarm Ledger Mutex">
+                          <label>Intensity</label><input id="chaosIntensity" value="High Load (8 Threads)">
+                          <button class="cmd" onclick="logChaosTest()">Log Chaos Test</button>
+                        </div>
+                        <div class="panel">
+                          <h2>DB-Lock Replay</h2>
+                          <label>Replay Scenario</label><input id="replayScenario" value="Write Path Collisions">
+                          <label>Simulated Writes</label><input id="replayWrites" value="5000">
+                          <button class="cmd" onclick="logDbLockReplay()">Log DB-Lock Replay</button>
+                        </div>
                         </div>
                         <div class="panel">
                           <h2>ASCII Epoch Queue</h2>
@@ -4307,6 +4332,24 @@ sets:
                       const x = await api('/api/recursive-training', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
                       print(x);
                       await loadBenchmarks(false);
+                    }
+                    async function logChaosTest(){
+                      const body = {
+                        targetSubsystem:chaosTarget.value,
+                        intensity:chaosIntensity.value,
+                        experiment:'Simulate high latency and dropped connections'
+                      };
+                      const x = await api('/api/chaos-test', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+                      print(x);
+                    }
+                    async function logDbLockReplay(){
+                      const body = {
+                        scenario:replayScenario.value,
+                        simulatedWrites:replayWrites.value,
+                        experiment:'Verify SQLite MUTEX locks handle bulk collision properly'
+                      };
+                      const x = await api('/api/dblock-replay', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+                      print(x);
                     }
                     async function queueAsciiEpoch(){
                       const body = {

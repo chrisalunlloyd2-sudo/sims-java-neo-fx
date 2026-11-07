@@ -6,17 +6,42 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.*;
 import javafx.scene.paint.Color;
 import javafx.scene.effect.Bloom;
+import javafx.application.Platform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.concurrent.*;
 
 /**
- * Tabbed GodHand Controller - All GUIs in one window with tabs
+ * Tabbed GodHand Controller - All GUIs in one window with tabs.
+ *
+ * Hardened 2026-11-06: all fake/placeholder data replaced with live API calls.
+ * - Models tab: polls Ollama /api/tags every 15s for real model list
+ * - Queue: polls hexflow /api/mining for real task counts
+ * - Chat: calls Ollama /api/chat for real model responses
+ * - Adapters: honest "no LoRA adapters loaded" (none are)
+ * - Players: replaced with live hive cell summary from hexflow
+ * - Facilities: labels reflect actual Viper subsystems with real port status
  */
 public class TabbedGodHandController {
     private static final Logger logger = LoggerFactory.getLogger(TabbedGodHandController.class);
+
+    private static final String OLLAMA = "http://127.0.0.1:11434";
+    private static final String HEXFLOW = "http://127.0.0.1:7766/api";
+    private static final ObjectMapper JSON = new ObjectMapper();
+    private static final int REFRESH_S = 15;
     
     @FXML private Label statusLabel;
     @FXML private TabPane mainTabPane;
@@ -27,185 +52,67 @@ public class TabbedGodHandController {
     @FXML private ScrollPane chatScroll;
     @FXML private TextField chatInput;
     
+    private final ScheduledExecutorService poll = Executors.newSingleThreadScheduledExecutor(r -> {
+        Thread t = new Thread(r, "godhand-live-poll");
+        t.setDaemon(true);
+        return t;
+    });
+    
     // Simple 10x10 grid
     private static final int GRID_SIZE = 10;
     
     @FXML
     public void initialize() {
-        logger.info("Tabbed GodHand initialized - 3 tabs");
+        logger.info("Tabbed GodHand initialized - 3 tabs (live data mode)");
         
         // Tab 1: GodHand
         initGodHandTab();
         
-        // Tab 2: Player Grid
+        // Tab 2: Player Grid → Hive Cell Grid
         initPlayerGridTab();
         
         // Tab 3: Facilities
         initFacilitiesTab();
         
-        // Don't call addChatMessage here - chatBox is in Tab 2 and may be null
-        // Chat will be populated by simulateModelChat() after tab is rendered
-        logger.info("✅ All tabs initialized");
+        logger.info("All tabs initialized - starting live polling");
         
-        // Start model chat (will add messages when tab is visible)
-        simulateModelChat();
+        // Start live data polling
+        startLivePolling();
     }
     
     private void initGodHandTab() {
-        logger.info("Initializing GodHand tab...");
+        logger.info("Initializing GodHand tab (live mode)...");
         
-        // Models
-        String[] models = {
-            "qwen2.5:0.5b - 🟢 Warm (Fast Tier)",
-            "tinyllama:1.1b - 🟢 Warm (Balanced Tier)",
-            "phi:latest - 🟢 Warm (Reasoning Tier)",
-            "phi3:mini - 🟡 Cold (Deep Tier)"
-        };
-        
-        for (String model : models) {
-            Label lbl = new Label(model);
-            lbl.setStyle("-fx-text-fill: #ffffff; -fx-font-size: 13px;");
-            modelPanel.getChildren().add(lbl);
-        }
-        
-        // LoRA Adapters
-        String[] adapters = {"CHAT", "CODE", "PATHFIND", "MOTIVES", "CAREER", "ANALYSIS"};
-        for (String adapter : adapters) {
-            Label lbl = new Label("⚪ " + adapter);
-            lbl.setStyle("-fx-text-fill: #a0a0a0; -fx-font-size: 12px;");
-            adapterPanel.getChildren().add(lbl);
-        }
-        
-        // Queue
-        Label queueInfo = new Label("Tasks: 0 | Utilization: 0% | Active: 0");
-        queueInfo.setStyle("-fx-text-fill: #ffffff; -fx-font-size: 13px;");
-        queuePanel.getChildren().add(queueInfo);
+        // Placeholder until first poll arrives
+        Label loading = new Label("Loading models from Ollama...");
+        loading.setStyle("-fx-text-fill: #a0a0a0; -fx-font-size: 13px;");
+        modelPanel.getChildren().add(loading);
+
+        Label adapterInfo = new Label("No LoRA adapters loaded");
+        adapterInfo.setStyle("-fx-text-fill: #a0a0a0; -fx-font-size: 12px;");
+        adapterPanel.getChildren().add(adapterInfo);
+
+        Label queueLoading = new Label("Loading queue stats from hexflow...");
+        queueLoading.setStyle("-fx-text-fill: #a0a0a0; -fx-font-size: 13px;");
+        queuePanel.getChildren().add(queueLoading);
     }
     
     private void initPlayerGridTab() {
-        logger.info("Initializing Player Grid tab - 10x10 SIMPLE RED GRID...");
+        logger.info("Initializing Hive Cell Grid tab...");
         
-        // Build SIMPLE 10x10 red grid with yellow borders
-        buildSimpleGrid();
-        
-        // Build skyline
-        buildSkyline();
-        
-        // Add players
-        addPlayers();
+        // Placeholder until first poll arrives
+        Label loading = new Label("Loading hive cells from hexflow...");
+        loading.setStyle("-fx-text-fill: #a0a0a0; -fx-font-size: 14px;");
+        playerPanel.getChildren().add(loading);
     }
     
-    private void buildSimpleGrid() {
-        logger.info("Building 10x10 RED grid with YELLOW borders...");
-        
-        for (int row = 0; row < GRID_SIZE; row++) {
-            for (int col = 0; col < GRID_SIZE; col++) {
-                Rectangle cell = new Rectangle(50, 50);
-                cell.setFill(Color.RED);
-                cell.setStroke(Color.YELLOW);
-                cell.setStrokeWidth(3);
-                
-                simpleGrid.add(cell, col, row);
-                logger.debug("Red cell [{},{}] added", row, col);
-            }
-        }
-        
-        logger.info("✅ SIMPLE GRID BUILT: {} red cells", GRID_SIZE * GRID_SIZE);
-    }
-    
-    private void buildSkyline() {
-        int[] heights = {200, 280, 350, 300, 220};
-        Color[] fills = {
-            Color.web("#1a1a3e"), Color.web("#2a2a4e"),
-            Color.web("#1a1a3e"), Color.web("#2a2a4e"),
-            Color.web("#1a1a3e")
-        };
-        Color[] strokes = {
-            Color.web("#00d9ff"), Color.web("#00ff88"),
-            Color.web("#ffaa00"), Color.web("#c77dff"),
-            Color.web("#ff6b6b")
-        };
-        
-        for (int i = 0; i < 5; i++) {
-            Rectangle building = new Rectangle(50, heights[i]);
-            building.setFill(fills[i]);
-            building.setStroke(strokes[i]);
-            building.setStrokeWidth(2);
-            building.setEffect(new Bloom(0.7));
-            skylineBox.getChildren().add(building);
-        }
-        
-        logger.info("Skyline built: 5 buildings");
-    }
-    
-    private void addPlayers() {
-        String[][] players = {
-            {"Agent Alpha", "3", "7", "2"},
-            {"Agent Beta", "8", "4", "1"},
-            {"Agent Gamma", "5", "9", "3"}
-        };
-        Color[] colors = {Color.LIGHTGREEN, Color.DODGERBLUE, Color.ORANGE};
-        
-        for (int i = 0; i < players.length; i++) {
-            VBox playerBox = new VBox(8);
-            
-            HBox nameBox = new HBox(10);
-            nameBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-            
-            Circle indicator = new Circle(10, colors[i]);
-            Label nameLabel = new Label(players[i][0]);
-            nameLabel.setStyle("-fx-text-fill: #ffffff; -fx-font-weight: bold;");
-            nameBox.getChildren().addAll(indicator, nameLabel);
-            
-            Label posLabel = new Label("Pos: (" + players[i][1] + ", " + players[i][2] + ", " + players[i][3] + ")");
-            posLabel.setStyle("-fx-text-fill: #a0a0a0; -fx-font-size: 11px;");
-            
-            Label statusLabel = new Label("Status: Active");
-            statusLabel.setStyle("-fx-text-fill: #00ff88; -fx-font-size: 11px;");
-            
-            playerBox.getChildren().addAll(nameBox, posLabel, statusLabel);
-            playerPanel.getChildren().add(playerBox);
-        }
-    }
+    // Old buildSimpleGrid/buildSkyline/addPlayers removed - replaced by live hive cell polling
     
     private void initFacilitiesTab() {
-        logger.info("Initializing Facilities tab...");
-        
-        String[][] facilities = {
-            {"🏗️ Brute Foundry", "Autonomous coding factory", "#ff6b6b"},
-            {"🧬 A/B Testing Lab", "Model comparison", "#c77dff"},
-            {"🌳 Knowledge Tree", "Database hierarchy", "#00d9ff"},
-            {"🔬 Research Lab", "Web crawlers", "#ffaa00"},
-            {"🔒 Secrets Locker", "Encrypted storage", "#999999"},
-            {"🏥 Hospital", "Agent recovery", "#ff6b9d"},
-            {"📡 GitHub Station", "AST crawler", "#6e5494"}
-        };
-        
-        for (String[] facility : facilities) {
-            try {
-                VBox card = new VBox(10);
-                card.setStyle("-fx-background-color: #16213e; -fx-padding: 15; -fx-background-radius: 10; -fx-min-width: 180;");
-                
-                Label name = new Label(facility[0]);
-                name.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: " + facility[2] + ";");
-                
-                Label desc = new Label(facility[1]);
-                desc.setStyle("-fx-text-fill: #a0a0a0; -fx-font-size: 11px;");
-                
-                Button openBtn = new Button("Open");
-                openBtn.setStyle("-fx-background-color: " + facility[2] + "; -fx-text-fill: #ffffff; -fx-font-size: 11px;");
-                openBtn.setMaxWidth(Double.MAX_VALUE);
-                
-                card.getChildren().addAll(name, desc, openBtn);
-                facilitiesPanel.getChildren().add(card);
-                
-                logger.debug("Added facility card: {}", facility[0]);
-            } catch (Exception e) {
-                logger.error("Failed to add facility card: {}", facility[0], e);
-            }
-        }
-        
-        logger.info("✅ Facilities tab initialized: {} cards", facilities.length);
+        logger.info("Initializing Facilities tab (live mode)...");
+        Label loading = new Label("Loading Viper subsystem status...");
+        loading.setStyle("-fx-text-fill: #a0a0a0; -fx-font-size: 13px;");
+        facilitiesPanel.getChildren().add(loading);
     }
     
     @FXML
@@ -215,34 +122,87 @@ public class TabbedGodHandController {
             addChatMessage("You", message);
             chatInput.clear();
             
-            javafx.animation.PauseTransition delay = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(1));
-            delay.setOnFinished(e -> {
-                String[] responses = {"Processing...", "Task queued", "Analyzing...", "Optimizing..."};
-                addChatMessage("phi", responses[(int)(Math.random() * responses.length)]);
-            });
-            delay.play();
+            // Call Ollama for a real response
+            CompletableFuture.runAsync(() -> {
+                try {
+                    String response = callOllamaChat(message);
+                    addChatMessage("ollama", response);
+                } catch (Exception e) {
+                    addChatMessage("System", "Ollama error: " + e.getMessage());
+                }
+            }, poll);
+        }
+    }
+    
+    private String callOllamaChat(String userMessage) {
+        try {
+            // Pick the smallest available model for responsiveness
+            JsonNode tags = fetchJson(OLLAMA + "/api/tags");
+            String model = "tinyllama:1.1b";
+            if (tags != null) {
+                for (JsonNode m : tags.path("models")) {
+                    String name = m.path("name").asText("");
+                    if (name.contains("tinyllama")) { model = name; break; }
+                    if (name.contains("0.5b") || name.contains("1.1b")) { model = name; break; }
+                }
+            }
+
+            String body = JSON.writeValueAsString(Map.of(
+                "model", model,
+                "messages", List.of(Map.of("role", "user", "content", userMessage)),
+                "stream", false,
+                "options", Map.of("num_gpu", 0, "num_predict", 100)
+            ));
+
+            HttpURLConnection conn = (HttpURLConnection) new URL(OLLAMA + "/api/chat").openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setConnectTimeout(5000);
+            conn.setReadTimeout(30000);
+            conn.setDoOutput(true);
+            try (OutputStream os = conn.getOutputStream()) {
+                os.write(body.getBytes(StandardCharsets.UTF_8));
+            }
+
+            if (conn.getResponseCode() != 200) {
+                return "[HTTP " + conn.getResponseCode() + "]";
+            }
+
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) sb.append(line);
+                JsonNode resp = JSON.readTree(sb.toString());
+                String content = resp.path("message").path("content").asText("(no response)");
+                if (content.length() > 300) content = content.substring(0, 297) + "...";
+                return content.trim();
+            }
+        } catch (Exception e) {
+            return "[error: " + e.getClass().getSimpleName() + "]";
         }
     }
     
     private void simulateModelChat() {
+        // Periodically show live hive events instead of fake chat
         javafx.animation.AnimationTimer timer = new javafx.animation.AnimationTimer() {
             private long lastChat = 0;
-            private int idx = 0;
-            
+
             @Override
             public void handle(long now) {
-                if (now - lastChat > 4_000_000_000L) {
-                    String[] chats = {
-                        "qwen2.5: Processing task queue...",
-                        "tinyllama: Grid sync complete ✅",
-                        "phi: Agent Alpha moving to (4, 7, 2)",
-                        "qwen2.5: LoRA adapter switched to CODE",
-                        "phi3: Analysis complete"
-                    };
-                    
-                    String[] parts = chats[idx % chats.length].split(": ");
-                    addChatMessage(parts[0], parts[1]);
-                    idx++;
+                if (now - lastChat > 15_000_000_000L) {
+                    try {
+                        JsonNode hive = fetchJson(HEXFLOW + "/hive");
+                        if (hive != null) {
+                            int total = hive.path("total").asInt(0);
+                            int healthy = hive.path("healthy").asInt(0);
+                            int failing = hive.path("failing").asInt(0);
+                            addChatMessage("hive", String.format("status: %d cells, %d healthy, %d failing", total, healthy, failing));
+                        } else {
+                            addChatMessage("System", "hexflow unreachable");
+                        }
+                    } catch (Exception e) {
+                        // silently skip
+                    }
                     lastChat = now;
                 }
             }
@@ -268,10 +228,292 @@ public class TabbedGodHandController {
         return switch (sender) {
             case "System" -> "-fx-text-fill: #a0a0a0; -fx-font-size: 11px;";
             case "You" -> "-fx-text-fill: #00ff88; -fx-font-size: 11px; -fx-font-weight: bold;";
-            case "qwen2.5" -> "-fx-text-fill: #00d9ff; -fx-font-size: 11px;";
-            case "tinyllama" -> "-fx-text-fill: #ffaa00; -fx-font-size: 11px;";
-            case "phi" -> "-fx-text-fill: #c77dff; -fx-font-size: 11px;";
+            case "ollama" -> "-fx-text-fill: #00d9ff; -fx-font-size: 11px;";
+            case "hive" -> "-fx-text-fill: #c77dff; -fx-font-size: 11px;";
             default -> "-fx-text-fill: #ffffff; -fx-font-size: 11px;";
         };
+    }
+
+    // ── Live polling engine ────────────────────────────────────────────────
+
+    private void startLivePolling() {
+        poll.scheduleWithFixedDelay(() -> {
+            try {
+                refreshModelsTab();
+                refreshQueueTab();
+                refreshHiveCells();
+                refreshFacilities();
+                Platform.runLater(() -> {
+                    if (statusLabel != null) {
+                        statusLabel.setText("Live data updated " + LocalTime.now().withNano(0) + "  (every " + REFRESH_S + "s)");
+                    }
+                });
+            } catch (Exception e) {
+                logger.error("Polling error", e);
+            }
+        }, 2, REFRESH_S, TimeUnit.SECONDS);
+
+        simulateModelChat();
+    }
+
+    private void refreshModelsTab() {
+        try {
+            JsonNode tags = fetchJson(OLLAMA + "/api/tags");
+            if (tags == null) {
+                Platform.runLater(() -> {
+                    modelPanel.getChildren().clear();
+                    Label err = new Label("Ollama unreachable at " + OLLAMA);
+                    err.setStyle("-fx-text-fill: #ff6b6b; -fx-font-size: 12px;");
+                    modelPanel.getChildren().add(err);
+                });
+                return;
+            }
+
+            List<String> modelNames = new ArrayList<>();
+            for (JsonNode m : tags.path("models")) {
+                String name = m.path("name").asText("(unknown)");
+                long sizeBytes = m.path("size").asLong(0);
+                double sizeGb = sizeBytes / 1073741824.0;
+                String sizeStr = sizeGb >= 1.0 ? String.format("%.1f GB", sizeGb) : String.format("%d MB", sizeBytes / 1048576);
+                modelNames.add(String.format("%s  (%s)", name, sizeStr));
+            }
+
+            Platform.runLater(() -> {
+                modelPanel.getChildren().clear();
+                if (modelNames.isEmpty()) {
+                    Label none = new Label("No models installed");
+                    none.setStyle("-fx-text-fill: #ff6b6b; -fx-font-size: 13px;");
+                    modelPanel.getChildren().add(none);
+                } else {
+                    for (String name : modelNames) {
+                        Label lbl = new Label("🟢 " + name);
+                        lbl.setStyle("-fx-text-fill: #00ff88; -fx-font-size: 13px;");
+                        modelPanel.getChildren().add(lbl);
+                    }
+                }
+            });
+        } catch (Exception e) {
+            logger.warn("Failed to refresh models: {}", e.getMessage());
+        }
+    }
+
+    private void refreshQueueTab() {
+        try {
+            JsonNode mining = fetchJson(HEXFLOW + "/mining");
+            if (mining == null) {
+                Platform.runLater(() -> {
+                    queuePanel.getChildren().clear();
+                    Label err = new Label("Hexflow mining API unreachable");
+                    err.setStyle("-fx-text-fill: #ff6b6b; -fx-font-size: 12px;");
+                    queuePanel.getChildren().add(err);
+                });
+                return;
+            }
+
+            int results = mining.path("result_count").asInt(0);
+            int ok = mining.path("success_count").asInt(0);
+            int pushes = mining.path("push_total").asInt(0);
+            int activeTasks = 0;
+            for (JsonNode j : mining.path("daemon_log")) {
+                if (j.path("ok").asBoolean(false)) activeTasks++;
+            }
+
+            JsonNode m = mining;
+            int finalActive = activeTasks;
+            Platform.runLater(() -> {
+                queuePanel.getChildren().clear();
+                Label stats = new Label(String.format("Results: %d | OK: %d | Pushes: %d | Active miners: %d", results, ok, pushes, finalActive));
+                stats.setStyle("-fx-text-fill: #ffffff; -fx-font-size: 13px;");
+                queuePanel.getChildren().add(stats);
+
+                Label recentHdr = new Label("Recent mining jobs:");
+                recentHdr.setStyle("-fx-text-fill: #a0a0a0; -fx-font-size: 11px;");
+                queuePanel.getChildren().add(recentHdr);
+
+                try {
+                    int shown = 0;
+                    for (JsonNode j : m.path("daemon_log")) {
+                        if (shown >= 8) break;
+                        String action = j.path("action").asText("?");
+                        int tier = j.path("best_tier").asInt(0);
+                        double secs = j.path("secs").asDouble(0);
+                        boolean promoted = j.path("promoted").asBoolean(false);
+                        String task = j.path("task").asText("");
+                        if (task.length() > 50) task = task.substring(0, 47) + "...";
+
+                        Label job = new Label(String.format("  %s tier%d %s %5.0fs  %s",
+                                action, tier, promoted ? "PROMOTED" : "", secs, task));
+                        job.setStyle("-fx-text-fill: #c0c0c0; -fx-font-size: 11px; -fx-font-family: monospace;");
+                        queuePanel.getChildren().add(job);
+                        shown++;
+                    }
+                } catch (Exception ignored) {}
+            });
+        } catch (Exception e) {
+            logger.warn("Failed to refresh queue: {}", e.getMessage());
+        }
+    }
+
+    private void refreshHiveCells() {
+        try {
+            JsonNode hive = fetchJson(HEXFLOW + "/hive");
+            if (hive == null) {
+                Platform.runLater(() -> {
+                    playerPanel.getChildren().clear();
+                    Label err = new Label("Hexflow hive API unreachable");
+                    err.setStyle("-fx-text-fill: #ff6b6b; -fx-font-size: 12px;");
+                    playerPanel.getChildren().add(err);
+                });
+                return;
+            }
+
+            int total = hive.path("total").asInt(0);
+            int healthy = hive.path("healthy").asInt(0);
+            int failing = hive.path("failing").asInt(0);
+            int retired = hive.path("retired").asInt(0);
+
+            List<JsonNode> live = new ArrayList<>();
+            for (JsonNode c : hive.path("cells")) {
+                if (!c.path("retired").asBoolean(false)) live.add(c);
+            }
+            live.sort((a, b) -> {
+                int t = Integer.compare(a.path("tier").asInt(99), b.path("tier").asInt(99));
+                if (t != 0) return t;
+                return a.path("cell").asText().compareTo(b.path("cell").asText());
+            });
+
+            Platform.runLater(() -> {
+                playerPanel.getChildren().clear();
+                Label summary = new Label(String.format("Hive: %d total, %d healthy, %d failing, %d retired", total, healthy, failing, retired));
+                summary.setStyle("-fx-text-fill: #00d9ff; -fx-font-size: 14px; -fx-font-weight: bold;");
+                playerPanel.getChildren().add(summary);
+
+                JsonNode throttle = hive.path("throttle");
+                if (!throttle.isMissingNode()) {
+                    double factor = throttle.path("factor").asDouble(1.0);
+                    String reason = throttle.path("reason").asText("");
+                    String thrText = factor > 1.0 ?
+                            String.format("THROTTLE: x%.1f (%s)", factor, reason.substring(0, Math.min(40, reason.length()))) :
+                            "Throttle: nominal";
+                    Label thrLabel = new Label(thrText);
+                    thrLabel.setStyle(factor > 3.0 ?
+                            "-fx-text-fill: #ff6b6b; -fx-font-size: 11px;" :
+                            "-fx-text-fill: #446644; -fx-font-size: 11px;");
+                    playerPanel.getChildren().add(thrLabel);
+                }
+
+                int shown = 0;
+                int currentTier = -1;
+                for (JsonNode c : live) {
+                    if (shown >= 30) break;
+                    int tier = c.path("tier").asInt(0);
+                    if (tier != currentTier) {
+                        currentTier = tier;
+                        Label tierHdr = new Label("-- Tier " + tier + " --");
+                        tierHdr.setStyle("-fx-text-fill: #c77dff; -fx-font-size: 11px; -fx-font-weight: bold;");
+                        playerPanel.getChildren().add(tierHdr);
+                    }
+
+                    String name = c.path("cell").asText("?");
+                    boolean ok = c.path("last_ok").asBoolean(true);
+                    int fails = c.path("consecutive_fails").asInt(0);
+                    double secs = c.path("last_secs").asDouble(0);
+
+                    String icon = ok ? "OK" : "!!";
+                    String detail = String.format("%s %-24s %5.0fs  fails=%d", icon, name, secs, fails);
+                    Label cellLabel = new Label(detail);
+                    cellLabel.setStyle(ok ?
+                            "-fx-text-fill: #c0c0c0; -fx-font-size: 11px; -fx-font-family: monospace;" :
+                            "-fx-text-fill: #ff6b6b; -fx-font-size: 11px; -fx-font-family: monospace;");
+                    playerPanel.getChildren().add(cellLabel);
+                    shown++;
+                }
+
+                if (live.size() > 30) {
+                    Label more = new Label("... and " + (live.size() - 30) + " more cells");
+                    more.setStyle("-fx-text-fill: #a0a0a0; -fx-font-size: 11px;");
+                    playerPanel.getChildren().add(more);
+                }
+            });
+        } catch (Exception e) {
+            logger.warn("Failed to refresh hive cells: {}", e.getMessage());
+        }
+    }
+
+    private void refreshFacilities() {
+        String[][] subsystems = {
+            {"hexflow", "7766", "Hive dashboard & workflow API"},
+            {"moe_server", "8765", "Main inference / chat backend"},
+            {"wave_server", "8788", "Learning inference (WAVE layer)"},
+            {"ollama", "11434", "Local model inference engine"},
+            {"gateway", "8800", "API gateway"},
+            {"aegis_web", "5005", "MOA web UI"},
+        };
+
+        List<String[]> results = new ArrayList<>();
+        for (String[] sub : subsystems) {
+            boolean alive = portAlive(Integer.parseInt(sub[1]));
+            results.add(new String[]{sub[0], alive ? "UP" : "DOWN", sub[1], sub[2]});
+        }
+
+        Platform.runLater(() -> {
+            facilitiesPanel.getChildren().clear();
+
+            for (String[] r : results) {
+                String name = r[0];
+                boolean up = "UP".equals(r[1]);
+                String port = r[2];
+                String desc = r[3];
+
+                VBox card = new VBox(6);
+                card.setStyle("-fx-background-color: #16213e; -fx-padding: 12; -fx-background-radius: 8; -fx-min-width: 200;");
+
+                Label nameLbl = new Label((up ? "ON " : "OFF ") + name + " (:" + port + ")");
+                nameLbl.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: " + (up ? "#00ff88" : "#ff6b6b") + ";");
+
+                Label descLbl = new Label(desc);
+                descLbl.setStyle("-fx-text-fill: #a0a0a0; -fx-font-size: 11px;");
+
+                card.getChildren().addAll(nameLbl, descLbl);
+                facilitiesPanel.getChildren().add(card);
+            }
+
+            Label note = new Label("Ports probed every " + REFRESH_S + "s. Read-only.");
+            note.setStyle("-fx-text-fill: #606060; -fx-font-size: 10px;");
+            facilitiesPanel.getChildren().add(note);
+        });
+    }
+
+    // ── HTTP utilities ─────────────────────────────────────────────────────
+
+    private static JsonNode fetchJson(String url) {
+        try {
+            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+            conn.setRequestMethod("GET");
+            conn.setConnectTimeout(5000);
+            conn.setReadTimeout(10000);
+            if (conn.getResponseCode() != 200) return null;
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) sb.append(line);
+                return JSON.readTree(sb.toString());
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private static boolean portAlive(int port) {
+        try {
+            HttpURLConnection conn = (HttpURLConnection) new URL("http://127.0.0.1:" + port + "/").openConnection();
+            conn.setRequestMethod("GET");
+            conn.setConnectTimeout(3000);
+            conn.setReadTimeout(3000);
+            int code = conn.getResponseCode();
+            return code > 0;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

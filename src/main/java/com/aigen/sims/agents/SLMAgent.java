@@ -1,39 +1,53 @@
 package com.aigen.sims.agents;
 
+import com.aigen.sims.OllamaRouter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * SLM Agent - Wrapper for Ollama model inference
  * Supports 4 model tiers with mmap optimization
+ *
+ * 2026-11-06: routed through OllamaRouter.query(...) (box-mic yield, options.num_gpu = 0,
+ * NO_RESPONSE on error, adaptive pacing). The raw HttpClient /api/generate call is gone.
+ * Default model qwen2.5-coder:0.5b: installed (397 MB), under the 1.5b local ceiling,
+ * house-preferred for code. codellama:7b is not installed and over the ceiling, so it
+ * can no longer reach Ollama through any SLM agent.
  */
 public class SLMAgent {
     private static final Logger logger = LoggerFactory.getLogger(SLMAgent.class);
-    
-    private static final String OLLAMA_BASE = "http://localhost:11434";
-    private static final Duration TIMEOUT = Duration.ofSeconds(120);
-    
+
+    /** House default: small, installed, under the 1.5b local ceiling, preferred for code. */
+    public static final String DEFAULT_MODEL = "qwen2.5-coder:0.5b";
+    private static final int DEFAULT_NUM_CTX = 1024;
+
     private final String modelName;
-    private final HttpClient httpClient;
+    private final OllamaRouter router;
     private boolean isWarm;
     private final Map<String, Object> context;
-    
+
     public SLMAgent(String modelName) {
-        this.modelName = modelName;
-        this.httpClient = HttpClient.newBuilder()
-            .connectTimeout(TIMEOUT)
-            .build();
+        this.modelName = sanitizeModel(modelName);
+        this.router = new OllamaRouter();
         this.isWarm = false;
         this.context = new HashMap<>();
+    }
+
+    /** codellama:7b is not installed and over the 1.5b local ceiling: it falls back to the house default. */
+    static String sanitizeModel(String requested) {
+        if (requested == null || requested.isBlank()) {
+            logger.warn("No model requested; using default {}", DEFAULT_MODEL);
+            return DEFAULT_MODEL;
+        }
+        if (requested.contains("codellama")) {
+            logger.warn("Model '{}' is not installed and over the 1.5b local ceiling; using {}", requested, DEFAULT_MODEL);
+            return DEFAULT_MODEL;
+        }
+        return requested;
     }
     
     /**
@@ -52,34 +66,19 @@ public class SLMAgent {
     }
     
     /**
-     * Generate text from prompt
+     * Generate text from prompt.
+     *
+     * 2026-11-06: all traffic goes through the OllamaRouter's single mic-gated
+     * generate call; num_predict = maxTokens, default 1024-token context.
+     * Throws IOException when the router answers NO_RESPONSE (Ollama down or HTTP error),
+     * matching the old failure contract.
      */
     public String generate(String prompt, int maxTokens) throws IOException, InterruptedException {
-        String jsonBody = String.format(
-            "{\"model\":\"%s\",\"prompt\":\"%s\",\"stream\":false,\"options\":{\"num_predict\":%d}}",
-            modelName,
-            prompt.replace("\"", "\\\""),
-            maxTokens
-        );
-        
-        HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(OLLAMA_BASE + "/api/generate"))
-            .timeout(TIMEOUT)
-            .header("Content-Type", "application/json")
-            .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
-            .build();
-        
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        
-        if (response.statusCode() != 200) {
-            throw new IOException("Ollama API error: " + response.statusCode());
+        String reply = router.query(modelName, prompt, maxTokens, null, DEFAULT_NUM_CTX);
+        if ("NO_RESPONSE".equals(reply)) {
+            throw new IOException("Ollama call failed for " + modelName + " (NO_RESPONSE from OllamaRouter)");
         }
-        
-        // Simple JSON parsing (in production, use Jackson)
-        String body = response.body();
-        int start = body.indexOf("\"response\":\"") + 12;
-        int end = body.indexOf("\"", start);
-        return body.substring(start, end).replace("\\n", "\n");
+        return reply;
     }
     
     /**

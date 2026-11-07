@@ -21,10 +21,10 @@ public class MCTSPipeline {
         System.out.println("[MCTS] Expanding AST graph for root state: " + rootState);
         
         // Simulating Deep RL Self-Play
-        if (guard.checkCircuit("deepseek-r1:1.5b")) {
-            String rollout = router.query("deepseek-r1:1.5b", "Analyze the strategic advantage of this hex topology: " + rootState + ". Output one sentence.");
-            if (rollout.equals("NO_RESPONSE")) guard.registerFailure("deepseek-r1:1.5b");
-            else guard.registerSuccess("deepseek-r1:1.5b");
+        if (guard.checkCircuit("qwen2.5:1.5b")) {
+            String rollout = router.query("qwen2.5:1.5b", "Analyze the strategic advantage of this hex topology: " + rootState + ". Output one sentence.");
+            if (rollout.equals("NO_RESPONSE")) guard.registerFailure("qwen2.5:1.5b");
+            else guard.registerSuccess("qwen2.5:1.5b");
         }
     }
 }

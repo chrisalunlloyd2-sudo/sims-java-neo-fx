@@ -17,10 +17,10 @@ public class QwenRepoEditor {
             return false;
         }
 
-        System.out.println(String.format("[QWEN REPO EDITOR] Editing file '%s' with model 'qwen2.5:0.5b'...", relativeFilePath));
+        System.out.println(String.format("[QWEN REPO EDITOR] Editing file '%s' with model 'qwen2.5-coder:1.5b'...", relativeFilePath));
         String prompt = String.format("Qwen Coder: Generate patch for file '%s'. Instruction: %s", relativeFilePath, editInstruction);
 
-        String patchResponse = router.query("qwen2.5:0.5b", prompt);
+        String patchResponse = router.query("qwen2.5-coder:1.5b", prompt);
         System.out.println(" -> Qwen Generated File Edit Patch:\n" + patchResponse);
         return true;
     }

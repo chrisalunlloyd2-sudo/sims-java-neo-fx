@@ -63,7 +63,7 @@ public class MoltbookSystem {
         system.testQwenChat(3);
 
         System.out.println(ANSI_YELLOW + "=== TESTING GOSSIP QUORUM VOTING ===" + ANSI_RESET);
-        system.voteAndActivateInterstitial("PROP_INT_001");
+        system.voteAndActivateInterstitial("PROP_INT_001", "public void testCode() { System.out.println(\"Testing Code Validation\"); }");
         system.proposeNewGithubRepo("sims1337-neuromorphic-core", "Autonomous SLM Distillation Engine");
 
         System.out.println(ANSI_CYAN + "=== MOLTBOOK CHAT FEED DUMP ===" + ANSI_RESET);
@@ -125,7 +125,7 @@ public class MoltbookSystem {
             postMoltbookMessage("Qwen-Speaker", "Acquiring CMG Lock for prompt #" + i + "...");
             
             // Full, unrestricted response generation via OllamaRouter
-            String response = ollamaRouter.query("qwen2.5:0.5b", prompt);
+            String response = ollamaRouter.query("qwen2.5-coder:1.5b", prompt);
             responses.add(response);
             
             postMoltbookMessage("Qwen-2.5-0.5B-FULL", response);
@@ -136,15 +136,71 @@ public class MoltbookSystem {
         return responses;
     }
 
-    public void voteAndActivateInterstitial(String proposalId) {
+    public void voteAndActivateInterstitial(String proposalId, String codeSnippet) {
         QuorumProposal prop = new QuorumProposal(proposalId, "INTERSTITIAL_ACTIVATE", "Quorum vote to activate fastmem interstitial cell");
-        prop.upvotes = 4;
-        prop.passed = true;
+        
+        postMoltbookMessage("[GOSSIP QUORUM]", "Initiating Cellular Mic Consensus Vote on Proposal: " + proposalId);
+        
+        String[] models = {"qwen2.5-coder:1.5b", "qwen2.5:1.5b", "qwen2.5-coder:0.5b"};
+        int upvotes = 0;
+        int downvotes = 0;
+        
+        for (String model : models) {
+            postMoltbookMessage("[CELLULAR MIC]", "Passing mic to " + model + " for code validation...");
+            String prompt = "You are a senior system validator. Evaluate this code snippet for safety and logic: \n" + codeSnippet + "\nRespond with EXACTLY 'YES' if it is safe, or 'NO' if it contains errors or malicious intent.";
+            
+            String response = ollamaRouter.query(model, prompt);
+            
+            if (response != null && response.toUpperCase().contains("YES")) {
+                upvotes++;
+                postMoltbookMessage("[" + model.toUpperCase() + "]", ANSI_GREEN + "VOTE: YES (Approved)" + ANSI_RESET);
+            } else {
+                downvotes++;
+                postMoltbookMessage("[" + model.toUpperCase() + "]", ANSI_RED + "VOTE: NO (Rejected)" + ANSI_RESET);
+            }
+            
+            // Wait 5 seconds to prevent Ollama model thrashing crash in the Cellular Mic loop
+            try { Thread.sleep(5000); } catch (Exception ignored) {}
+        }
+        
+        prop.upvotes = upvotes;
+        prop.downvotes = downvotes;
+        prop.passed = upvotes >= 2; // 2 out of 3 is a quorum
         activeProposals.add(prop);
 
-        postMoltbookMessage("[GOSSIP QUORUM]", "Proposal Passed: " + prop.details + " (Votes: " + prop.upvotes + "/0)");
-        physicsKernel.reloadLastStableState();
-        postMoltbookMessage("[FASTMEM]", "Interstitial Cell activated via Quorum Consensus!");
+        if (prop.passed) {
+            postMoltbookMessage("[GOSSIP QUORUM]", ANSI_GREEN + "Proposal Passed: " + prop.details + " (Votes: " + prop.upvotes + "/" + prop.downvotes + ")" + ANSI_RESET);
+            physicsKernel.reloadLastStableState();
+            postMoltbookMessage("[FASTMEM]", "Interstitial Cell activated via Quorum Consensus!");
+            
+            // Execute the code commit based on the Gossip Quorum Vote
+            postMoltbookMessage("[GIT AGENT]", "Committing Android 6D Topo-State Evaluation Mechanics to repo based on Quorum...");
+            try {
+                // Write the code snippet to file
+                File targetFile = new File("src/main/java/com/aigen/sims/engine/GeneratedGameMechanics.java");
+                targetFile.getParentFile().mkdirs();
+                try (FileWriter fw = new FileWriter(targetFile, false)) {
+                    fw.write("package com.aigen.sims.engine;\n\n");
+                    fw.write("public class GeneratedGameMechanics {\n");
+                    fw.write("\n    // [GOSSIP QUORUM APPROVED] " + new Date() + "\n");
+                    fw.write("    " + codeSnippet.replace("\n", "\n    ") + "\n");
+                    fw.write("\n}\n");
+                }
+                
+                // Stage the file
+                Process pAdd = Runtime.getRuntime().exec("git add src/main/java/com/aigen/sims/engine/GeneratedGameMechanics.java");
+                pAdd.waitFor();
+                
+                // Commit the file
+                Process pCommit = Runtime.getRuntime().exec("git commit -m \"[GOSSIP QUORUM] Mined Android Game Mechanics via SLM\"");
+                pCommit.waitFor();
+                postMoltbookMessage("[GIT AGENT]", "Commit Successful. Game Mechanics successfully deployed to codebase!");
+            } catch (Exception e) {
+                postMoltbookMessage("[GIT AGENT ERROR]", "Failed to commit: " + e.getMessage());
+            }
+        } else {
+            postMoltbookMessage("[GOSSIP QUORUM]", ANSI_RED + "Proposal Rejected. Quorum not reached. (Votes: " + prop.upvotes + "/" + prop.downvotes + ")" + ANSI_RESET);
+        }
     }
 
     public void proposeNewGithubRepo(String repoName, String description) {

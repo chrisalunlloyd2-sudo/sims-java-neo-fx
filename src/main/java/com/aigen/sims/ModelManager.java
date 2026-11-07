@@ -24,11 +24,11 @@ public class ModelManager {
 
     public ModelManager() {
         // Setup 192-edge Hexeract topological positions for SLM Nodes
-        profiles.put("qwen2.5:0.5b", new ModelProfile("qwen2.5:0.5b", "Agent Driver", new HexCoord(0, 0, 0), "grid", "ability"));
-        profiles.put("tinyllama:1.1b", new ModelProfile("tinyllama:1.1b", "Fast Query", new HexCoord(1, 0, 0), "ability", "grid"));
-        profiles.put("deepseek-r1:1.5b", new ModelProfile("deepseek-r1:1.5b", "Reasoning Auditor", new HexCoord(0, 1, 0), "logic", "backend"));
-        profiles.put("qwen2.5:3b", new ModelProfile("qwen2.5:3b", "Code Miner", new HexCoord(1, 1, 0), "tool", "backend"));
-        profiles.put("phi:latest", new ModelProfile("phi:latest", "Strategic Planner", new HexCoord(0, 0, 1), "logic", "tool"));
+        profiles.put("qwen2.5-coder:1.5b", new ModelProfile("qwen2.5-coder:1.5b", "Agent Driver", new HexCoord(0, 0, 0), "grid", "ability"));
+        profiles.put("qwen2.5-coder:0.5b", new ModelProfile("qwen2.5-coder:0.5b", "Fast Query", new HexCoord(1, 0, 0), "ability", "grid"));
+        profiles.put("qwen2.5:1.5b", new ModelProfile("qwen2.5:1.5b", "Reasoning Auditor", new HexCoord(0, 1, 0), "logic", "backend"));
+        profiles.put("qwen2.5:1.5b", new ModelProfile("qwen2.5:1.5b", "Code Miner", new HexCoord(1, 1, 0), "tool", "backend"));
+        profiles.put("qwen2.5-coder:1.5b", new ModelProfile("qwen2.5-coder:1.5b", "Strategic Planner", new HexCoord(0, 0, 1), "logic", "tool"));
 
         // Initialize Stratum 3 Quorum Homology Engine (fowHop=2, quorumMin=3, approveMin=2)
         this.quorumEngine = new WeightedQuorumVote(2, 3, 2);

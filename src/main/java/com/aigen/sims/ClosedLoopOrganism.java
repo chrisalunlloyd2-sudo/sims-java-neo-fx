@@ -168,7 +168,7 @@ public class ClosedLoopOrganism {
             if ("pending".equals(item.status)) {
                 System.out.println("[OLLAMA MODEL VOTING] Querying model for consensus vote on: " + item.gossip_id);
                 String votePrompt = "Vote YES or NO on proposal: " + item.proposal + ". Reply YES to approve.";
-                String modelVote = ollamaRouter.query("qwen2.5:0.5b", votePrompt);
+                String modelVote = ollamaRouter.query("qwen2.5-coder:1.5b", votePrompt);
                 
                 if (modelVote != null && modelVote.toUpperCase().contains("YES")) {
                     item.upvotes += 2;
@@ -229,7 +229,7 @@ public class ClosedLoopOrganism {
 
         // Step A: Model Patch Generation via Cellular Microphone Gating (CMG)
         String prompt = "Generate concise fix for file " + task.filePath + " expected output: " + task.expectedChange;
-        String patchV0 = ollamaRouter.query("qwen2.5:0.5b", prompt);
+        String patchV0 = ollamaRouter.query("qwen2.5-coder:1.5b", prompt);
 
         // Step B: Aegis Mandatory Review Gate
         System.out.println("[AEGIS REVIEW] Auditing candidate patch confidence...");

@@ -44,7 +44,7 @@ public class UnifiedBackendController {
         title.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #00ff88;");
         modelPanel.getChildren().add(title);
         
-        String[] models = {"qwen2.5:0.5b 🟢", "tinyllama:1.1b 🟢", "phi:latest 🟢", "phi3:mini 🟡"};
+        String[] models = {"qwen2.5-coder:1.5b 🟢", "codegemma:2b 🟢", "qwen2.5-coder:1.5b 🟢", "qwen2.5-coder:1.5b 🟡"};
         for (String model : models) {
             Label lbl = new Label(model);
             lbl.setStyle("-fx-text-fill: #ffffff; -fx-font-size: 12px;");

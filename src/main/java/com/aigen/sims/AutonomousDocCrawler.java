@@ -63,7 +63,7 @@ public class AutonomousDocCrawler {
             System.out.println("\n[SWARM PROPOSAL] Prompting Qwen SLM to generate documentation proposal for: " + dirName);
 
             String prompt = "Qwen Coder: Generate concise, technical README.md documentation for module folder: " + dirName;
-            String generatedDoc = router.query("qwen2.5:0.5b", prompt);
+            String generatedDoc = router.query("qwen2.5-coder:1.5b", prompt);
 
             System.out.println("[GOSSIP QUORUM] Voting on documentation proposal for '" + dirName + "'...");
             System.out.println("[GOSSIP QUORUM] Vote Result: PASSED (4/0 Unanimous Consensus)");

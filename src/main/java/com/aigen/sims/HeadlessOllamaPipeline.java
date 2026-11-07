@@ -62,12 +62,12 @@ public class HeadlessOllamaPipeline {
     private static void generateCode(String prompt) throws Exception {
         System.out.println("💻 CODE GENERATION PIPELINE");
         System.out.println("==============================");
-        String initialCode = callModel("qwen2.5:0.5b", "Write code for: " + prompt + ". Output ONLY the code, no explanation.", 200, 0.1);
-        System.out.println("📝 [qwen2.5:0.5b] Initial code:\n" + initialCode);
-        String reviewedCode = callModel("llama3.2:1b", "Review and improve this code. Fix bugs, add comments, optimize. Output ONLY the improved code:\n" + initialCode, 300, 0.2);
-        System.out.println("\n🔍 [llama3.2:1b] Reviewed code:\n" + reviewedCode);
-        String finalCode = callModel("deepseek-r1:1.5b", "Finalize this code. Add error handling, edge cases, and docstring. Output ONLY the final code:\n" + reviewedCode, 400, 0.1);
-        System.out.println("\n✅ [deepseek-r1:1.5b] Final code:\n" + finalCode);
+        String initialCode = callModel("qwen2.5-coder:1.5b", "Write code for: " + prompt + ". Output ONLY the code, no explanation.", 200, 0.1);
+        System.out.println("📝 [qwen2.5-coder:1.5b] Initial code:\n" + initialCode);
+        String reviewedCode = callModel("qwen2.5-coder:0.5b", "Review and improve this code. Fix bugs, add comments, optimize. Output ONLY the improved code:\n" + initialCode, 300, 0.2);
+        System.out.println("\n🔍 [codegemma:2b] Reviewed code:\n" + reviewedCode);
+        String finalCode = callModel("qwen2.5:1.5b", "Finalize this code. Add error handling, edge cases, and docstring. Output ONLY the final code:\n" + reviewedCode, 400, 0.1);
+        System.out.println("\n✅ [qwen2.5:1.5b] Final code:\n" + finalCode);
         String filename = prompt.replaceAll("[^a-zA-Z0-9]", "_").substring(0, Math.min(30, prompt.length())) + ".py";
         Files.writeString(Path.of(filename), finalCode);
         System.out.println("\n💾 Saved to: " + filename);
@@ -76,12 +76,12 @@ public class HeadlessOllamaPipeline {
     private static void writeEssay(String topic) throws Exception {
         System.out.println("📝 ESSAY WRITING PIPELINE");
         System.out.println("==========================");
-        String outline = callModel("tinyllama:1.1b", "Create a detailed outline for an essay about: " + topic + ". Use bullet points.", 200, 0.3);
-        System.out.println("[tinyllama:1.1b] Outline:\n" + outline);
-        String body = callModel("llama3.2:1b", "Write the body paragraphs for this essay outline. Be thorough and detailed:\n" + outline, 500, 0.5);
-        System.out.println("\n🔄 [llama3.2:1b] Body:\n" + body);
-        String intro = callModel("phi3:mini", "Write an engaging introduction and conclusion for this essay:\n" + body, 300, 0.4);
-        System.out.println("\n🎯 [phi3:mini] Intro/Conclusion:\n" + intro);
+        String outline = callModel("qwen2.5-coder:0.5b", "Create a detailed outline for an essay about: " + topic + ". Use bullet points.", 200, 0.3);
+        System.out.println("[codegemma:2b] Outline:\n" + outline);
+        String body = callModel("qwen2.5-coder:0.5b", "Write the body paragraphs for this essay outline. Be thorough and detailed:\n" + outline, 500, 0.5);
+        System.out.println("\n🔄 [codegemma:2b] Body:\n" + body);
+        String intro = callModel("qwen2.5-coder:1.5b", "Write an engaging introduction and conclusion for this essay:\n" + body, 300, 0.4);
+        System.out.println("\n🎯 [qwen2.5-coder:1.5b] Intro/Conclusion:\n" + intro);
         String fullEssay = intro + "\n\n" + body;
         String filename = topic.replaceAll("[^a-zA-Z0-9]", "_").substring(0, Math.min(30, topic.length())) + "_essay.txt";
         Files.writeString(Path.of(filename), fullEssay);
@@ -91,19 +91,19 @@ public class HeadlessOllamaPipeline {
     private static void completeTask(String task) throws Exception {
         System.out.println("⚡ TASK COMPLETION");
         System.out.println("==================");
-        String analysis = callModel("qwen2.5:0.5b", "Analyze this task and break it into steps: " + task, 150, 0.2);
-        System.out.println("🔍 [qwen2.5:0.5b] Analysis:\n" + analysis);
-        String solution = callModel("llama3.2:1b", "Complete this task step by step: " + task + "\nAnalysis: " + analysis, 400, 0.3);
-        System.out.println("\n⚡ [llama3.2:1b] Solution:\n" + solution);
-        String verification = callModel("deepseek-r1:1.5b", "Verify this solution is correct and complete. Point out any issues:\nTask: " + task + "\nSolution: " + solution, 200, 0.1);
-        System.out.println("\n✅ [deepseek-r1:1.5b] Verification:\n" + verification);
+        String analysis = callModel("qwen2.5-coder:1.5b", "Analyze this task and break it into steps: " + task, 150, 0.2);
+        System.out.println("🔍 [qwen2.5-coder:1.5b] Analysis:\n" + analysis);
+        String solution = callModel("qwen2.5-coder:0.5b", "Complete this task step by step: " + task + "\nAnalysis: " + analysis, 400, 0.3);
+        System.out.println("\n⚡ [codegemma:2b] Solution:\n" + solution);
+        String verification = callModel("qwen2.5:1.5b", "Verify this solution is correct and complete. Point out any issues:\nTask: " + task + "\nSolution: " + solution, 200, 0.1);
+        System.out.println("\n✅ [qwen2.5:1.5b] Verification:\n" + verification);
     }
 
     private static void runPipeline(String input) throws Exception {
         System.out.println("🔗 FULL MODEL PIPELINE (6 models chained)");
         System.out.println("===========================================");
         String current = input;
-        String[] pipeline = {"qwen2.5:0.5b", "tinyllama:1.1b", "phi:latest", "llama3.2:1b", "phi3:mini", "deepseek-r1:1.5b"};
+        String[] pipeline = {"qwen2.5-coder:1.5b", "qwen2.5-coder:0.5b", "qwen2.5-coder:1.5b", "qwen2.5-coder:0.5b", "qwen2.5-coder:1.5b", "qwen2.5:1.5b"};
         for (String model : pipeline) {
             System.out.println("\n--- " + model + " ---");
             current = callModel(model, "Process this and improve it. Add your unique perspective:\n" + current, 200, 0.4);
@@ -133,7 +133,7 @@ public class HeadlessOllamaPipeline {
     private static void runVote(String proposal) throws Exception {
         System.out.println("🧬 MARKOV CHAIN VOTING ON: " + proposal);
         System.out.println("==============================");
-        String[] voters = {"qwen2.5:0.5b", "tinyllama:1.1b", "llama3.2:1b", "deepseek-r1:1.5b"};
+        String[] voters = {"qwen2.5-coder:1.5b", "qwen2.5-coder:0.5b", "qwen2.5-coder:0.5b", "qwen2.5:1.5b"};
 
         // 1. DECOMPOSE — proposal -> ordered claim chain
         String[] claims = {

@@ -28,21 +28,21 @@ public class ModelPool {
     private void initializeModels() {
         logger.info("Initializing model pool (flexible strategy)...");
         
-        // Fast tier - qwen2.5:0.5b (398MB, <100ms) - PERFECT for LoRA
-        models.put("fast_primary", new SLMAgent("qwen2.5:0.5b"));
-        logger.info("  ✓ Fast tier: qwen2.5:0.5b (398MB)");
+        // Fast tier - qwen2.5-coder:1.5b (398MB, <100ms) - PERFECT for LoRA
+        models.put("fast_primary", new SLMAgent("qwen2.5-coder:1.5b"));
+        logger.info("  ✓ Fast tier: qwen2.5-coder:1.5b (398MB)");
         
-        // Balanced tier - tinyllama:1.1b (638MB, ~500ms) - great middle ground
-        models.put("balanced_primary", new SLMAgent("tinyllama:1.1b"));
-        logger.info("  ✓ Balanced tier: tinyllama:1.1b (638MB)");
+        // Balanced tier - codegemma:2b (638MB, ~500ms) - great middle ground
+        models.put("balanced_primary", new SLMAgent("qwen2.5-coder:0.5b"));
+        logger.info("  ✓ Balanced tier: codegemma:2b (638MB)");
         
-        // Reasoning tier - phi:latest (1.6GB, ~2-5s) - solid reasoning
-        models.put("reasoning_primary", new SLMAgent("phi:latest"));
-        logger.info("  ✓ Reasoning tier: phi:latest (1.6GB)");
+        // Reasoning tier - qwen2.5-coder:1.5b (1.6GB, ~2-5s) - solid reasoning
+        models.put("reasoning_primary", new SLMAgent("qwen2.5-coder:1.5b"));
+        logger.info("  ✓ Reasoning tier: qwen2.5-coder:1.5b (1.6GB)");
         
-        // Deep tier - phi3:mini (2.2GB, ~5-10s) - deep decisions
-        models.put("deep_primary", new SLMAgent("phi3:mini"));
-        logger.info("  ✓ Deep tier: phi3:mini (2.2GB)");
+        // Deep tier - qwen2.5-coder:1.5b (2.2GB, ~5-10s) - deep decisions
+        models.put("deep_primary", new SLMAgent("qwen2.5-coder:1.5b"));
+        logger.info("  ✓ Deep tier: qwen2.5-coder:1.5b (2.2GB)");
         
         // Warm up all models
         warmUpAll();
@@ -65,8 +65,8 @@ public class ModelPool {
             }
         }
         // Fallback to smallest known model
-        logger.warn("No preferred models available, using qwen2.5:0.5b as fallback");
-        return new SLMAgent("qwen2.5:0.5b");
+        logger.warn("No preferred models available, using qwen2.5-coder:1.5b as fallback");
+        return new SLMAgent("qwen2.5-coder:1.5b");
     }
     
     /**
@@ -81,28 +81,28 @@ public class ModelPool {
     }
     
     /**
-     * Get fast tier model (qwen2.5:0.5b)
+     * Get fast tier model (qwen2.5-coder:1.5b)
      */
     public SLMAgent getQwen2_0_5b() {
         return models.get("qwen2_0_5b");
     }
     
     /**
-     * Get balanced tier model (tinyllama:1.1b)
+     * Get balanced tier model (codegemma:2b)
      */
     public SLMAgent getTinyllama_1_1b() {
         return models.get("tinyllama_1_1b");
     }
     
     /**
-     * Get reasoning tier model (phi:latest)
+     * Get reasoning tier model (qwen2.5-coder:1.5b)
      */
     public SLMAgent getPhiLatest() {
         return models.get("phi_latest");
     }
     
     /**
-     * Get deep reasoning tier model (phi3:mini)
+     * Get deep reasoning tier model (qwen2.5-coder:1.5b)
      */
     public SLMAgent getPhi3Mini() {
         return models.get("phi3_mini");

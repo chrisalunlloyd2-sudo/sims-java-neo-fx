@@ -63,7 +63,7 @@ public class GodHandApp extends Application {
     private Map<String, HexNode> grid = new ConcurrentHashMap<>();
     private List<Agent> agents = new CopyOnWriteArrayList<>();
     private List<String> godChat = new CopyOnWriteArrayList<>();
-    private ExecutorService threadPool = Executors.newFixedThreadPool(8);
+    private ExecutorService threadPool = Executors.newFixedThreadPool(8); // background workers only — HTTP servers get their own dedicated pool
     private HttpServer dashboardServer;
     
     private double timePulse = 0;
@@ -143,6 +143,8 @@ public class GodHandApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        // 2026-11-06: one copy per box; a relaunch shows the running one
+        if (ViperTray.ringExisting()) { Platform.exit(); System.exit(0); return; }
         initHexGrid();
         initAgents();
         initBackendSystems();
@@ -179,7 +181,7 @@ public class GodHandApp extends Application {
                 } else if (e.getButton() == MouseButton.SECONDARY) {
                     triggerPulse(hoveredVertexIdx);
                     threadPool.submit(() -> {
-                        ollamaRouter.query("tinyllama:1.1b", "Spike routing instruction at coordinate " + hoveredVertexIdx);
+                        ollamaRouter.query("qwen2.5-coder:0.5b", "Spike routing instruction at coordinate " + hoveredVertexIdx);
                     });
                 }
             }
@@ -202,7 +204,9 @@ public class GodHandApp extends Application {
                 systemStabilityIndex += 0.0001; // The longer left running, the higher the stability index
                 
                 // Integrate physical solvers and StrainRatePhysicsKernel on each frame step
-                physicsKernel.updateStrainRate(0.05 + 0.02 * Math.sin(timePulse), dt);
+                // 2026-11-05: strain = real box CPU (0..4); the old sine input sat above the stress threshold every frame.
+                // Stress now crosses 1.5 at roughly 60% CPU.
+                physicsKernel.updateStrainRate(ViperVitals.cpu() * 4.0 * dt, dt);
 
                 updateGiesekus(dt);
                 updateCahnHilliard(dt);
@@ -316,7 +320,12 @@ public class GodHandApp extends Application {
         btnRebootCtrl.setStyle(btnStyle);
         btnRebootCtrl.setOnAction(e -> openWindow("Manifold Control", createManifoldControlView(), 240, 320));
 
-        taskbar.getChildren().addAll(btnNotes, btnChat, btnTraining, btnInterstitials, btnMoltbook, btnSpinUpAgent, btnRebootCtrl);
+        // 2026-11-05: live Viper hive (quorum, cells, jobs, mic) from hexflow :7766
+        Button btnViperHive = new Button("🐝 Viper Hive");
+        btnViperHive.setStyle(btnStyle);
+        btnViperHive.setOnAction(e -> openWindow("Viper Hive", ViperHivePanel.create(), 760, 520));
+
+        taskbar.getChildren().addAll(btnNotes, btnChat, btnTraining, btnInterstitials, btnMoltbook, btnSpinUpAgent, btnRebootCtrl, btnViperHive);
 
         root.getChildren().addAll(canvas, windowOverlay, taskbar);
 
@@ -324,6 +333,7 @@ public class GodHandApp extends Application {
         
         primaryStage.setTitle("SIMS1337 v0.26.0 - 6D Hexeract Geospatial Manifold Organism");
         primaryStage.setScene(scene);
+        ViperTray.install(primaryStage); // X = hide to tray; tray menu exits
         primaryStage.show();
         
         timer.start();
@@ -384,9 +394,9 @@ public class GodHandApp extends Application {
         TextArea areaSwarm = new TextArea(
             "# REAL SLM AGENT SWARM REGISTRY\n" +
             "-------------------------------\n" +
-            "Agent Alpha (Hex Pathfinder): qwen2.5:0.5b [Fast Spatial Navigation]\n" +
-            "Agent Beta  (Code & RAG Miner): qwen2.5:3b  [Lexical Tool Execution]\n" +
-            "Agent Gamma (Homology Auditor): deepseek-r1:1.5b [Quorum Verification]\n\n" +
+            "Agent Alpha (Hex Pathfinder): qwen2.5-coder:1.5b [Fast Spatial Navigation]\n" +
+            "Agent Beta  (Code & RAG Miner): qwen2.5:1.5b  [Lexical Tool Execution]\n" +
+            "Agent Gamma (Homology Auditor): qwen2.5:1.5b [Quorum Verification]\n\n" +
             "Active Cellular Microphone Gating (CMG):\n" +
             "- Keep-Alive: 0s Purge Enforcement ACTIVE\n" +
             "- VRAM Memory Map: Dynamic Single-Model Hot-Swapping\n" +
@@ -459,9 +469,9 @@ public class GodHandApp extends Application {
             btnSummarize.setText("⏳ Summarizing...");
             threadPool.submit(() -> {
                 String prompt = "Summarize the key architectural takeaways from this note in 3 crisp bullet points:\n" + areaUser.getText();
-                String summary = ollamaRouter.query("qwen2.5:0.5b", prompt);
+                String summary = ollamaRouter.query("qwen2.5-coder:1.5b", prompt, 200, null, 2048);
                 Platform.runLater(() -> {
-                    areaUser.appendText("\n\n---\n### ✨ SLM SUMMARY (qwen2.5:0.5b):\n" + summary);
+                    areaUser.appendText("\n\n---\n### ✨ SLM SUMMARY (qwen2.5-coder:1.5b):\n" + summary);
                     btnSummarize.setText("✨ SLM Summarize");
                 });
             });
@@ -514,7 +524,7 @@ public class GodHandApp extends Application {
     private VBox createViperChatView() {
         VBox root = new VBox(8);
         
-        Label modelLabel = new Label("Central Intelligence: Karoo (qwen2.5:3b)");
+        Label modelLabel = new Label("Central Intelligence: Karoo (qwen2.5:1.5b)");
         modelLabel.setStyle("-fx-text-fill: #38bdf8; -fx-font-family: monospace; -fx-font-size: 12px;");
         
         TextArea chatLog = new TextArea();
@@ -546,10 +556,12 @@ public class GodHandApp extends Application {
                 context.append(String.format("- Viscosity: %.3f Pa.s\n- Stress: %.3f Pa\n- Strain Rate: %.3f s^-1\n- Heartbeat: %.2f Hz\n",
                     viscosity, stress, strainRate, heartbeatFreq));
                 
-                if (prompt.toLowerCase().contains("github") || prompt.toLowerCase().contains("repo") || prompt.toLowerCase().contains("tool")) {
-                    context.append("- Mmapped SSD Shards loaded: 22 Tools, 120 GitHub Repositories. Root: C:\\Users\\viper\\local_desktop_main\\mmapped_distillations\n");
-                    context.append("- Active prior sharding coordinates bound directly to the 6D geospatial manifold.\n");
-                }
+                // 2026-11-05: real box state instead of the fixed "22 tools, 120 repos" line.
+                java.io.File[] repoDirs = new java.io.File("C:\\Users\\viper\\AIGEN_SYS\\repos").listFiles(java.io.File::isDirectory);
+                context.append(String.format("- Box CPU: %.0f%% | Free RAM: %.1f of %.1f GB | Local repos: %d | Viper mic: %s\n",
+                    ViperVitals.cpu() * 100, ViperVitals.freeRamGb(), ViperVitals.totalRamGb(),
+                    repoDirs == null ? 0 : repoDirs.length,
+                    OllamaRouter.boxMicModel() == null ? "free" : OllamaRouter.boxMicModel()));
                 
                 context.append("\nInstructions:\n");
                 context.append("If lexical tools are required, format queries like: [TOOL: KG_QUERY, query='...'] or [TOOL: LORA_LOAD]. Otherwise answer directly using Markov logic chains.\n");
@@ -558,7 +570,7 @@ public class GodHandApp extends Application {
                 String finalPrompt = context.toString();
                 
                 threadPool.submit(() -> {
-                    String response = ollamaRouter.query("qwen2.5:3b", finalPrompt);
+                    String response = ollamaRouter.query("qwen2.5:1.5b", finalPrompt, 256, null, 2048);
                     Platform.runLater(() -> {
                         chatLog.appendText("KAROO: " + response + "\n\n");
                         chatLog.selectPositionCaret(chatLog.getLength());
@@ -675,12 +687,10 @@ public class GodHandApp extends Application {
         lblModel.setStyle("-fx-text-fill: #c084fc; -fx-font-family: monospace; -fx-font-size: 11px;");
         
         ComboBox<String> comboModel = new ComboBox<>();
-        comboModel.getItems().addAll(
-            "qwen2.5:0.5b", "qwen2.5-coder:0.5b", "tinyllama:1.1b", "deepseek-r1:1.5b",
-            "phi3:mini", "codellama:7b", "gemma2:2b", "aegis-distilled-27b:latest",
-            "dagbs/qwen2.5-coder-3b-instruct-abliterated:q8_0", "Node.js Agent (Non-LLM)", "Python Script Agent (Non-LLM)"
-        );
-        comboModel.setValue("qwen2.5:0.5b");
+        // 2026-11-05: the models actually installed (ollama /api/tags), not a fixed list with missing/banned ones.
+        comboModel.getItems().addAll(installedOllamaModels());
+        comboModel.getItems().addAll("Node.js Agent (Non-LLM)", "Python Script Agent (Non-LLM)");
+        comboModel.setValue("qwen2.5-coder:1.5b");
         comboModel.setStyle("-fx-background-color: #110c28; -fx-text-fill: #38bdf8; -fx-font-family: monospace;");
 
         Button btnDownloadModel = new Button("📥 Download Model");
@@ -825,7 +835,30 @@ public class GodHandApp extends Application {
             logArea.appendText(" -> Nominal Params: Temp=" + tfTemp.getText() + " | MaxTokens=" + tfMaxTokens.getText() + " | Ctx=" + tfCtx.getText() + "\n");
             logArea.appendText(" -> Personality: " + comboPersonality.getValue() + " | KG Target: " + comboKGNode.getValue() + "\n");
             logArea.appendText(" -> RAG DB Engine: " + comboRAGEngine.getValue() + " | Active Crons: " + cronList.getItems().size() + "\n");
-            logArea.appendText(" -> Status: AGENT NODE ONLINE & INGESTED INTO HEX GRID.\n");
+            // 2026-11-05: a real call with these settings (it used to print "ONLINE" and do nothing).
+            if (selectedModel.contains("(Non-LLM)")) {
+                logArea.appendText(" -> Non-LLM agents are bot nodes in the Viper hive; nothing to load here.\n");
+            } else {
+                double temp; int maxTok; int ctx;
+                try {
+                    temp = Double.parseDouble(tfTemp.getText().trim());
+                    maxTok = Math.max(1, Math.min(1024, Integer.parseInt(tfMaxTokens.getText().trim())));
+                    ctx = Math.max(256, Math.min(8192, Integer.parseInt(tfCtx.getText().trim())));
+                } catch (NumberFormatException nfe) {
+                    logArea.appendText(" -> Bad number in Temperature / Max Tokens / Context.\n");
+                    return;
+                }
+                logArea.appendText(" -> Calling " + selectedModel + " (max " + maxTok + " tokens, CPU, waits for the Viper mic)...\n");
+                String persona = comboPersonality.getValue();
+                threadPool.submit(() -> {
+                    long t0 = System.currentTimeMillis();
+                    String reply = ollamaRouter.query(selectedModel,
+                        "You are a " + persona + " agent node. In two sentences, state what you will work on first.", maxTok, temp, ctx);
+                    long ms = System.currentTimeMillis() - t0;
+                    Platform.runLater(() -> logArea.appendText(" -> " + (reply.equals("NO_RESPONSE")
+                        ? "NO RESPONSE (model missing, ollama down, or mic busy)" : "REPLY in " + ms + " ms: " + reply) + "\n"));
+                });
+            }
 
             synchronized (godChat) {
                 if (godChat.size() > 50) godChat.remove(0);
@@ -906,7 +939,7 @@ public class GodHandApp extends Application {
             private long lastChat = 0;
             private int turn = 0;
             private String[] agentsList = {"Alpha", "Beta", "Gamma", "Stability Daemon", "Phi Node"};
-            private String[] modelsList = {"qwen2.5:0.5b", "tinyllama:1.1b", "deepseek-r1:1.5b", "qwen2.5:3b", "phi:latest"};
+            private String[] modelsList = {"qwen2.5-coder:1.5b", "qwen2.5:1.5b", "qwen2.5-coder:0.5b", "qwen2.5-coder:1.5b", "qwen2.5:1.5b"};
             private String[] repos = {"SIMS1337-cloud-worker", "sims-java-neo-fx", "local_desktop-main", "Aegis-GAN-OTG", "VIPER_AI_UNIFIED", "Matryoshka_Orchestrator"};
             private String[] readmeSeeds = {
                 "README Seed: 6D Hexeract Topology with 192 edges, Giesekus polymer viscoelasticity, and Vietoris-Rips persistent homology consensus.",
@@ -918,28 +951,25 @@ public class GodHandApp extends Application {
             @Override
             public void handle(long now) {
                 if (!isRunning[0]) return;
-                if (now - lastChat > 12_000_000_000L) { // 12 seconds
+                if (now - lastChat > 30_000_000_000L) { // 30 seconds
                     lastChat = now;
                     String sender = agentsList[turn % 5];
                     String model = modelsList[turn % 5];
                     String target = agentsList[(turn + 1) % 5];
-                    String repo = repos[rand.nextInt(repos.length)];
-                    String readmeSeed = readmeSeeds[rand.nextInt(readmeSeeds.length)];
-                    
+                    // 2026-11-05: a real repo from disk and its real README. The token is no longer read or put
+                    // into prompts (it was: first 15 chars of the GitHub PAT, in every Moltbook prompt).
+                    String[] real = realRepoAndReadme();
+                    String repo = real != null ? real[0] : repos[rand.nextInt(repos.length)];
+                    String readmeSeed = real != null ? real[1] : readmeSeeds[rand.nextInt(readmeSeeds.length)];
+
                     threadPool.submit(() -> {
-                        String patToken = "";
-                        try {
-                            String creds = java.nio.file.Files.readString(java.nio.file.Paths.get("C:\\Users\\viper\\.git-credentials")).trim();
-                            patToken = creds.substring(creds.indexOf(":", 6) + 1, creds.indexOf("@"));
-                        } catch (Exception e) {}
-                        String displayPat = patToken.length() > 15 ? patToken.substring(0, 15) : "PAT_ACTIVE";
                         String prompt = String.format(
-                            "System Context: You are autonomous agent %s running model %s in the SIMS1337 6D Hexeract organism. You are engaged in real-time technical synthesis with %s regarding GitHub repository '%s' (PAT Authorized: %s...).\n" +
+                            "System Context: You are autonomous agent %s running model %s in the SIMS1337 6D Hexeract organism. You are engaged in real-time technical synthesis with %s regarding GitHub repository '%s'.\n" +
                             "Repository Context & README Distillation:\n\"%s\"\n\n" +
                             "Instruction: Synthesize a high-intelligence technical proposal, architectural insight, or topological optimization note based on the repository content.",
-                            sender, model, target, repo, displayPat, readmeSeed
+                            sender, model, target, repo, readmeSeed
                         );
-                        String reply = ollamaRouter.query(model, prompt);
+                        String reply = ollamaRouter.query(model, prompt, 160, null, 2048);
                         Platform.runLater(() -> {
                             swarmLog.appendText(String.format("[%s (%s) @ %s]: %s\n\n", sender.toUpperCase(), model, repo, reply));
                             swarmLog.selectPositionCaret(swarmLog.getLength());
@@ -1094,7 +1124,38 @@ public class GodHandApp extends Application {
                     os.close();
                 }
             });
-            dashboardServer.setExecutor(threadPool);
+            dashboardServer.createContext("/api/hot-ui-inject", new HttpHandler() {
+                @Override
+                public void handle(HttpExchange exchange) throws IOException {
+                    if ("POST".equals(exchange.getRequestMethod())) {
+                        java.util.Scanner s = new java.util.Scanner(exchange.getRequestBody()).useDelimiter("\\A");
+                        String payload = s.hasNext() ? s.next() : "";
+                        String[] parts = payload.split("\\|");
+                        String title = parts.length > 0 ? parts[0] : "SLM Vote Event";
+                        String content = parts.length > 1 ? parts[1] : payload;
+                        
+                        // Instantly inject a new modular GUI part into the live application frame
+                        Platform.runLater(() -> {
+                            TextArea tf = new TextArea(content);
+                            tf.setWrapText(true);
+                            tf.setEditable(false);
+                            tf.setStyle("-fx-control-inner-background: #0b0720; -fx-text-fill: #34d399; -fx-font-family: monospace; -fx-font-size: 11px;");
+                            openWindow("Live Event: " + title, tf, 350, 200);
+                        });
+                        
+                        String resp = "OK";
+                        exchange.sendResponseHeaders(200, resp.length());
+                        OutputStream os = exchange.getResponseBody();
+                        os.write(resp.getBytes());
+                        os.close();
+                    }
+                }
+            });
+            dashboardServer.setExecutor(Executors.newFixedThreadPool(4, r -> {
+                Thread t = new Thread(r, "dashboard-http");
+                t.setDaemon(true);
+                return t;
+            }));
             dashboardServer.start();
             System.out.println("[GODHAND DASHBOARD] Online at http://localhost:8899");
         } catch (Exception e) {
@@ -1272,7 +1333,7 @@ public class GodHandApp extends Application {
         threadPool.submit(() -> {
             for (Agent a : agents) {
                 String prompt = "You are Agent " + a.name + " at hex (" + a.q + "," + a.r + "). Reply with exactly one word indicating your move direction: NORTH, SOUTH, EAST, WEST, NORTHEAST, or NORTHWEST.";
-                String move = ollamaRouter.query("qwen2.5:0.5b", prompt).toUpperCase();
+                String move = ollamaRouter.query("qwen2.5-coder:1.5b", prompt).toUpperCase();
                 
                 int dq = 0, dr = 0;
                 if (move.contains("NORTHEAST")) { dq = 1; dr = -1; }
@@ -1639,6 +1700,44 @@ public class GodHandApp extends Application {
             }
         }
 
+        // Bottom-Right: VM Container Status
+        gc.setFill(Color.rgb(8, 4, 24, 0.75));
+        gc.fillRect(950, 570, 310, 150);
+        gc.setStroke(Color.web("#a855f7", 0.3));
+        gc.strokeRect(950, 570, 310, 150);
+
+        gc.setFont(Font.font("Outfit", 14));
+        gc.setFill(Color.web("#c084fc"));
+        gc.fillText("LIVE VM CONTAINER STATUS", 970, 600);
+
+        // Simulated CPU & Memory via OperatingSystemMXBean
+        double cpuLoad = com.sun.management.OperatingSystemMXBean.class.isInstance(
+                java.lang.management.ManagementFactory.getOperatingSystemMXBean()) ?
+                ((com.sun.management.OperatingSystemMXBean) java.lang.management.ManagementFactory.getOperatingSystemMXBean()).getCpuLoad() : 0.0;
+        if (cpuLoad < 0 || Double.isNaN(cpuLoad)) cpuLoad = 0.45; 
+        
+        long freeMemory = Runtime.getRuntime().freeMemory();
+        long totalMemory = Runtime.getRuntime().totalMemory();
+        double memUsage = (double)(totalMemory - freeMemory) / totalMemory;
+
+        gc.setFont(Font.font("Consolas", 12));
+        
+        // CPU Bar
+        gc.setFill(Color.web("#38bdf8"));
+        gc.fillText(String.format("CPU LOAD: %.1f%%", cpuLoad * 100), 970, 630);
+        gc.setFill(Color.rgb(20, 10, 40));
+        gc.fillRect(970, 640, 260, 10);
+        gc.setFill(cpuLoad > 0.8 ? Color.web("#f43f5e") : Color.web("#34d399"));
+        gc.fillRect(970, 640, 260 * cpuLoad, 10);
+
+        // Memory Bar
+        gc.setFill(Color.web("#38bdf8"));
+        gc.fillText(String.format("VRAM/RAM: %.1f%% [%d MB]", memUsage * 100, (totalMemory - freeMemory) / 1048576), 970, 675);
+        gc.setFill(Color.rgb(20, 10, 40));
+        gc.fillRect(970, 685, 260, 10);
+        gc.setFill(memUsage > 0.85 ? Color.web("#f43f5e") : Color.web("#f472b6"));
+        gc.fillRect(970, 685, 260 * memUsage, 10);
+
         // Bottom Side: Multi-Agent Consensus logs
         gc.setFill(Color.rgb(8, 4, 24, 0.75));
         gc.fillRect(315, 605, 945, 180);
@@ -1739,6 +1838,7 @@ public class GodHandApp extends Application {
 
     @Override
     public void stop() {
+        System.out.println("[TRAY] GodHandApp.stop() at " + java.time.LocalDateTime.now());
         threadPool.shutdownNow();
         if(dashboardServer != null) dashboardServer.stop(0);
     }
@@ -1877,7 +1977,7 @@ public class GodHandApp extends Application {
             if(station != null) {
                 System.out.println("[PIPELINE] Executing Station Pipeline: " + station);
                 threadPool.submit(() -> {
-                    router.query("tinyllama:1.1b", "Execute pipeline task for station " + station);
+                    router.query("qwen2.5-coder:0.5b", "Execute pipeline task for station " + station);
                 });
             }
         }
@@ -1929,7 +2029,7 @@ public class GodHandApp extends Application {
                         currentPhase = "00:00 CHAT & DREAM PHASE";
                         System.out.println("[SOAK] Dreaming cross-correlated memories...");
                         String dreamPrompt = "Generate exactly one new 1-2 word node type or mechanic for a hex grid simulation. Output only the name, nothing else. No preamble.";
-                        String dreamProposalRaw = router.query("qwen2.5:0.5b", dreamPrompt).replaceAll("[\"'{}\\[\\]\\n\\r]", "").trim();
+                        String dreamProposalRaw = router.query("qwen2.5-coder:1.5b", dreamPrompt).replaceAll("[\"'{}\\[\\]\\n\\r]", "").trim();
                         if (dreamProposalRaw.isEmpty() || dreamProposalRaw.length() > 30) dreamProposalRaw = "Void_Node";
                         String dreamProposal = dreamProposalRaw;
                         Platform.runLater(() -> {
@@ -1960,7 +2060,7 @@ public class GodHandApp extends Application {
                         System.out.println("[SOAK] Requesting Agent Movement...");
                         if (!agents.isEmpty()) {
                             Agent a = agents.get(0);
-                            String moveDir = router.query("qwen2.5:0.5b", "You are an agent at " + a.q + "," + a.r + ". Reply exactly with one word: NORTH, SOUTH, EAST, or WEST.").trim().toUpperCase();
+                            String moveDir = router.query("qwen2.5-coder:1.5b", "You are an agent at " + a.q + "," + a.r + ". Reply exactly with one word: NORTH, SOUTH, EAST, or WEST.").trim().toUpperCase();
                             Platform.runLater(() -> {
                                 if (moveDir.contains("NORTH")) a.r -= 1;
                                 else if (moveDir.contains("SOUTH")) a.r += 1;
@@ -1993,6 +2093,38 @@ public class GodHandApp extends Application {
             this.parameter = parameter;
             this.action = action;
         }
+    }
+
+    /** Installed Ollama models, sorted; empty when ollama is down. */
+    private static java.util.List<String> installedOllamaModels() {
+        java.util.List<String> names = new java.util.ArrayList<>();
+        try {
+            java.net.HttpURLConnection con = (java.net.HttpURLConnection) new java.net.URL("http://127.0.0.1:11434/api/tags").openConnection();
+            con.setConnectTimeout(3000);
+            con.setReadTimeout(5000);
+            com.fasterxml.jackson.databind.JsonNode tags = new com.fasterxml.jackson.databind.ObjectMapper().readTree(con.getInputStream());
+            for (com.fasterxml.jackson.databind.JsonNode m : tags.path("models")) names.add(m.path("name").asText());
+        } catch (Exception e) {
+            System.out.println("[MODELS] ollama /api/tags unreachable: " + e.getMessage());
+        }
+        java.util.Collections.sort(names);
+        return names;
+    }
+
+    /** A random local repo that has a README: {name, first 700 chars}. Null when none is readable. */
+    private String[] realRepoAndReadme() {
+        java.io.File[] dirs = new java.io.File("C:\\Users\\viper\\AIGEN_SYS\\repos").listFiles(java.io.File::isDirectory);
+        if (dirs == null || dirs.length == 0) return null;
+        for (int tries = 0; tries < 8; tries++) {
+            java.io.File d = dirs[rand.nextInt(dirs.length)];
+            java.io.File readme = new java.io.File(d, "README.md");
+            if (!readme.isFile()) continue;
+            try {
+                String text = java.nio.file.Files.readString(readme.toPath());
+                return new String[]{d.getName(), text.length() > 700 ? text.substring(0, 700) : text};
+            } catch (Exception ignored) { }
+        }
+        return null;
     }
 
     private void executeDesktopScript(String scriptName) {

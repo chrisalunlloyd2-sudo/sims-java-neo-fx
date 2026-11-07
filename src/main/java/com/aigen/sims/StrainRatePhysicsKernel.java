@@ -24,6 +24,8 @@ public class StrainRatePhysicsKernel {
 
     private double stress = 0.0;
     private double stressThreshold = 1.50;
+    private boolean highStress = false;
+    private int stableFrames = 0;
 
     public static class InterstitialCell {
         public double strainRate;
@@ -104,8 +106,16 @@ public class StrainRatePhysicsKernel {
         // Step 5: Fastmem pointer update & auto-reload check
         if (this.stress <= stressThreshold) {
             lastStableIdx = (activeCellIdx - 1 + N_CELLS) % N_CELLS;
+            // The reload halves strain, so stress dips under at once; only call it calm after ~2 s of stable frames.
+            if (highStress && ++stableFrames >= 120) {
+                System.out.println(String.format("[STABILITY DAEMON] Stress back under threshold: %.4f", this.stress));
+                highStress = false;
+            }
         } else {
-            System.out.println(String.format("[STABILITY DAEMON] High Stress Detected: %.4f > Threshold %.4f. Triggering Fastmem Reload!", this.stress, stressThreshold));
+            // 2026-11-05: log on entering high stress only; per-frame printing wrote 32,910 lines in half an hour.
+            if (!highStress) System.out.println(String.format("[STABILITY DAEMON] High Stress Detected: %.4f > Threshold %.4f. Triggering Fastmem Reload!", this.stress, stressThreshold));
+            highStress = true;
+            stableFrames = 0;
             reloadLastStableState();
         }
     }
@@ -113,11 +123,11 @@ public class StrainRatePhysicsKernel {
     // Step 5: Fastmem reload path
     public synchronized void reloadLastStableState() {
         InterstitialCell stable = cells[lastStableIdx];
-        this.strainRate = stable.strainRate;
+        this.strainRate = stable.strainRate * 0.5;
         this.viscosity = stable.viscosity;
-        this.stress = stable.stress;
+        this.stress = stable.stress * 0.5;
         Arrays.fill(strainRingBuffer, this.strainRate);
-        System.out.println(String.format("[FASTMEM LOAD] Reloaded stable cell [%d]: %s", lastStableIdx, stable));
+        // System.out.println(String.format("[FASTMEM LOAD] Reloaded stable cell [%d]: %s", lastStableIdx, stable));
     }
 
     // Step 6: CLI Interface Processor
