@@ -56,7 +56,10 @@ public final class ViperTray {
     }
 
     /** Wire close-to-tray and the doorbell. Call from start() before show(). */
+    static void log(String s) { System.out.println("[TRAY] " + s); }
+
     public static void install(Stage stage) {
+        log("install: supported=" + SystemTray.isSupported());
         if (!SystemTray.isSupported()) {
             // No tray: closing must still end the process, never leave a ghost.
             stage.setOnCloseRequest(e -> exit());
@@ -66,6 +69,7 @@ public final class ViperTray {
         Platform.setImplicitExit(false);
         stage.setOnCloseRequest(e -> {
             e.consume();
+            log("close -> hidden to tray (icon " + (icon != null ? "present" : "MISSING") + ")");
             stage.hide();
             if (!hintShown && icon != null) {
                 hintShown = true;
@@ -88,6 +92,7 @@ public final class ViperTray {
     }
 
     static void exit() {
+        log("exit requested");
         try { if (bell != null) bell.close(); } catch (Exception ignored) {}
         EventQueue.invokeLater(() -> {
             if (icon != null) SystemTray.getSystemTray().remove(icon);
@@ -105,6 +110,14 @@ public final class ViperTray {
     }
 
     private static void addIcon(Stage stage) {
+        try { addIconUnsafe(stage); } catch (Throwable e) {
+            log("icon FAILED before add: " + e);
+            icon = null;
+            Platform.runLater(() -> stage.setOnCloseRequest(ev -> exit()));
+        }
+    }
+
+    private static void addIconUnsafe(Stage stage) {
         PopupMenu menu = new PopupMenu();
         MenuItem showItem = new MenuItem("Show GodHand");
         showItem.addActionListener(a -> show(stage));
@@ -119,7 +132,9 @@ public final class ViperTray {
         icon.addActionListener(a -> show(stage));
         try {
             SystemTray.getSystemTray().add(icon);
-        } catch (AWTException e) {
+            log("icon added (Windows 11 may file it under the ^ overflow arrow)");
+        } catch (Throwable e) {
+            log("icon FAILED: " + e);
             icon = null;
             Platform.runLater(() -> stage.setOnCloseRequest(ev -> exit()));
         }
