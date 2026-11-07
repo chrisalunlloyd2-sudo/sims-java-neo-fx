@@ -44,6 +44,8 @@ public final class ViperLiveFeed {
     public static volatile double stability = Double.NaN;
     public static volatile String kqml = "[reading C:\\Viper\\kqml_channel ...]";
     public static volatile String lastError = "";
+    /** Notes "Swarm Memory" tab: loaded models, mic, hive cells, latest votes. */
+    public static volatile String swarm = "[reading ollama :11434 and hexflow :7766 ...]";
 
     private static ScheduledExecutorService poll;
 
@@ -66,12 +68,60 @@ public final class ViperLiveFeed {
         JsonNode h = fetch("hive", errs);
         if (h != null) stability = stability(h);
         kqml = kqmlText(KQML, 4);
+        JsonNode ps = fetchUrl(OLLAMA_PS, "ollama ps", errs);
+        String mic = null;
+        try { mic = OllamaRouter.boxMicModel(); } catch (Exception ignored) {}
+        swarm = swarmText(ps, h, v, mic);
         lastError = String.join("; ", errs);
     }
 
+    private static final String OLLAMA_PS = "http://127.0.0.1:11434/api/ps";
+
+    /** Plain report of what is actually running. Any null source is said, not filled in. */
+    static String swarmText(JsonNode ps, JsonNode hive, JsonNode voting, String micModel) {
+        StringBuilder sb = new StringBuilder("# LIVE SWARM  (refreshes every " + POLL_S + " s)\n");
+        sb.append("Viper mic: ").append(micModel == null ? "free" : "held by " + micModel).append("\n\n");
+        sb.append("Models loaded in ollama:\n");
+        if (ps == null) sb.append("  [ollama :11434 not reached]\n");
+        else if (ps.path("models").size() == 0) sb.append("  (none loaded)\n");
+        else for (JsonNode m : ps.path("models"))
+            sb.append(String.format("  %-28s %6.0f MB  vram %.0f MB%n", m.path("name").asText("?"),
+                    m.path("size").asDouble(0) / 1048576.0, m.path("size_vram").asDouble(0) / 1048576.0));
+        sb.append("\nHive cells:\n");
+        if (hive == null) sb.append("  [hexflow :7766 not reached]\n");
+        else {
+            int live = 0, failing = 0;
+            List<String> bad = new ArrayList<>();
+            for (JsonNode c : hive.path("cells")) {
+                if (c.path("retired").asBoolean(false)) continue;
+                live++;
+                if (c.path("consecutive_fails").asInt(0) > 0) { failing++; bad.add(c.path("cell").asText("?")); }
+            }
+            sb.append(String.format("  %d live, %d healthy, %d failing%n", live, live - failing, failing));
+            if (!bad.isEmpty()) sb.append("  failing: ").append(trim(String.join(", ", bad), 300)).append('\n');
+        }
+        sb.append("\nLatest quorum decisions:\n");
+        if (voting == null) sb.append("  [hexflow :7766 not reached]\n");
+        else {
+            JsonNode ds = voting.path("decisions");
+            if (ds.size() == 0) sb.append("  (none)\n");
+            for (int i = 0; i < Math.min(6, ds.size()); i++) {
+                JsonNode d = ds.get(i);
+                sb.append(String.format("  %s %-5s %s%n", d.path("t").asText(""),
+                        d.path("passed").asBoolean(false) ? "PASS" : "FAIL",
+                        d.path("module").asText(d.path("subject").asText("?"))));
+            }
+        }
+        return sb.toString();
+    }
+
     private static JsonNode fetch(String endpoint, List<String> errs) {
+        return fetchUrl(HEXFLOW + endpoint, endpoint, errs);
+    }
+
+    private static JsonNode fetchUrl(String url, String endpoint, List<String> errs) {
         try {
-            HttpRequest req = HttpRequest.newBuilder(URI.create(HEXFLOW + endpoint))
+            HttpRequest req = HttpRequest.newBuilder(URI.create(url))
                     .timeout(Duration.ofSeconds(20)).GET().build();
             HttpResponse<String> resp = HTTP.send(req, HttpResponse.BodyHandlers.ofString());
             if (resp.statusCode() != 200) { errs.add(endpoint + " http " + resp.statusCode()); return null; }

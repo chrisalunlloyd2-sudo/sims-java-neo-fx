@@ -394,19 +394,23 @@ public class GodHandApp extends Application {
         // Tab 2: Swarm Memory & Agents
         javafx.scene.control.Tab tabSwarm = new javafx.scene.control.Tab("🧠 Swarm Memory");
         tabSwarm.setClosable(false);
-        TextArea areaSwarm = new TextArea(
-            "# REAL SLM AGENT SWARM REGISTRY\n" +
-            "-------------------------------\n" +
-            "Agent Alpha (Hex Pathfinder): qwen2.5-coder:1.5b [Fast Spatial Navigation]\n" +
-            "Agent Beta  (Code & RAG Miner): qwen2.5:1.5b  [Lexical Tool Execution]\n" +
-            "Agent Gamma (Homology Auditor): qwen2.5:1.5b [Quorum Verification]\n\n" +
-            "Active Cellular Microphone Gating (CMG):\n" +
-            "- Keep-Alive: 0s Purge Enforcement ACTIVE\n" +
-            "- VRAM Memory Map: Dynamic Single-Model Hot-Swapping\n" +
-            "- ACL/KQML Message Bus: Maslow Priority Queue (1: System, 2: Objective, 3: Want)"
-        );
+        // 2026-11-07: live (ViperLiveFeed.swarm); the static registry text described agents that were not running.
+        TextArea areaSwarm = new TextArea(ViperLiveFeed.swarm);
+        areaSwarm.setEditable(false);
         areaSwarm.setStyle("-fx-control-inner-background: #060312; -fx-text-fill: #a855f7; -fx-font-family: monospace; -fx-font-size: 11px;");
         tabSwarm.setContent(areaSwarm);
+        AnimationTimer swarmTimer = new AnimationTimer() {
+            private long last = 0;
+            @Override
+            public void handle(long now) {
+                if (now - last < 2_000_000_000L) return;
+                last = now;
+                String t = ViperLiveFeed.swarm;
+                if (!t.equals(areaSwarm.getText())) areaSwarm.setText(t);
+            }
+        };
+        swarmTimer.start();
+        root.sceneProperty().addListener((o, was, now) -> { if (was != null && now == null) swarmTimer.stop(); });
 
         // Tab 3: LaTeX & Math Formulas
         javafx.scene.control.Tab tabMath = new javafx.scene.control.Tab("⚡ Formulas");
@@ -432,12 +436,7 @@ public class GodHandApp extends Application {
         TextArea areaUser = new TextArea();
         areaUser.setPromptText("Enter notes, code snippets, or ideas here...");
         areaUser.setStyle("-fx-control-inner-background: #0b0720; -fx-text-fill: #e9d5ff; -fx-font-family: monospace; -fx-font-size: 11px;");
-        areaUser.setText(
-            "# USER NOTES & RAG VECTOR STORE\n" +
-            "------------------------------\n" +
-            "Mmapped SSD Distillations fully mounted.\n" +
-            "Knowledge Graph vectors active (64-dimensional projections)."
-        );
+        // 2026-11-07: starts empty (it claimed "Mmapped SSD Distillations fully mounted", which nothing did).
         tabUser.setContent(areaUser);
 
         tabPane.getTabs().addAll(tabArch, tabSwarm, tabMath, tabUser);
@@ -578,7 +577,7 @@ public class GodHandApp extends Application {
                         chatLog.appendText("KAROO: " + response + "\n\n");
                         chatLog.selectPositionCaret(chatLog.getLength());
                         parseModelOutputAndEnqueue(response);
-                        triggerPulse(rand.nextInt(64));
+                        triggerPulse(Math.floorMod(String.valueOf(response).hashCode(), 64)); // 11-07: from the reply, not random
                     });
                 });
             }
@@ -603,6 +602,25 @@ public class GodHandApp extends Application {
         
         AnimationTimer chartTimer = new AnimationTimer() {
             private double step = 0;
+            private static final int W = 380;
+            private final double[] histStress = new double[W];
+            private final double[] histVisc = new double[W];
+            private int head = 0, filled = 0;
+            private long frame = 0;
+
+            private void drawHistory(double[] h, double scale, double base, String color) {
+                if (filled < 2) return;
+                mgc.setStroke(Color.web(color));
+                mgc.beginPath();
+                for (int i = 0; i < filled; i++) {
+                    double v = h[Math.floorMod(head - filled + i, W)];
+                    double x = W - filled + i;
+                    double y = Math.max(10, Math.min(150, base - v * scale));
+                    if (i == 0) mgc.moveTo(x, y);
+                    else mgc.lineTo(x, y);
+                }
+                mgc.stroke();
+            }
             @Override
             public void handle(long now) {
                 step += 0.05;
@@ -619,29 +637,19 @@ public class GodHandApp extends Application {
                 double liveViscosity = physicsKernel.getViscosity();
                 double liveStress = physicsKernel.getStress();
 
-                // Draw Strain Rate & Stress response curve (violet curve)
-                mgc.setStroke(Color.web("#c084fc"));
-                mgc.beginPath();
-                for (int x = 0; x < 380; x++) {
-                    double freqVal = x * 0.02;
-                    double curveVal = 40.0 + (liveStress * 15.0) * Math.sin(freqVal + step) + (liveStrain * 10.0) * Math.sin(freqVal * 2.3 + step);
-                    double y = Math.max(10, Math.min(150, 140 - curveVal));
-                    if (x == 0) mgc.moveTo(x, y);
-                    else mgc.lineTo(x, y);
+                // 2026-11-07: scrolling history of the real kernel values, one sample per 6 frames,
+                // newest at the right. The curves were sines of these values (a shape nothing measured).
+                if (++frame % 6 == 0) {
+                    histStress[head] = liveStress;
+                    histVisc[head] = liveViscosity;
+                    head = (head + 1) % W;
+                    if (filled < W) filled++;
                 }
-                mgc.stroke();
-                
-                // Draw Dynamic Viscosity & Relaxation curve (sky blue curve)
-                mgc.setStroke(Color.web("#38bdf8"));
-                mgc.beginPath();
-                for (int x = 0; x < 380; x++) {
-                    double freqVal = x * 0.02;
-                    double curveVal = 30.0 + (liveViscosity * 20.0) * Math.cos(freqVal * 1.5 - step);
-                    double y = Math.max(10, Math.min(150, 150 - curveVal));
-                    if (x == 0) mgc.moveTo(x, y);
-                    else mgc.lineTo(x, y);
-                }
-                mgc.stroke();
+                drawHistory(histStress, 30.0, 140, "#c084fc");   // violet: stress
+                drawHistory(histVisc, 20.0, 150, "#38bdf8");     // sky: viscosity
+                mgc.setFill(Color.web("#64748b"));
+                mgc.setFont(Font.font("Consolas", 9));
+                mgc.fillText("stress (violet) / viscosity (sky), last " + (W * 6 / 60) + " s", 6, 12);
                 
                 storageModulus = liveStress * 45.0;
                 lossModulus = liveViscosity * 30.0;
@@ -952,8 +960,15 @@ public class GodHandApp extends Application {
                     // 2026-11-05: a real repo from disk and its real README. The token is no longer read or put
                     // into prompts (it was: first 15 chars of the GitHub PAT, in every Moltbook prompt).
                     String[] real = realRepoAndReadme();
-                    String repo = real != null ? real[0] : repos[rand.nextInt(repos.length)];
-                    String readmeSeed = real != null ? real[1] : readmeSeeds[rand.nextInt(readmeSeeds.length)];
+                    // 2026-11-07: no readable repo = say so and skip the call (it used to prompt with the fake
+                    // repos[] / readmeSeeds[] above, kept for history, unused).
+                    if (real == null) {
+                        swarmLog.appendText("[no local repo README readable under C:\\Users\\viper\\AIGEN_SYS\\repos; skipped]\n\n");
+                        turn++;
+                        return;
+                    }
+                    String repo = real[0];
+                    String readmeSeed = real[1];
 
                     threadPool.submit(() -> {
                         String prompt = String.format(
@@ -966,7 +981,7 @@ public class GodHandApp extends Application {
                         Platform.runLater(() -> {
                             swarmLog.appendText(String.format("[%s (%s) @ %s]: %s\n\n", sender.toUpperCase(), model, repo, reply));
                             swarmLog.selectPositionCaret(swarmLog.getLength());
-                            triggerPulse(rand.nextInt(64));
+                            triggerPulse(Math.floorMod(String.valueOf(reply).hashCode(), 64)); // 11-07: from the reply
                         });
                         
                         // Autonomous Homology Voting & Implementation Pipeline
@@ -1343,8 +1358,8 @@ public class GodHandApp extends Application {
                 if (grid.containsKey(nq + "," + nr)) {
                     a.moveTo(nq, nr);
                     
-                    int randomNodeIdx = rand.nextInt(64);
-                    triggerPulse(randomNodeIdx);
+                    // 11-07: pulse the node of the cell the agent moved into (was a random node)
+                    triggerPulse(Math.floorMod(nq * 8 + nr, 64));
                     
                     String logMsg = "[MOVE] Agent " + a.name + " routed to coord (" + nq + "," + nr + ") via " + move;
                     synchronized (godChat) {

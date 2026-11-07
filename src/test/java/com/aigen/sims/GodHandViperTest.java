@@ -196,6 +196,24 @@ class GodHandViperTest {
     }
 
     @Test
+    void swarmTabReportsRealStateAndSaysWhatIsUnreachable() throws Exception {
+        JsonNode ps = JSON.readTree("{\"models\":[{\"name\":\"qwen2.5:1.5b\",\"size\":1048576000,\"size_vram\":0}]}");
+        JsonNode hive = JSON.readTree("{\"cells\":[{\"cell\":\"a\",\"consecutive_fails\":0},{\"cell\":\"miner\",\"consecutive_fails\":3},"
+            + "{\"cell\":\"old\",\"consecutive_fails\":5,\"retired\":true}]}");
+        JsonNode voting = JSON.readTree("{\"decisions\":[{\"t\":\"2026-11-07 08:00\",\"passed\":true,\"module\":\"foo_bot\"}]}");
+        String s = ViperLiveFeed.swarmText(ps, hive, voting, "qwen2.5:1.5b");
+        assertTrue(s.contains("held by qwen2.5:1.5b"));
+        assertTrue(s.contains("qwen2.5:1.5b") && s.contains("1000 MB"));
+        assertTrue(s.contains("2 live, 1 healthy, 1 failing"));
+        assertTrue(s.contains("failing: miner") && !s.contains("old"));
+        assertTrue(s.contains("PASS  foo_bot"));
+        String down = ViperLiveFeed.swarmText(null, null, null, null);
+        assertTrue(down.contains("mic: free"));
+        assertTrue(down.contains("[ollama :11434 not reached]") && down.contains("[hexflow :7766 not reached]"));
+        assertFalse(down.contains("Agent Alpha"), "no invented registry");
+    }
+
+    @Test
     void trayIconIsDrawnWithoutResources() {
         java.awt.image.BufferedImage img = ViperTray.image();
         assertEquals(32, img.getWidth());
