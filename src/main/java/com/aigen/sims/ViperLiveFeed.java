@@ -77,6 +77,25 @@ public final class ViperLiveFeed {
 
     private static final String OLLAMA_PS = "http://127.0.0.1:11434/api/ps";
 
+    // ---- one-line status for the tray menu (11-07); read the snapshot, never fetch ----
+    static String quorumLine(boolean[] v) {
+        if (v == null) return "Quorum: hexflow not reached";
+        int p = 0;
+        for (boolean b : v) if (b) p++;
+        return "Quorum: " + p + " passed / " + v.length + " latest";
+    }
+
+    static String hiveLine(double s) {
+        return Double.isNaN(s) ? "Hive: not reached" : String.format("Hive: %.0f%% of live cells healthy", s * 100);
+    }
+
+    public static String quorumLine() { return quorumLine(votes); }
+    public static String hiveLine() { return hiveLine(stability); }
+    public static String micLine() {
+        try { String m = OllamaRouter.boxMicModel(); return "Mic: " + (m == null ? "free" : "held by " + m); }
+        catch (Exception e) { return "Mic: unreadable"; }
+    }
+
     /** Plain report of what is actually running. Any null source is said, not filled in. */
     static String swarmText(JsonNode ps, JsonNode hive, JsonNode voting, String micModel) {
         StringBuilder sb = new StringBuilder("# LIVE SWARM  (refreshes every " + POLL_S + " s)\n");

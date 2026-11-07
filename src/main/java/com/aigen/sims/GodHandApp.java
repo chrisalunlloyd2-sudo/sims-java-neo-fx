@@ -335,6 +335,26 @@ public class GodHandApp extends Application {
         
         primaryStage.setTitle("SIMS1337 v0.26.0 - 6D Hexeract Geospatial Manifold Organism");
         primaryStage.setScene(scene);
+        // 2026-11-07: tray submenus -- the taskbar's panels plus the Viper surfaces used most.
+        ViperTray.window("Open", "Viper Hive", () -> openWindow("Viper Hive", ViperHivePanel.create(), 760, 520));
+        ViperTray.window("Open", "Notes", () -> openWindow("Viper Notes", createViperNotesView(), 420, 360));
+        ViperTray.window("Open", "Chat (Karoo)", () -> openWindow("Viper Chat", createViperChatView(), 420, 340));
+        ViperTray.window("Open", "Training", () -> openWindow("Viper Training", createViperTrainingView(), 400, 260));
+        ViperTray.window("Open", "Interstitials", () -> openWindow("Viper Interstitials", createViperInterstitialsView(), 440, 320));
+        ViperTray.window("Agents", "Moltbook", () -> openWindow("Moltbook", createMoltbookView(), 440, 350));
+        ViperTray.window("Agents", "Spin Up Agent Node", () -> openWindow("Spin Up Agent Node", createSpinUpAgentNodeView(), 520, 560));
+        ViperTray.window("Agents", "Reboot Panel", () -> openWindow("Manifold Control", createManifoldControlView(), 240, 320));
+        ViperTray.status("Status", ViperLiveFeed::quorumLine);
+        ViperTray.status("Status", ViperLiveFeed::hiveLine);
+        ViperTray.status("Status", ViperLiveFeed::micLine);
+        ViperTray.action("Viper", "Hexflow dashboard (browser)", () -> ViperTray.open("http://127.0.0.1:7766/"));
+        ViperTray.action("Viper", "Show MoeGUI", () -> ViperTray.ring(7788, "SHOW"));
+        ViperTray.action("Viper", "Human to-dos (HUMAN_DOS.md)", () -> ViperTray.open("C:\\Viper\\tasks\\HUMAN_DOS.md"));
+        ViperTray.action("Viper", "Agent replies folder", () -> ViperTray.open("C:\\Viper\\tasks\\replies"));
+        ViperTray.action("Logs", "GodHand log", () -> ViperTray.open("C:\\Viper\\logs\\godhand.log"));
+        ViperTray.action("Logs", "GodHand errors", () -> ViperTray.open("C:\\Viper\\logs\\godhand.err.log"));
+        ViperTray.action("Logs", "Hive log", () -> ViperTray.open("C:\\Viper\\logs\\hive.log"));
+        ViperTray.action("Logs", "All Viper logs", () -> ViperTray.open("C:\\Viper\\logs"));
         ViperTray.install(primaryStage); // X = hide to tray; tray menu exits
         ViperLiveFeed.start();           // real quorum / hive / KQML data for the dashboard
         primaryStage.show();

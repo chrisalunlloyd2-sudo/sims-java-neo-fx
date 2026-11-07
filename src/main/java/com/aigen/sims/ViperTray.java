@@ -42,6 +42,52 @@ public final class ViperTray {
 
     private ViperTray() {}
 
+    // ---- 2026-11-07: tray submenus. Register before install(); groups keep insertion order. ----
+    private static final class Entry {
+        final String label; final Runnable onFx; final Runnable offFx; final java.util.function.Supplier<String> status;
+        Entry(String l, Runnable fx, Runnable off, java.util.function.Supplier<String> st) { label = l; onFx = fx; offFx = off; status = st; }
+    }
+    private static final java.util.Map<String, java.util.List<Entry>> MENUS = new java.util.LinkedHashMap<>();
+    private static final java.util.List<Object[]> STATUS_ITEMS = new java.util.ArrayList<>();   // {MenuItem, Supplier}
+
+    private static java.util.List<Entry> group(String g) { return MENUS.computeIfAbsent(g, k -> new java.util.ArrayList<>()); }
+
+    /** Shows the window, then runs fx on the FX thread (open a panel inside GodHand). */
+    public static void window(String group, String label, Runnable fx) { group(group).add(new Entry(label, fx, null, null)); }
+    /** Runs off the FX thread (open a file, a URL, ring MoeGUI). */
+    public static void action(String group, String label, Runnable r) { group(group).add(new Entry(label, null, r, null)); }
+    /** Read-only line, refreshed every 10 s. */
+    public static void status(String group, java.util.function.Supplier<String> text) { group(group).add(new Entry("...", null, null, text)); }
+
+    /** Desktop open/browse for files, folders and http URLs. Never throws. */
+    public static void open(String target) {
+        new Thread(() -> {
+            try {
+                if (target.startsWith("http")) java.awt.Desktop.getDesktop().browse(java.net.URI.create(target));
+                else java.awt.Desktop.getDesktop().open(new java.io.File(target));
+            } catch (Exception e) { log("open " + target + " failed: " + e); }
+        }, "tray-open").start();
+    }
+
+    /** Ring another app's doorbell (MoeGUI :7788). */
+    public static void ring(int port, String what) {
+        new Thread(() -> {
+            try (Socket s = new Socket()) {
+                s.connect(new InetSocketAddress(InetAddress.getLoopbackAddress(), port), 1500);
+                s.getOutputStream().write((what + "\n").getBytes(StandardCharsets.US_ASCII));
+            } catch (Exception e) { log("ring :" + port + " failed: " + e); }
+        }, "tray-ring").start();
+    }
+
+    /** Menu structure as text, for tests (no AWT needed). */
+    static String outline() {
+        StringBuilder sb = new StringBuilder();
+        MENUS.forEach((g, es) -> { sb.append(g).append(':'); for (Entry e : es) sb.append(' ').append(e.status != null ? "[status]" : e.label).append(';'); sb.append('\n'); });
+        return sb.toString();
+    }
+
+    static void clearMenus() { MENUS.clear(); }
+
     /** True when another copy answered the doorbell; the caller should quit. */
     public static boolean ringExisting() { return ringExisting(PORT); }
 
@@ -128,7 +174,39 @@ public final class ViperTray {
         exitItem.addActionListener(a -> exit());
         menu.add(showItem);
         menu.addSeparator();
+        MENUS.forEach((g, es) -> {
+            java.awt.Menu sub = new java.awt.Menu(g);
+            for (Entry e : es) {
+                MenuItem mi = new MenuItem(e.label);
+                if (e.status != null) {
+                    mi.setEnabled(false);
+                    STATUS_ITEMS.add(new Object[]{mi, e.status});
+                } else if (e.onFx != null) {
+                    mi.addActionListener(a -> { show(stage); Platform.runLater(e.onFx); });
+                } else {
+                    mi.addActionListener(a -> e.offFx.run());
+                }
+                sub.add(mi);
+            }
+            menu.add(sub);
+        });
+        menu.addSeparator();
         menu.add(exitItem);
+        if (!STATUS_ITEMS.isEmpty()) {
+            Thread st = new Thread(() -> {
+                while (true) {
+                    for (Object[] it : STATUS_ITEMS) {
+                        String txt;
+                        try { txt = ((java.util.function.Supplier<?>) it[1]).get().toString(); } catch (Exception ex) { txt = "status: " + ex.getClass().getSimpleName(); }
+                        final String t = txt;
+                        EventQueue.invokeLater(() -> ((MenuItem) it[0]).setLabel(t));
+                    }
+                    try { Thread.sleep(10_000); } catch (InterruptedException ie) { return; }
+                }
+            }, "tray-status");
+            st.setDaemon(true);
+            st.start();
+        }
 
         icon = new TrayIcon(image(), "GodHand (Viper)", menu);
         icon.setImageAutoSize(true);

@@ -214,6 +214,21 @@ class GodHandViperTest {
     }
 
     @Test
+    void trayMenusKeepGroupOrderAndStatusLinesReadTheSnapshot() {
+        ViperTray.clearMenus();
+        ViperTray.window("Open", "Viper Hive", () -> {});
+        ViperTray.action("Logs", "GodHand log", () -> {});
+        ViperTray.status("Status", () -> "x");
+        ViperTray.window("Open", "Notes", () -> {});
+        assertEquals("Open: Viper Hive; Notes;\nLogs: GodHand log;\nStatus: [status];\n", ViperTray.outline());
+        ViperTray.clearMenus();
+        assertEquals("Quorum: 2 passed / 3 latest", ViperLiveFeed.quorumLine(new boolean[]{true, false, true}));
+        assertEquals("Quorum: hexflow not reached", ViperLiveFeed.quorumLine(null));
+        assertEquals("Hive: 75% of live cells healthy", ViperLiveFeed.hiveLine(0.75));
+        assertEquals("Hive: not reached", ViperLiveFeed.hiveLine(Double.NaN));
+    }
+
+    @Test
     void trayIconIsDrawnWithoutResources() {
         java.awt.image.BufferedImage img = ViperTray.image();
         assertEquals(32, img.getWidth());
