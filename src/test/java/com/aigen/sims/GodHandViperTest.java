@@ -132,4 +132,36 @@ class GodHandViperTest {
         assertTrue(text.contains("ERR"));
         assertTrue(text.contains("results 2"));
     }
+
+    // ---- tray doorbell (2026-11-06): a relaunch shows the running copy ----
+
+    @Test
+    void doorbellSendsShowToTheRunningCopy() throws Exception {
+        try (java.net.ServerSocket fake = new java.net.ServerSocket(
+                ViperTray.PORT, 1, java.net.InetAddress.getLoopbackAddress())) {
+            fake.setSoTimeout(5000);
+            java.util.concurrent.CompletableFuture<String> got =
+                    java.util.concurrent.CompletableFuture.supplyAsync(() -> {
+                        try (java.net.Socket c = fake.accept()) {
+                            return new java.io.BufferedReader(new java.io.InputStreamReader(
+                                    c.getInputStream())).readLine();
+                        } catch (Exception e) { return "ERR " + e; }
+                    });
+            assertTrue(ViperTray.ringExisting());
+            assertEquals("SHOW", got.get(6, java.util.concurrent.TimeUnit.SECONDS));
+        }
+    }
+
+    @Test
+    void doorbellUnansweredMeansStartFresh() {
+        assertFalse(ViperTray.ringExisting());
+    }
+
+    @Test
+    void trayIconIsDrawnWithoutResources() {
+        java.awt.image.BufferedImage img = ViperTray.image();
+        assertEquals(32, img.getWidth());
+        assertNotEquals(0, img.getRGB(16, 16) >>> 24, "centre must be opaque");
+        assertEquals(0, img.getRGB(0, 0) >>> 24, "corner must be clear");
+    }
 }
