@@ -142,6 +142,38 @@ public final class ViperLiveFeed {
         ViperTray.open(p == null ? LOGS.toString() : p.toString());
     }
 
+    // ---- Sovereign Search (11-07): code_ledger full-text search, no model. Was a dead :8890 call. ----
+    static final String CODE_LEDGER = "C:\\Viper\\scripts\\code_ledger.py";
+
+    /** Pure: format code_ledger search JSON (array of {name, purpose, language, kind, fitness_score, use_count}). */
+    static String codeSearchText(String q, JsonNode hits, int max) {
+        StringBuilder sb = new StringBuilder("### SOVEREIGN SEARCH: \"" + q + "\" (code ledger)\n");
+        if (hits == null || !hits.isArray() || hits.size() == 0) return sb.append("(no matches)\n").toString();
+        for (int i = 0; i < Math.min(max, hits.size()); i++) {
+            JsonNode h = hits.get(i);
+            sb.append(String.format("%d. %s  [%s %s]  fitness %.2f, used %d%n   %s%n", i + 1,
+                    h.path("name").asText("?"), h.path("language").asText(""), h.path("kind").asText(""),
+                    h.path("fitness_score").asDouble(0), h.path("use_count").asInt(0),
+                    trim(h.path("purpose").asText(""), 120)));
+        }
+        if (hits.size() > max) sb.append("... ").append(hits.size() - max).append(" more\n");
+        return sb.toString();
+    }
+
+    /** Runs code_ledger.py search (blocking, up to 60 s). Call off the FX thread. */
+    public static String codeSearch(String q) {
+        try {
+            Process p = new ProcessBuilder(PY311, CODE_LEDGER, "search", q).redirectErrorStream(false).start();
+            byte[] out = p.getInputStream().readAllBytes();
+            if (!p.waitFor(60, TimeUnit.SECONDS)) { p.destroy(); return "### SOVEREIGN SEARCH: timed out after 60 s\n"; }
+            String s = new String(out, java.nio.charset.StandardCharsets.UTF_8);
+            int i = s.indexOf('[');
+            return codeSearchText(q, i < 0 ? null : JSON.readTree(s.substring(i)), 8);
+        } catch (Exception e) {
+            return "### SOVEREIGN SEARCH failed: " + e.getClass().getSimpleName() + "\n";
+        }
+    }
+
     public static String quorumLine() { return quorumLine(votes); }
     public static String hiveLine() { return hiveLine(stability); }
     public static String micLine() {

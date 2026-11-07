@@ -240,6 +240,18 @@ class GodHandViperTest {
     }
 
     @Test
+    void sovereignSearchFormatsLedgerHitsAndSaysWhenEmpty() throws Exception {
+        JsonNode hits = JSON.readTree("[{\"name\":\"vote_on\",\"language\":\"python\",\"kind\":\"function\","
+            + "\"purpose\":\"quorum_cell.py:vote_on\",\"fitness_score\":0.67,\"use_count\":134}]");
+        String s = ViperLiveFeed.codeSearchText("quorum veto", hits, 8);
+        assertTrue(s.contains("\"quorum veto\""));
+        assertTrue(s.contains("1. vote_on  [python function]  fitness 0.67, used 134"));
+        assertTrue(s.contains("quorum_cell.py:vote_on"));
+        assertTrue(ViperLiveFeed.codeSearchText("x", JSON.readTree("[]"), 8).contains("(no matches)"));
+        assertTrue(ViperLiveFeed.codeSearchText("x", null, 8).contains("(no matches)"));
+    }
+
+    @Test
     void trayIconIsDrawnWithoutResources() {
         java.awt.image.BufferedImage img = ViperTray.image();
         assertEquals(32, img.getWidth());

@@ -506,8 +506,29 @@ public class GodHandApp extends Application {
 
         Button btnAnalyticsSearch = new Button("🔍 Sovereign Search");
         btnAnalyticsSearch.setStyle("-fx-background-color: #059669; -fx-text-fill: white; -fx-font-family: monospace; -fx-cursor: hand; -fx-font-size: 11px;");
+        // 2026-11-07: real search -- the code ledger's full-text index (no model, ~8 s). Selected scratchpad text
+        // is the query, else it asks. The old :8890 backend below never existed on this box; kept, unused.
         btnAnalyticsSearch.setOnAction(e -> {
-            btnAnalyticsSearch.setText("⏳ Querying...");
+            String sel = areaUser.getSelectedText();
+            String q = sel == null || sel.isBlank() ? null : sel.trim();
+            if (q == null) {
+                javafx.scene.control.TextInputDialog dlg = new javafx.scene.control.TextInputDialog();
+                dlg.setTitle("Sovereign Search");
+                dlg.setHeaderText("Search the code ledger (functions, modules, purposes)");
+                q = dlg.showAndWait().map(String::trim).filter(s -> !s.isEmpty()).orElse(null);
+            }
+            if (q == null) return;
+            final String query = q;
+            btnAnalyticsSearch.setText("⏳ Searching...");
+            threadPool.submit(() -> {
+                String res = ViperLiveFeed.codeSearch(query);
+                Platform.runLater(() -> {
+                    areaUser.appendText("\n\n---\n" + res);
+                    btnAnalyticsSearch.setText("🔍 Sovereign Search");
+                });
+            });
+        });
+        Runnable legacy8890 = () -> {
             threadPool.submit(() -> {
                 try {
                     java.net.URL url = new java.net.URL("http://localhost:8890/api/search?q=giesekus");
@@ -541,7 +562,7 @@ public class GodHandApp extends Application {
                     });
                 }
             });
-        });
+        };
 
         bar.getChildren().addAll(btnAnalyticsSearch, btnSummarize, btnSave);
         root.getChildren().addAll(tabPane, bar);
