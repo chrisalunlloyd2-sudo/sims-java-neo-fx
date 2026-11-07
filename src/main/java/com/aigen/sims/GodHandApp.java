@@ -351,6 +351,11 @@ public class GodHandApp extends Application {
         ViperTray.action("Viper", "Show MoeGUI", () -> ViperTray.ring(7788, "SHOW"));
         ViperTray.action("Viper", "Human to-dos (HUMAN_DOS.md)", () -> ViperTray.open("C:\\Viper\\tasks\\HUMAN_DOS.md"));
         ViperTray.action("Viper", "Agent replies folder", () -> ViperTray.open("C:\\Viper\\tasks\\replies"));
+        // 11-07: daily archival (nightly 01:00 too). Deletes logs > 30 days + prunes repo backups to 7, by Chris's order.
+        ViperTray.status("Archive", ViperLiveFeed::archivalLine);
+        ViperTray.action("Archive", "Run daily archival now", () -> ViperLiveFeed.runArchival(false));
+        ViperTray.action("Archive", "Preview (dry run, changes nothing)", () -> ViperLiveFeed.runArchival(true));
+        ViperTray.action("Archive", "Latest archival log", ViperLiveFeed::openArchivalLog);
         ViperTray.action("Logs", "GodHand log", () -> ViperTray.open("C:\\Viper\\logs\\godhand.log"));
         ViperTray.action("Logs", "GodHand errors", () -> ViperTray.open("C:\\Viper\\logs\\godhand.err.log"));
         ViperTray.action("Logs", "Hive log", () -> ViperTray.open("C:\\Viper\\logs\\hive.log"));

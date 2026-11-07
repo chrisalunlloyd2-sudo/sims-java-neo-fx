@@ -89,6 +89,59 @@ public final class ViperLiveFeed {
         return Double.isNaN(s) ? "Hive: not reached" : String.format("Hive: %.0f%% of live cells healthy", s * 100);
     }
 
+    // ---- daily archival (11-07): C:\Viper\scripts\daily-archival.py, nightly 01:00 + tray ----
+    static final Path LOGS = Paths.get("C:\\Viper\\logs");
+    static final String PY311 = "C:\\Users\\viper\\AppData\\Local\\Programs\\Python\\Python311\\python.exe";
+    static final String ARCHIVAL = "C:\\Viper\\scripts\\daily-archival.py";
+
+    /** Newest daily-archival-YYYYMMDD.log in dir, or null. */
+    static Path latestArchivalLog(Path dir) {
+        Path best = null;
+        try (DirectoryStream<Path> ds = Files.newDirectoryStream(dir, "daily-archival-*.log")) {
+            for (Path p : ds) if (best == null || p.getFileName().toString().compareTo(best.getFileName().toString()) > 0) best = p;
+        } catch (IOException ignored) {}
+        return best;
+    }
+
+    /** "Archive: last run 2026-11-07 01:06 DONE" from the newest log's last stamped line. */
+    static String archivalLine(Path dir) {
+        Path p = latestArchivalLog(dir);
+        if (p == null) return "Archive: never run";
+        try {
+            List<String> lines = Files.readAllLines(p, java.nio.charset.StandardCharsets.UTF_8);
+            for (int i = lines.size() - 1; i >= 0; i--) {
+                String l = lines.get(i);
+                if (l.startsWith("[") && l.length() > 21) {
+                    String when = l.substring(1, 17).replace('T', ' ');
+                    String what = l.contains("=== DONE ===") ? "done" : l.contains("in progress") ? "skipped (already running)" : "running: " + trim(l.substring(l.indexOf(']') + 1).trim(), 40);
+                    return "Archive: " + when + " " + what;
+                }
+            }
+            return "Archive: log empty";
+        } catch (IOException e) {
+            return "Archive: log unreadable";
+        }
+    }
+
+    public static String archivalLine() { return archivalLine(LOGS); }
+
+    /** Start daily-archival.py detached (it logs itself and holds its own one-run lock). */
+    public static void runArchival(boolean dry) {
+        try {
+            List<String> cmd = new ArrayList<>(List.of(PY311, ARCHIVAL));
+            if (dry) cmd.add("--dry-run");
+            new ProcessBuilder(cmd).redirectErrorStream(true)
+                    .redirectOutput(ProcessBuilder.Redirect.DISCARD).start();
+        } catch (IOException e) {
+            System.out.println("[TRAY] daily archival failed to start: " + e);
+        }
+    }
+
+    public static void openArchivalLog() {
+        Path p = latestArchivalLog(LOGS);
+        ViperTray.open(p == null ? LOGS.toString() : p.toString());
+    }
+
     public static String quorumLine() { return quorumLine(votes); }
     public static String hiveLine() { return hiveLine(stability); }
     public static String micLine() {

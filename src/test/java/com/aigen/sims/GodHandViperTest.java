@@ -229,6 +229,17 @@ class GodHandViperTest {
     }
 
     @Test
+    void archivalLineReadsTheNewestLog(@TempDir Path dir) throws Exception {
+        assertEquals("Archive: never run", ViperLiveFeed.archivalLine(dir));
+        Files.writeString(dir.resolve("daily-archival-20261106.log"), "[2026-11-06T01:06:35] === DONE ===\n");
+        Files.writeString(dir.resolve("daily-archival-20261107.log"),
+            "[2026-11-07T01:00:39] step2: fleet -> OK\n[2026-11-07T01:06:35] === DONE ===\n");
+        assertEquals("Archive: 2026-11-07 01:06 done", ViperLiveFeed.archivalLine(dir));
+        Files.writeString(dir.resolve("daily-archival-20261108.log"), "[2026-11-08T09:40:02] step2: viper-scripts -> OK\n");
+        assertTrue(ViperLiveFeed.archivalLine(dir).startsWith("Archive: 2026-11-08 09:40 running: step2"));
+    }
+
+    @Test
     void trayIconIsDrawnWithoutResources() {
         java.awt.image.BufferedImage img = ViperTray.image();
         assertEquals(32, img.getWidth());
