@@ -43,9 +43,12 @@ public final class ViperTray {
     private ViperTray() {}
 
     /** True when another copy answered the doorbell; the caller should quit. */
-    public static boolean ringExisting() {
+    public static boolean ringExisting() { return ringExisting(PORT); }
+
+    /** Port-parameterised so tests never touch the live GodHand's :7787 (Hermes t_a59be94b). */
+    static boolean ringExisting(int port) {
         try (Socket s = new Socket()) {
-            s.connect(new InetSocketAddress(InetAddress.getLoopbackAddress(), PORT), 1500);
+            s.connect(new InetSocketAddress(InetAddress.getLoopbackAddress(), port), 1500);
             OutputStream o = s.getOutputStream();
             o.write("SHOW\n".getBytes(StandardCharsets.US_ASCII));
             o.flush();

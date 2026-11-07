@@ -138,7 +138,7 @@ class GodHandViperTest {
     @Test
     void doorbellSendsShowToTheRunningCopy() throws Exception {
         try (java.net.ServerSocket fake = new java.net.ServerSocket(
-                ViperTray.PORT, 1, java.net.InetAddress.getLoopbackAddress())) {
+                0, 1, java.net.InetAddress.getLoopbackAddress())) {   // free port: a live GodHand owns 7787
             fake.setSoTimeout(5000);
             java.util.concurrent.CompletableFuture<String> got =
                     java.util.concurrent.CompletableFuture.supplyAsync(() -> {
@@ -147,14 +147,16 @@ class GodHandViperTest {
                                     c.getInputStream())).readLine();
                         } catch (Exception e) { return "ERR " + e; }
                     });
-            assertTrue(ViperTray.ringExisting());
+            assertTrue(ViperTray.ringExisting(fake.getLocalPort()));
             assertEquals("SHOW", got.get(6, java.util.concurrent.TimeUnit.SECONDS));
         }
     }
 
     @Test
-    void doorbellUnansweredMeansStartFresh() {
-        assertFalse(ViperTray.ringExisting());
+    void doorbellUnansweredMeansStartFresh() throws Exception {
+        int port;
+        try (java.net.ServerSocket probe = new java.net.ServerSocket(0)) { port = probe.getLocalPort(); }
+        assertFalse(ViperTray.ringExisting(port));   // a port nobody holds: no copy answers
     }
 
     @Test
