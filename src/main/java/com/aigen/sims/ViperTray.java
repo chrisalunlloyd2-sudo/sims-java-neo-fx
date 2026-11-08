@@ -131,6 +131,14 @@ public final class ViperTray {
         listen(stage);
     }
 
+    /** Start-in-tray: queued on the AWT thread after addIcon, so a failed icon never hides the window into nothing. */
+    public static void hideWhenIconReady(Stage stage) {
+        EventQueue.invokeLater(() -> {
+            if (icon != null) { log("--tray: started hidden"); Platform.runLater(stage::hide); }
+            else log("--tray asked but no icon: window stays visible");
+        });
+    }
+
     static void show(Stage stage) {
         Platform.runLater(() -> {
             if (stage.isIconified()) stage.setIconified(false);

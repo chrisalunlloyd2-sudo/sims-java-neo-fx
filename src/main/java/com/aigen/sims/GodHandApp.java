@@ -363,7 +363,11 @@ public class GodHandApp extends Application {
         ViperTray.install(primaryStage); // X = hide to tray; tray menu exits
         ViperLiveFeed.start();           // real quorum / hive / KQML data for the dashboard
         primaryStage.show();
-        
+        // 11-07: --tray (or VIPER_START_TRAY=1) = boot to the purple hex; hidden only once the icon exists
+        if (getParameters().getRaw().contains("--tray") || "1".equals(System.getenv("VIPER_START_TRAY"))) {
+            ViperTray.hideWhenIconReady(primaryStage);
+        }
+
         timer.start();
         nightCycle.startClock();
     }
