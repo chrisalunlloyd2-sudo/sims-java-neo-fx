@@ -69,6 +69,13 @@ public final class ViperTray {
         }, "tray-open").start();
     }
 
+    /** Windows toast through the tray icon (11-08, notify bus). No icon yet -> nothing, never throws. */
+    public static void toast(String title, String text) {
+        try {
+            if (icon != null) icon.displayMessage(title, text, TrayIcon.MessageType.INFO);
+        } catch (Throwable e) { log("toast failed: " + e); }
+    }
+
     /** Ring another app's doorbell (MoeGUI :7788). */
     public static void ring(int port, String what) {
         new Thread(() -> {
@@ -209,6 +216,7 @@ public final class ViperTray {
                         final String t = txt;
                         EventQueue.invokeLater(() -> ((MenuItem) it[0]).setLabel(t));
                     }
+                    ViperNotify.toastNew();
                     try { Thread.sleep(10_000); } catch (InterruptedException ie) { return; }
                 }
             }, "tray-status");

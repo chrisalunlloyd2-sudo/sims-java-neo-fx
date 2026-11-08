@@ -347,6 +347,10 @@ public class GodHandApp extends Application {
         ViperTray.status("Status", ViperLiveFeed::quorumLine);
         ViperTray.status("Status", ViperLiveFeed::hiveLine);
         ViperTray.status("Status", ViperLiveFeed::micLine);
+        // 11-08 notify bus (swarm_notify.py): count + newest title, ack all, raw log
+        ViperTray.status("Notifications", ViperNotify::line);
+        ViperTray.action("Notifications", "Acknowledge all", ViperNotify::ackAll);
+        ViperTray.action("Notifications", "Open notify log", () -> ViperTray.open(ViperNotify.LOG.toString()));
         ViperTray.action("Viper", "Hexflow dashboard (browser)", () -> ViperTray.open("http://127.0.0.1:7766/"));
         ViperTray.action("Viper", "Show MoeGUI", () -> ViperTray.ring(7788, "SHOW"));
         ViperTray.action("Viper", "Human to-dos (HUMAN_DOS.md)", () -> ViperTray.open("C:\\Viper\\tasks\\HUMAN_DOS.md"));
