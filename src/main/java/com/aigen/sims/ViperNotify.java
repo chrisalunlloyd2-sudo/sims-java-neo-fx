@@ -34,10 +34,11 @@ public final class ViperNotify {
 
     /** One pending message. */
     public static final class Msg {
-        public final String id, source, level, title;
+        public final String id, source, level, title, body, tags, ts;
         public final boolean deliver;
-        Msg(String id, String source, String level, String title, boolean deliver) {
+        Msg(String id, String source, String level, String title, boolean deliver, String body, String tags, String ts) {
             this.id = id; this.source = source; this.level = level; this.title = title; this.deliver = deliver;
+            this.body = body; this.tags = tags; this.ts = ts;
         }
     }
 
@@ -60,8 +61,10 @@ public final class ViperNotify {
             if (!"msg".equals(r.path("event").asText())) continue;
             String id = r.path("id").asText();
             if (acked.contains(id) || snoozed.getOrDefault(id, 0.0) * 1000.0 > nowMs) continue;
+            StringBuilder tg = new StringBuilder();
+            for (JsonNode t : r.path("tags")) tg.append(tg.length() == 0 ? "" : ",").append(t.asText());
             out.add(new Msg(id, r.path("source").asText(), r.path("level").asText(), r.path("title").asText(),
-                    r.path("deliver").asBoolean(false)));
+                    r.path("deliver").asBoolean(false), r.path("body").asText(), tg.toString(), r.path("ts").asText()));
         }
         return out;
     }
@@ -103,6 +106,30 @@ public final class ViperNotify {
     public static void ackAll() {
         for (Msg m : pendingFrom(readLines(), System.currentTimeMillis()))
             append("{\"event\":\"ack\",\"id\":\"" + m.id + "\",\"epoch\":" + (System.currentTimeMillis() / 1000.0) + "}");
+    }
+
+    /** Pending messages for the Updates panel. */
+    public static List<Msg> pending() { return pendingFrom(readLines(), System.currentTimeMillis()); }
+
+    /** Card button: acknowledge one message. */
+    public static void ack(String id) {
+        append("{\"event\":\"ack\",\"id\":\"" + id + "\",\"epoch\":" + (System.currentTimeMillis() / 1000.0) + "}");
+    }
+
+    /** Card button: hide one message for the given minutes (same shape as swarm_notify.snooze). */
+    public static void snooze(String id, int minutes) {
+        append("{\"event\":\"snooze\",\"id\":\"" + id + "\",\"until\":" + (System.currentTimeMillis() / 1000.0 + 60.0 * minutes) + "}");
+    }
+
+    /** Card button: file the message as a board contract (python does the real work), then it is acked. */
+    public static void makeContract(String id) {
+        new Thread(() -> {
+            try {
+                new ProcessBuilder("C:\\Users\\viper\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+                        "C:\\Viper\\scripts\\swarm_notify.py", "contract", id)
+                        .redirectErrorStream(true).redirectOutput(ProcessBuilder.Redirect.DISCARD).start().waitFor();
+            } catch (Exception e) { /* card stays pending, user can retry */ }
+        }, "notify-contract").start();
     }
 
     /** Toast each pending, deliverable, not-yet-toasted message once. Called by the tray's status thread. */

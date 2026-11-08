@@ -327,7 +327,12 @@ public class GodHandApp extends Application {
         btnViperHive.setStyle(btnStyle);
         btnViperHive.setOnAction(e -> openWindow("Viper Hive", ViperHivePanel.create(), 760, 520));
 
-        taskbar.getChildren().addAll(btnNotes, btnChat, btnTraining, btnInterstitials, btnMoltbook, btnSpinUpAgent, btnRebootCtrl, btnViperHive);
+        // 2026-11-08: swarm Updates panel (notify bus cards)
+        Button btnUpdates = new Button("🔔 Updates");
+        btnUpdates.setStyle(btnStyle);
+        btnUpdates.setOnAction(e -> openWindow("Viper Updates", ViperUpdatesPanel.create(), 520, 420));
+
+        taskbar.getChildren().addAll(btnNotes, btnChat, btnTraining, btnInterstitials, btnMoltbook, btnSpinUpAgent, btnRebootCtrl, btnViperHive, btnUpdates);
 
         root.getChildren().addAll(canvas, windowOverlay, taskbar);
 
@@ -348,6 +353,7 @@ public class GodHandApp extends Application {
         ViperTray.status("Status", ViperLiveFeed::hiveLine);
         ViperTray.status("Status", ViperLiveFeed::micLine);
         // 11-08 notify bus (swarm_notify.py): count + newest title, ack all, raw log
+        ViperTray.window("Notifications", "Open Updates panel", () -> openWindow("Viper Updates", ViperUpdatesPanel.create(), 520, 420));
         ViperTray.status("Notifications", ViperNotify::line);
         ViperTray.action("Notifications", "Acknowledge all", ViperNotify::ackAll);
         ViperTray.action("Notifications", "Open notify log", () -> ViperTray.open(ViperNotify.LOG.toString()));

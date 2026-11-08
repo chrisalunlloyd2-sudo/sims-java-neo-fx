@@ -27,6 +27,17 @@ class ViperNotifyTest {
     }
 
     @Test
+    void cardFieldsCarryBodyTagsAndTs() {
+        String m = "{\"event\":\"msg\",\"id\":\"n9\",\"source\":\"heal\",\"level\":\"act\",\"title\":\"t\",\"body\":\"why\","
+                + "\"tags\":[\"heal\",\"gui\"],\"ts\":\"2026-11-08T10:00:00\",\"deliver\":true}";
+        ViperNotify.Msg g = ViperNotify.pendingFrom(Arrays.asList(m), 0).get(0);
+        assertEquals("why", g.body);
+        assertEquals("heal,gui", g.tags);
+        assertEquals("2026-11-08T10:00:00", g.ts);
+        assertEquals("#f87171", ViperUpdatesPanel.levelColor("alarm"));
+    }
+
+    @Test
     void lineAndToastedIds() {
         assertEquals("Notifications: none pending", ViperNotify.lineFrom(ViperNotify.pendingFrom(Arrays.asList(), 0)));
         assertTrue(ViperNotify.lineFrom(ViperNotify.pendingFrom(Arrays.asList(A, B), 0)).startsWith("Notifications: 2 pending - low space"));
