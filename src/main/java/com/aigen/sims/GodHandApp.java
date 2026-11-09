@@ -371,6 +371,7 @@ public class GodHandApp extends Application {
         ViperTray.action("Logs", "Hive log", () -> ViperTray.open("C:\\Viper\\logs\\hive.log"));
         ViperTray.action("Logs", "All Viper logs", () -> ViperTray.open("C:\\Viper\\logs"));
         ViperTray.install(primaryStage); // X = hide to tray; tray menu exits
+        ViperChip.install(primaryStage); // 11-08: always-on-top hex chip: hive throttle + free RAM, green/amber/red
         ViperLiveFeed.start();           // real quorum / hive / KQML data for the dashboard
         primaryStage.show();
         // 11-07: --tray (or VIPER_START_TRAY=1) = boot to the purple hex; hidden only once the icon exists
