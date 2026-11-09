@@ -26,6 +26,19 @@ class ViperChipTest {
     }
 
     @Test
+    void largeTextScalesAndClamps() {
+        ViperUi.apply(true, 1.5, 38);
+        assertEquals(1.5, ViperUi.scale(), 1e-9);
+        assertEquals(18, ViperUi.px(12));
+        assertTrue(ViperUi.wrap(12) < 500);                 // short lines in large mode
+        ViperUi.apply(false, 1.5, 38);
+        assertEquals(12, ViperUi.px(12));
+        ViperUi.apply(true, 9.0, 5);                        // clamped
+        assertEquals(3.0, ViperUi.scale(), 1e-9);
+        ViperUi.apply(true, 1.5, 38);
+    }
+
+    @Test
     void topRamSumsByImage() {
         List<String> csv = Arrays.asList(
                 "\"java.exe\",\"100\",\"Console\",\"1\",\"1,048,576 K\"",

@@ -357,6 +357,9 @@ public class GodHandApp extends Application {
         ViperTray.status("Notifications", ViperNotify::line);
         ViperTray.action("Notifications", "Acknowledge all", ViperNotify::ackAll);
         ViperTray.action("Notifications", "Open notify log", () -> ViperTray.open(ViperNotify.LOG.toString()));
+        // 11-08 step 61: one large-text setting for every pop-up (config/ui_prefs.json, shared with MoeGUI)
+        ViperTray.status("Viper", () -> ViperUi.large() ? "Large text: ON" : "Large text: off");
+        ViperTray.action("Viper", "Toggle large text", () -> ViperUi.setLarge(!ViperUi.large()));
         ViperTray.action("Viper", "Hexflow dashboard (browser)", () -> ViperTray.open("http://127.0.0.1:7766/"));
         ViperTray.action("Viper", "Show MoeGUI", () -> ViperTray.ring(7788, "SHOW"));
         ViperTray.action("Viper", "Human to-dos (HUMAN_DOS.md)", () -> ViperTray.open("C:\\Viper\\tasks\\HUMAN_DOS.md"));

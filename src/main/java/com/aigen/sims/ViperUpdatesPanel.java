@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -16,46 +17,48 @@ import java.util.List;
  * 2026-11-08 (roadmap phase 5, steps 48/49): the Updates panel. One card per pending swarm message
  * from notify.jsonl, newest first, tagged by source. Buttons: Open log, Ack, Snooze 1 h, Make contract.
  * Every button appends one line to the same log the Python bus reads; nothing is deleted.
+ * Step 61: sizes come from ViperUi (large text + short lines), re-read on every refresh.
  */
 public final class ViperUpdatesPanel {
-    private static final String TEXT = "-fx-text-fill: #e2e8f0; -fx-font-family: monospace; -fx-font-size: 11px;";
-
     private ViperUpdatesPanel() {}
 
     static String levelColor(String level) {
         return "alarm".equals(level) ? "#f87171" : "act".equals(level) ? "#fbbf24" : "#38bdf8";
     }
 
+    static String font(String color, double base, boolean bold) {
+        return "-fx-text-fill: " + color + "; -fx-font-family: monospace; -fx-font-size: " + ViperUi.px(base) + "px;"
+                + (bold ? " -fx-font-weight: bold;" : "");
+    }
+
+    private static Label label(String text, String color, double base, boolean bold) {
+        Label l = new Label(text);
+        l.setWrapText(true);
+        l.setMaxWidth(ViperUi.wrap(base));
+        l.setStyle(font(color, base, bold));
+        return l;
+    }
+
     static VBox card(ViperNotify.Msg m, Runnable refresh) {
-        Label head = new Label("[" + m.source + "] " + m.level.toUpperCase() + "   " + m.ts);
-        head.setStyle("-fx-text-fill: " + levelColor(m.level) + "; -fx-font-family: monospace; -fx-font-size: 11px; -fx-font-weight: bold;");
-        Label title = new Label(m.title);
-        title.setWrapText(true);
-        title.setStyle(TEXT + " -fx-font-size: 12px;");
-        VBox box = new VBox(4, head, title);
-        if (!m.body.isEmpty()) {
-            Label body = new Label(m.body.length() > 400 ? m.body.substring(0, 399) + "..." : m.body);
-            body.setWrapText(true);
-            body.setStyle(TEXT + " -fx-opacity: 0.8;");
-            box.getChildren().add(body);
-        }
-        if (!m.tags.isEmpty()) {
-            Label tags = new Label("tags: " + m.tags);
-            tags.setStyle("-fx-text-fill: #a78bfa; -fx-font-family: monospace; -fx-font-size: 10px;");
-            box.getChildren().add(tags);
-        }
-        Button open = btn("Open log", () -> ViperTray.open(ViperNotify.LOG.toString()), refresh, false);
-        Button ack = btn("Ack", () -> ViperNotify.ack(m.id), refresh, true);
-        Button snz = btn("Snooze 1 h", () -> ViperNotify.snooze(m.id, 60), refresh, true);
-        Button con = btn("Make contract", () -> ViperNotify.makeContract(m.id), refresh, true);
-        box.getChildren().add(new HBox(6, open, ack, snz, con));
+        VBox box = new VBox(4,
+                label("[" + m.source + "] " + m.level.toUpperCase() + "   " + m.ts, levelColor(m.level), 11, true),
+                label(m.title, "#e2e8f0", 12, false));
+        if (!m.body.isEmpty())
+            box.getChildren().add(label(m.body.length() > 400 ? m.body.substring(0, 399) + "..." : m.body, "#cbd5e1", 11, false));
+        if (!m.tags.isEmpty()) box.getChildren().add(label("tags: " + m.tags, "#a78bfa", 10, false));
+        FlowPane buttons = new FlowPane(6, 6,                     // wraps under each other in large mode
+                btn("Open log", () -> ViperTray.open(ViperNotify.LOG.toString()), refresh, false),
+                btn("Ack", () -> ViperNotify.ack(m.id), refresh, true),
+                btn("Snooze 1 h", () -> ViperNotify.snooze(m.id, 60), refresh, true),
+                btn("Make contract", () -> ViperNotify.makeContract(m.id), refresh, true));
+        box.getChildren().add(buttons);
         box.setStyle("-fx-padding: 8; -fx-background-color: #140d2b; -fx-border-color: " + levelColor(m.level) + "; -fx-border-width: 0 0 0 3;");
         return box;
     }
 
     private static Button btn(String text, Runnable action, Runnable refresh, boolean refreshAfter) {
         Button b = new Button(text);
-        b.setStyle("-fx-background-color: #2a1a4f; -fx-text-fill: #e2e8f0; -fx-font-family: monospace; -fx-font-size: 10px;");
+        b.setStyle("-fx-background-color: #2a1a4f; -fx-text-fill: #e2e8f0; -fx-font-family: monospace; -fx-font-size: " + ViperUi.px(10) + "px;");
         b.setOnAction(e -> {
             action.run();
             if (refreshAfter) refresh.run();
@@ -65,9 +68,7 @@ public final class ViperUpdatesPanel {
 
     public static VBox create() {
         Label count = new Label("...");
-        count.setStyle("-fx-text-fill: #38bdf8; -fx-font-family: monospace; -fx-font-size: 12px;");
         Button ackAll = new Button("Ack all");
-        ackAll.setStyle("-fx-background-color: #2a1a4f; -fx-text-fill: #e2e8f0; -fx-font-family: monospace; -fx-font-size: 10px;");
         VBox cards = new VBox(6);
         ScrollPane sp = new ScrollPane(cards);
         sp.setFitToWidth(true);
@@ -80,6 +81,8 @@ public final class ViperUpdatesPanel {
         self[0] = () -> {
             List<ViperNotify.Msg> p = ViperNotify.pending();
             count.setText(p.isEmpty() ? "No pending updates" : p.size() + " pending");
+            count.setStyle(font("#38bdf8", 12, false));
+            ackAll.setStyle("-fx-background-color: #2a1a4f; -fx-text-fill: #e2e8f0; -fx-font-family: monospace; -fx-font-size: " + ViperUi.px(10) + "px;");
             cards.getChildren().clear();
             for (ViperNotify.Msg m : p) cards.getChildren().add(card(m, self[0]));
         };

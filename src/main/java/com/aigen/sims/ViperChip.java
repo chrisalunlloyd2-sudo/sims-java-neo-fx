@@ -136,11 +136,12 @@ public final class ViperChip {
         g.strokePolygon(xs, ys, 6);
         g.setFill(color(level));
         g.setTextAlign(TextAlignment.CENTER);
-        g.setFont(Font.font("Consolas", FontWeight.BOLD, 13));
-        g.fillText(top, cx, cy - 1);
-        g.setFont(Font.font("Consolas", 10));
+        double k = w / 64.0;                                   // text follows the chip size (step 61)
+        g.setFont(Font.font("Consolas", FontWeight.BOLD, 13 * k));
+        g.fillText(top, cx, cy - 1 * k);
+        g.setFont(Font.font("Consolas", 10 * k));
         g.setFill(Color.web("#e2e8f0"));
-        g.fillText(bottom, cx, cy + 13);
+        g.fillText(bottom, cx, cy + 13 * k);
     }
 
     /** Call once from start() on the FX thread. Never throws. */
@@ -194,6 +195,14 @@ public final class ViperChip {
                 final String tt = tipText;
                 final String bottom = free < 0 ? "" : String.format("%.1fG", free / 1024.0);
                 javafx.application.Platform.runLater(() -> {
+                    double size = Math.round(64 * ViperUi.scale());
+                    if (size != c.getWidth()) {                     // large-text toggled: grow/shrink, keep the corner
+                        double right = chip.getX() + c.getWidth(), lower = chip.getY() + c.getHeight();
+                        c.setWidth(size); c.setHeight(size);
+                        chip.setWidth(size); chip.setHeight(size);
+                        chip.setX(right - size); chip.setY(lower - size);
+                    }
+                    tip.setStyle("-fx-font-size: " + ViperUi.px(12) + "px;");
                     draw(c, v[0], String.format("x%.1f", h[0]), bottom);
                     tip.setText(tt);
                 });
