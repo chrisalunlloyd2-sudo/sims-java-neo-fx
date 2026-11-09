@@ -39,6 +39,15 @@ class ViperChipTest {
     }
 
     @Test
+    void focusAssistHoldsOnlyWhenFresh() {
+        long now = 1_794_199_000_000L;
+        assertTrue(ViperNotify.holdFrom("{\"focus\": true, \"epoch\": 1794198990}", now));
+        assertTrue(!ViperNotify.holdFrom("{\"focus\": true, \"epoch\": 1794198000}", now));   // stale
+        assertTrue(!ViperNotify.holdFrom("{\"focus\": false, \"epoch\": 1794198990}", now));
+        assertTrue(!ViperNotify.holdFrom("junk", now));
+    }
+
+    @Test
     void topRamSumsByImage() {
         List<String> csv = Arrays.asList(
                 "\"java.exe\",\"100\",\"Console\",\"1\",\"1,048,576 K\"",

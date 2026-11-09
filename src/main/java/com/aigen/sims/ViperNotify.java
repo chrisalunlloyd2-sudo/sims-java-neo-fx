@@ -132,15 +132,36 @@ public final class ViperNotify {
         }, "notify-contract").start();
     }
 
-    /** Toast each pending, deliverable, not-yet-toasted message once. Called by the tray's status thread. */
+    static final java.nio.file.Path WIN_STATE = java.nio.file.Paths.get("C:/Viper/databases/aegis/win_state.json");
+
+    /** Roadmap step 66: true while win_state.json (fresh, under 300 s) says Focus Assist / Do Not Disturb is on.
+     *  Stale, missing or unreadable = false, so a dead win_state cell never silences anything. */
+    static boolean holdFrom(String json, long nowMs) {
+        try {
+            com.fasterxml.jackson.databind.JsonNode j = new com.fasterxml.jackson.databind.ObjectMapper().readTree(json);
+            return j.path("focus").asBoolean(false) && nowMs / 1000.0 - j.path("epoch").asDouble(0) <= 300;
+        } catch (Exception e) { return false; }
+    }
+
+    public static boolean focusHold() {
+        try {
+            return holdFrom(new String(java.nio.file.Files.readAllBytes(WIN_STATE), java.nio.charset.StandardCharsets.UTF_8),
+                    System.currentTimeMillis());
+        } catch (Exception e) { return false; }
+    }
+
+    /** Toast each pending, deliverable, not-yet-toasted message once. Called by the tray's status thread.
+     *  While Do Not Disturb is on, act messages wait (still untoasted) and go out when it ends; alarms go now. */
     public static void toastNew() {
         try {
+            boolean hold = focusHold();
             List<String> lines = readLines();
             Set<String> done = toastedIds(lines);
             List<Msg> p = pendingFrom(lines, System.currentTimeMillis());
             for (int i = p.size() - 1; i >= 0; i--) {                 // oldest first
                 Msg m = p.get(i);
                 if (!m.deliver || done.contains(m.id)) continue;
+                if (hold && !"alarm".equals(m.level)) continue;
                 ViperTray.toast("[" + m.source + "] " + m.level, m.title);
                 append("{\"event\":\"toasted\",\"id\":\"" + m.id + "\",\"by\":\"godhand\"}");
             }
