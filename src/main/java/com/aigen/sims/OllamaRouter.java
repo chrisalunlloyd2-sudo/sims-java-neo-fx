@@ -20,6 +20,8 @@ public class OllamaRouter {
     private static final java.nio.file.Path BOX_MIC = java.nio.file.Paths.get("C:\\Viper\\databases\\aegis\\cellular_mic\\mic.json");
     private static final int AUTONOMOUS_PREDICT = 2;   // the low-overhead autonomy loops: 2 tokens
     private static final long BOX_MIC_WAIT_MS = 60_000;
+    private static final long BOX_MIC_WAIT_PERSON_MS = 20_000;   // a person waiting goes ahead sooner (was 60 s)
+    private static final double RAM_FLOOR_GB = 2.5;
 
     // 2026-11-09 (Chris: 2048 minimum, global). ONE window for every GodHand call. The autonomy loops asked
     // for 1024 and Karoo for 4096: every switch made ollama RELOAD the model, and the 2-token loops held the
@@ -52,12 +54,12 @@ public class OllamaRouter {
      * Returns true when clear. Autonomous 2-token calls give up and skip; user calls go ahead after the wait.
      */
     private boolean yieldToBoxMic(String model, boolean autonomous) {
-        long deadline = System.currentTimeMillis() + BOX_MIC_WAIT_MS;
+        long deadline = System.currentTimeMillis() + (autonomous ? BOX_MIC_WAIT_MS : BOX_MIC_WAIT_PERSON_MS);
         while (true) {
             String held = boxMicModel();
             if (held == null || held.equals(model)) return true;
             if (System.currentTimeMillis() > deadline) {
-                System.out.println("[BOX MIC] " + held + " still holds the Viper mic after 60 s; "
+                System.out.println("[BOX MIC] " + held + " still holds the Viper mic after " + ((autonomous ? BOX_MIC_WAIT_MS : BOX_MIC_WAIT_PERSON_MS) / 1000) + " s; "
                     + (autonomous ? "skipping autonomous call to " : "proceeding with user call to ") + model);
                 return !autonomous;
             }
@@ -100,7 +102,10 @@ public class OllamaRouter {
             }
             lastCallTimestamp = System.currentTimeMillis();
 
-            if (activeModel != null && !activeModel.equals(model)) {
+            // 2026-11-09 hot swap: was an unload on EVERY switch (Karoo qwen2.5 <-> loops qwen2.5-coder), so each
+            // switch was a ~16 s cold load. Ollama keeps MAX_LOADED models resident and evicts LRU itself; we only
+            // unload when RAM nears Chris's 2 GB floor.
+            if (activeModel != null && !activeModel.equals(model) && ViperVitals.freeRamGb() < RAM_FLOOR_GB) {
                 unloadModel(activeModel);
             }
             activeModel = model;
