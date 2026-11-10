@@ -592,6 +592,15 @@ public class GodHandApp extends Application {
     private static final String KAROO_MEM = "C:\\Viper\\scripts\\aegis_memory.py";
     private static final int KAROO_LIT_CHARS = 6000;
     private final List<String[]> karooHistory = new CopyOnWriteArrayList<>();   // {role, text}
+    // Karoo's OWN thread: the shared 8-thread pool is full of autonomy loops sleeping inside the mic lock,
+    // so a question queued there waited behind all of them and never came back (Chris 11-09 "no response").
+    private final ExecutorService karooPool = Executors.newSingleThreadExecutor(r -> {
+        Thread t = new Thread(r, "karoo-chat");
+        t.setDaemon(true);
+        return t;
+    });
+    private volatile String karooStage = null;      // null = idle; else "remembering" / "thinking"
+    private volatile long karooStart = 0;
 
     /** Newest turns verbatim until KAROO_LIT_CHARS is spent: the lit part. Older turns live in memory. */
     private String karooLit() {
@@ -666,6 +675,21 @@ public class GodHandApp extends Application {
         chatLog.setStyle("-fx-control-inner-background: #0b0720; -fx-text-fill: #f3e8ff; -fx-font-family: monospace; -fx-font-size: 16px;");
         chatLog.setText("KAROO: Awake. Standing by for lexical tool queries in 6D geospatial manifold...\n");
         VBox.setVgrow(chatLog, Priority.ALWAYS);
+        // "thinking" graphic (Chris 11-09): spinner + stage + seconds while Karoo works
+        Label thinking = new Label("");
+        thinking.setStyle("-fx-text-fill: #fbbf24; -fx-font-family: monospace; -fx-font-size: 16px;");
+        final String[] spin = {"\u280b", "\u2819", "\u2839", "\u2838", "\u283c", "\u2834", "\u2826", "\u2827", "\u2807", "\u280f"};
+        new AnimationTimer() {
+            private long last = 0;
+            @Override public void handle(long now) {
+                if (now - last < 120_000_000L) return;
+                last = now;
+                String st = karooStage;
+                if (st == null) { if (!thinking.getText().isEmpty()) thinking.setText(""); return; }
+                long secs = (System.currentTimeMillis() - karooStart) / 1000;
+                thinking.setText(spin[(int) ((now / 120_000_000L) % spin.length)] + " Karoo is " + st + "...  " + secs + " s");
+            }
+        }.start();
         
         HBox inputBar = new HBox(8);
         TextField inputField = new TextField();
@@ -683,6 +707,9 @@ public class GodHandApp extends Application {
                 inputField.clear();
                 
                 stressLevel = Math.min(1.0, stressLevel + 0.12);
+                karooStart = System.currentTimeMillis();
+                karooStage = "remembering";
+                karooPool.submit(() -> { try {
                 
                 // 2026-11-09 (Chris: full chats, 2048+ context, flashlight + RAG, six memories). Was: no history at
                 // all, 256 tokens, and four fluid-sim numbers as "memory". Now: the job picks one of six memories
@@ -706,8 +733,10 @@ public class GodHandApp extends Application {
                 
                 String finalPrompt = context.toString();
                 
-                threadPool.submit(() -> {
+                {
+                    karooStage = "thinking";
                     String response = ollamaRouter.query("qwen2.5:1.5b", finalPrompt, 700, null, 4096);
+                    karooStage = null;
                     karooTurn(mem, prompt, response);
                     Platform.runLater(() -> {
                         chatLog.appendText("KAROO [" + mem[0] + " memory]: " + response + "\n\n");
@@ -715,7 +744,12 @@ public class GodHandApp extends Application {
                         parseModelOutputAndEnqueue(response);
                         triggerPulse(Math.floorMod(String.valueOf(response).hashCode(), 64)); // 11-07: from the reply, not random
                     });
-                });
+                }
+                } catch (Exception ex) {
+                    Platform.runLater(() -> chatLog.appendText("KAROO: [error " + ex.getClass().getSimpleName() + ": " + ex.getMessage() + "]\n\n"));
+                } finally {
+                    karooStage = null;
+                } });
             }
         };
         
@@ -723,7 +757,7 @@ public class GodHandApp extends Application {
         inputField.setOnAction(e -> sendAction.run());
         
         inputBar.getChildren().addAll(inputField, sendBtn);
-        root.getChildren().addAll(modelLabel, chatLog, inputBar);
+        root.getChildren().addAll(modelLabel, chatLog, thinking, inputBar);
         return root;
     }
 
