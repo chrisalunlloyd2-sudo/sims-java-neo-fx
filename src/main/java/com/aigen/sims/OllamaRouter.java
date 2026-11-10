@@ -21,8 +21,15 @@ public class OllamaRouter {
     private static final int AUTONOMOUS_PREDICT = 2;   // the low-overhead autonomy loops: 2 tokens
     private static final long BOX_MIC_WAIT_MS = 60_000;
 
+    // 2026-11-09 (Chris: 2048 minimum, global). ONE window for every GodHand call. The autonomy loops asked
+    // for 1024 and Karoo for 4096: every switch made ollama RELOAD the model, and the 2-token loops held the
+    // lock while Karoo waited, so a chat question got no answer at all.
+    public static final int CTX = 4096;
+    /** Set while a person is waiting on a reply; the 2-token autonomy calls step aside until it is answered. */
+    private static final java.util.concurrent.atomic.AtomicInteger PEOPLE_WAITING = new java.util.concurrent.atomic.AtomicInteger();
+
     public String query(String model, String prompt) {
-        return query(model, prompt, AUTONOMOUS_PREDICT, null, 1024);
+        return query(model, prompt, AUTONOMOUS_PREDICT, null, CTX);
     }
 
     /** Model the box mic is serving right now, or null when nobody holds it. */
@@ -59,6 +66,18 @@ public class OllamaRouter {
     }
 
     public String query(String model, String prompt, int numPredict, Double temperature, int numCtx) {
+        numCtx = Math.max(numCtx, CTX);
+        boolean autonomous = numPredict <= AUTONOMOUS_PREDICT;
+        if (autonomous && PEOPLE_WAITING.get() > 0) return "NO_RESPONSE";   // a person goes first
+        if (!autonomous) PEOPLE_WAITING.incrementAndGet();
+        try {
+            return queryLocked(model, prompt, numPredict, temperature, numCtx, autonomous);
+        } finally {
+            if (!autonomous) PEOPLE_WAITING.decrementAndGet();
+        }
+    }
+
+    private String queryLocked(String model, String prompt, int numPredict, Double temperature, int numCtx, boolean autonomous) {
         // Dynamic Adaptive Pacing: Synchronized with CPU Load, Stress & Breathing Cycle
         synchronized (micLock) {
             if (!yieldToBoxMic(model, numPredict <= AUTONOMOUS_PREDICT)) return "NO_RESPONSE";
@@ -73,7 +92,7 @@ public class OllamaRouter {
             long requiredDelayMs = (long) (basePacingMs * cpuMultiplier);
 
             long elapsed = System.currentTimeMillis() - lastCallTimestamp;
-            if (elapsed < requiredDelayMs) {
+            if (elapsed < requiredDelayMs && autonomous) {   // pacing is for the loops, never for a person
                 long sleepTime = requiredDelayMs - elapsed;
                 System.out.println(String.format("[BREATHING PACING] CPU Load: %.1f%% | Dynamic Delay Factor: %.2fx | Throttling Ollama call for %d ms...", 
                     cpuLoad * 100.0, cpuMultiplier, sleepTime));
