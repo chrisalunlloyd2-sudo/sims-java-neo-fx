@@ -22,6 +22,7 @@ public class OllamaRouter {
     private static final long BOX_MIC_WAIT_MS = 60_000;
     private static final long BOX_MIC_WAIT_PERSON_MS = 20_000;   // a person waiting goes ahead sooner (was 60 s)
     private static final double RAM_FLOOR_GB = 2.5;
+    private static final double AUTONOMY_CPU_MAX = 0.70;
 
     // 2026-11-09 (Chris: 2048 minimum, global). ONE window for every GodHand call. The autonomy loops asked
     // for 1024 and Karoo for 4096: every switch made ollama RELOAD the model, and the 2-token loops held the
@@ -71,6 +72,10 @@ public class OllamaRouter {
         numCtx = Math.max(numCtx, CTX);
         boolean autonomous = numPredict <= AUTONOMOUS_PREDICT;
         if (autonomous && PEOPLE_WAITING.get() > 0) return "NO_RESPONSE";   // a person goes first
+        // Chris's pace rule R1 (heavy work only under 70% CPU). Measured 11-09: the autonomy loops made ~2 model
+        // calls a minute, each pegging the CPU 5-20 s, which is what pushed the hive to throttle x8 and shed 122
+        // cells. A busy box = the loops skip their turn (they already handle NO_RESPONSE); people never skip.
+        if (autonomous && ViperVitals.cpu() > AUTONOMY_CPU_MAX) return "NO_RESPONSE";
         if (!autonomous) PEOPLE_WAITING.incrementAndGet();
         try {
             return queryLocked(model, prompt, numPredict, temperature, numCtx, autonomous);
