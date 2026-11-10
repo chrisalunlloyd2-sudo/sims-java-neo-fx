@@ -42,6 +42,7 @@ public class TabbedGodHandController {
     private static final String HEXFLOW = "http://127.0.0.1:7766/api";
     private static final ObjectMapper JSON = new ObjectMapper();
     private static final int REFRESH_S = 15;
+    private static final String CONFIG_DIR = "C:/Viper/databases/godhand";
     
     @FXML private Label statusLabel;
     @FXML private TabPane mainTabPane;
@@ -51,9 +52,18 @@ public class TabbedGodHandController {
     @FXML private VBox playerPanel, chatPanel, chatBox, facilitiesPanel;
     @FXML private ScrollPane chatScroll;
     @FXML private TextField chatInput;
-    
+    @FXML private ComboBox<String> chatModelBox;   // wired 2026-11-09 (was controller-only, no FXML)
+    @FXML private Button chatSendButton;
+
     private final ScheduledExecutorService poll = Executors.newSingleThreadScheduledExecutor(r -> {
         Thread t = new Thread(r, "godhand-live-poll");
+        t.setDaemon(true);
+        return t;
+    });
+    // Chat gets its OWN executor: a slow response (box mic churn can take 200 s)
+    // must never stall the 15 s live polling that drives the other tabs.
+    private final ScheduledExecutorService chatExec = Executors.newSingleThreadScheduledExecutor(r -> {
+        Thread t = new Thread(r, "godhand-chat");
         t.setDaemon(true);
         return t;
     });
@@ -118,35 +128,53 @@ public class TabbedGodHandController {
     @FXML
     private void sendChat() {
         String message = chatInput.getText().trim();
-        if (!message.isEmpty()) {
-            addChatMessage("You", message);
-            chatInput.clear();
-            
-            // Call Ollama for a real response
-            CompletableFuture.runAsync(() -> {
-                try {
-                    String response = callOllamaChat(message);
+        if (message.isEmpty()) return;
+
+        final String model = (chatModelBox.getValue() == null || chatModelBox.getValue().isBlank())
+                ? "tinyllama:1.1b" : chatModelBox.getValue();
+        final String msg = message;
+
+        addChatMessage("You", message);
+        chatInput.clear();
+        chatSendButton.setDisable(true);
+        addChatMessage("System",
+                String.format("thinking (model=%s, may take a while under mic load)…", model));
+
+        // Own executor: slow chat never stalls live tab polling
+        CompletableFuture.runAsync(() -> {
+            try {
+                String response = callOllamaChat(msg, model);
+                Platform.runLater(() -> {
+                    removeLastSystemLine();
                     addChatMessage("ollama", response);
-                } catch (Exception e) {
+                    chatSendButton.setDisable(false);
+                });
+            } catch (Exception e) {
+                Platform.runLater(() -> {
+                    removeLastSystemLine();
                     addChatMessage("System", "Ollama error: " + e.getMessage());
-                }
-            }, poll);
+                    chatSendButton.setDisable(false);
+                });
+            }
+        }, chatExec);
+    }
+
+    /** Dedupe: drop the newest "System:" line (the thinking… notice) once answered. */
+    private void removeLastSystemLine() {
+        var children = chatBox.getChildren();
+        for (int i = children.size() - 1; i >= 0; i--) {
+            if (children.get(i) instanceof Label l
+                    && l.getText() != null && l.getText().startsWith("[System:")) {
+                // keep history for context but mark it answered so it reads cleanly
+                l.setText(l.getText() + "  ✓ answered");
+                break;
+            }
         }
     }
     
-    private String callOllamaChat(String userMessage) {
+    private String callOllamaChat(String userMessage, String model) {
         try {
-            // Pick the smallest available model for responsiveness
-            JsonNode tags = fetchJson(OLLAMA + "/api/tags");
-            String model = "tinyllama:1.1b";
-            if (tags != null) {
-                for (JsonNode m : tags.path("models")) {
-                    String name = m.path("name").asText("");
-                    if (name.contains("tinyllama")) { model = name; break; }
-                    if (name.contains("0.5b") || name.contains("1.1b")) { model = name; break; }
-                }
-            }
-
+            int timeoutMs = 240_000;   // mic churn can legitimately take 200 s+
             String body = JSON.writeValueAsString(Map.of(
                 "model", model,
                 "messages", List.of(Map.of("role", "user", "content", userMessage)),
@@ -158,7 +186,7 @@ public class TabbedGodHandController {
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setConnectTimeout(5000);
-            conn.setReadTimeout(30000);
+            conn.setReadTimeout(timeoutMs);
             conn.setDoOutput(true);
             try (OutputStream os = conn.getOutputStream()) {
                 os.write(body.getBytes(StandardCharsets.UTF_8));
@@ -186,6 +214,7 @@ public class TabbedGodHandController {
         // Periodically show live hive events instead of fake chat
         javafx.animation.AnimationTimer timer = new javafx.animation.AnimationTimer() {
             private long lastChat = 0;
+            private String lastStatus = "";   // de-spam: only post when the summary CHANGES
 
             @Override
             public void handle(long now) {
@@ -196,10 +225,16 @@ public class TabbedGodHandController {
                             int total = hive.path("total").asInt(0);
                             int healthy = hive.path("healthy").asInt(0);
                             int failing = hive.path("failing").asInt(0);
-                            addChatMessage("hive", String.format("status: %d cells, %d healthy, %d failing", total, healthy, failing));
-                        } else {
+                            String s = String.format("status: %d cells, %d healthy, %d failing", total, healthy, failing);
+                            if (!s.equals(lastStatus)) {
+                                addChatMessage("hive", s);
+                                lastStatus = s;
+                            }
+                        } else if (!"DOWN".equals(lastStatus)) {
                             addChatMessage("System", "hexflow unreachable");
+                            lastStatus = "DOWN";
                         }
+                        // unchanged -> silence (was: re-posted every 15 s)
                     } catch (Exception e) {
                         // silently skip
                     }
@@ -253,7 +288,11 @@ public class TabbedGodHandController {
             }
         }, 2, REFRESH_S, TimeUnit.SECONDS);
 
-        simulateModelChat();
+        chatModelBox.setOnAction(e -> persistChatModelChoice());
+        loadChatModelChoice();
+        refreshChatModelList();
+        poll.scheduleWithFixedDelay(
+                () -> Platform.runLater(this::refreshChatModelList), 5, 60, TimeUnit.SECONDS);
     }
 
     private void refreshModelsTab() {
@@ -482,6 +521,52 @@ public class TabbedGodHandController {
             note.setStyle("-fx-text-fill: #606060; -fx-font-size: 10px;");
             facilitiesPanel.getChildren().add(note);
         });
+    }
+
+    // ── Chat: model picker helpers (added 2026-11-09) ─────────────────────
+
+    /** Live model list from Ollama, tinyllama sorted first, persisted choice kept. */
+    private void refreshChatModelList() {
+        try {
+            JsonNode tags = fetchJson(OLLAMA + "/api/tags");
+            if (tags == null) return;
+            List<String> names = new ArrayList<>();
+            for (JsonNode m : tags.path("models")) names.add(m.path("name").asText(""));
+            names.removeIf(String::isBlank);
+            names.sort(Comparator.comparing(
+                    (String n) -> n.contains("tinyllama") ? 0
+                            : n.matches(".*\\b[0-9.]+b\\b.*") && n.contains("0.5b") ? 1 : 2)
+                    .thenComparing(Comparator.naturalOrder()));
+            String chosen = chatModelBox.getValue() != null ? chatModelBox.getValue() : loadChatModelChoice();
+            Platform.runLater(() -> {
+                String cur = chatModelBox.getValue();
+                chatModelBox.getItems().setAll(names);
+                // keep the user's pick across refreshes; fall back to saved choice / tinyllama
+                if (cur != null && names.contains(cur)) chatModelBox.setValue(cur);
+                else chatModelBox.setValue(chosen != null && names.contains(chosen) ? chosen
+                        : names.stream().filter(n -> n.contains("tinyllama")).findFirst().orElse(names.isEmpty() ? null : names.get(0)));
+            });
+        } catch (Exception e) {
+            logger.debug("chat model list refresh failed: {}", e.getMessage());
+        }
+    }
+
+    private void persistChatModelChoice() {
+        try {
+            java.nio.file.Files.createDirectories(java.nio.file.Path.of(CONFIG_DIR));
+            java.nio.file.Files.writeString(java.nio.file.Path.of(CONFIG_DIR, "chat_model.txt"),
+                    String.valueOf(chatModelBox.getValue()));
+        } catch (Exception e) {
+            logger.debug("chat model choice not persisted: {}", e.getMessage());
+        }
+    }
+
+    private String loadChatModelChoice() {
+        try {
+            return java.nio.file.Files.readString(java.nio.file.Path.of(CONFIG_DIR, "chat_model.txt")).trim();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     // ── HTTP utilities ─────────────────────────────────────────────────────

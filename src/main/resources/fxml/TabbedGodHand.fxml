@@ -78,12 +78,32 @@
             <!-- TAB 3: Facilities -->
             <Tab text="🏗️ Facilities" closable="false">
                 <VBox fx:id="facilitiesPanel" spacing="15" style="-fx-padding: 20;">
-                    <Label text="📋 FACILITY CONTROL CENTER" 
+                    <Label text="📋 FACILITY CONTROL CENTER"
                            style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #ffaa00;"/>
                     <!-- 7 Facility cards added by controller -->
                 </VBox>
             </Tab>
-            
+
+            <!-- TAB 4: Chat (wired 2026-11-09: was controller-only dead code, no FXML) -->
+            <Tab text="💬 Chat" closable="false">
+                <VBox fx:id="chatPanel" spacing="10" style="-fx-padding: 20;">
+                    <Label text="💬 LOCAL MODEL CHAT (Ollama 127.0.0.1:11434)"
+                           style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #00d9ff;"/>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Model:" style="-fx-text-fill: #a0a0a0; -fx-font-size: 12px;"/>
+                        <ComboBox fx:id="chatModelBox" prefWidth="280"/>
+                        <Button fx:id="chatSendButton" text="Send" onAction="#sendChat"
+                                style="-fx-background-color: #00d9ff; -fx-text-fill: #000000; -fx-font-weight: bold;"/>
+                    </HBox>
+                    <ScrollPane fx:id="chatScroll" fitToWidth="true" VBox.vgrow="ALWAYS"
+                                style="-fx-background-color: #0a0a1a; -fx-border-color: #16213e; -fx-border-width: 1;">
+                        <VBox fx:id="chatBox" spacing="6" style="-fx-padding: 10;"/>
+                    </ScrollPane>
+                    <TextField fx:id="chatInput" promptText="Type a message and press Enter…"
+                               onAction="#sendChat"/>
+                </VBox>
+            </Tab>
+
         </TabPane>
     </center>
 
