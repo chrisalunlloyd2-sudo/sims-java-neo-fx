@@ -618,12 +618,16 @@ public class GodHandApp extends Application {
     private static String karooRun(List<String> args, int timeoutS) {
         try {
             ProcessBuilder pb = new ProcessBuilder(args);
-            pb.redirectErrorStream(false);
+            // stderr unread = a full pipe = a hung call; send it to a log instead. UTF-8 both ways.
+            pb.redirectError(ProcessBuilder.Redirect.appendTo(new java.io.File("C:\\Viper\\logs\\karoo_memory.err.log")));
+            pb.environment().put("PYTHONIOENCODING", "utf-8");
             Process pr = pb.start();
             String out = new String(pr.getInputStream().readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
             pr.waitFor(timeoutS, java.util.concurrent.TimeUnit.SECONDS);
+            if (out.isBlank()) System.out.println("[KAROO MEMORY] empty reply from " + args.get(2) + " (exit " + pr.exitValue() + ")");
             return out.trim();
         } catch (Exception e) {
+            System.out.println("[KAROO MEMORY] " + args.get(2) + " failed: " + e);
             return "";
         }
     }
