@@ -19,15 +19,27 @@ public class OllamaRouter {
     // 2026-11-05: the box-wide Viper mic (model_lock.py). GodHand reads it and yields; it never writes it.
     private static final java.nio.file.Path BOX_MIC = java.nio.file.Paths.get("C:\\Viper\\databases\\aegis\\cellular_mic\\mic.json");
     private static final int AUTONOMOUS_PREDICT = 2;   // the low-overhead autonomy loops: 2 tokens
-    private static final long BOX_MIC_WAIT_MS = 60_000;
-    private static final long BOX_MIC_WAIT_PERSON_MS = 20_000;   // a person waiting goes ahead sooner (was 60 s)
-    private static final double RAM_FLOOR_GB = 2.5;
-    private static final double AUTONOMY_CPU_MAX = 0.70;
+    // 2026-11-09: values come from C:\Viper\config\model_profile.json, THE shared model settings; the numbers here
+    // are only the fallback when that file is missing or unreadable.
+    private static final com.fasterxml.jackson.databind.JsonNode PROFILE = readProfile();
+    private static final long BOX_MIC_WAIT_MS = 1000L * PROFILE.path("mic").path("autonomy_wait_s").asLong(60);
+    private static final long BOX_MIC_WAIT_PERSON_MS = 1000L * PROFILE.path("mic").path("person_wait_s").asLong(20);
+    private static final double RAM_FLOOR_GB = PROFILE.path("residency").path("ram_floor_gb").asDouble(2.5);
+    private static final double AUTONOMY_CPU_MAX = PROFILE.path("cpu").path("autonomy_cpu_max").asDouble(0.70);
+
+    private static com.fasterxml.jackson.databind.JsonNode readProfile() {
+        try {
+            return new com.fasterxml.jackson.databind.ObjectMapper().readTree(new java.io.File("C:\\Viper\\config\\model_profile.json"));
+        } catch (Exception e) {
+            return com.fasterxml.jackson.databind.node.MissingNode.getInstance();
+        }
+    }
 
     // 2026-11-09 (Chris: 2048 minimum, global). ONE window for every GodHand call. The autonomy loops asked
     // for 1024 and Karoo for 4096: every switch made ollama RELOAD the model, and the 2-token loops held the
     // lock while Karoo waited, so a chat question got no answer at all.
-    public static final int CTX = 4096;
+    public static final int CTX = Math.max(PROFILE.path("context").path("floor").asInt(2048),
+                                           PROFILE.path("context").path("num_ctx").asInt(4096));
     /** Set while a person is waiting on a reply; the 2-token autonomy calls step aside until it is answered. */
     private static final java.util.concurrent.atomic.AtomicInteger PEOPLE_WAITING = new java.util.concurrent.atomic.AtomicInteger();
 
