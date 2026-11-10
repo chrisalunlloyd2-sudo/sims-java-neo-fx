@@ -587,6 +587,72 @@ public class GodHandApp extends Application {
         return root;
     }
 
+    // ── Karoo memory: flashlight + six rotating memories (aegis_memory.py), 2026-11-09 ──────────
+    private static final String KAROO_PY = "C:\\Users\\viper\\AppData\\Local\\Programs\\Python\\Python311\\python.exe";
+    private static final String KAROO_MEM = "C:\\Viper\\scripts\\aegis_memory.py";
+    private static final int KAROO_LIT_CHARS = 6000;
+    private final List<String[]> karooHistory = new CopyOnWriteArrayList<>();   // {role, text}
+
+    /** Newest turns verbatim until KAROO_LIT_CHARS is spent: the lit part. Older turns live in memory. */
+    private String karooLit() {
+        List<String> out = new ArrayList<>();
+        int used = 0;
+        for (int i = karooHistory.size() - 1; i >= 0; i--) {
+            String[] t = karooHistory.get(i);
+            if (!out.isEmpty() && used + t[1].length() > KAROO_LIT_CHARS) break;
+            out.add(0, t[0] + ": " + t[1]);
+            used += t[1].length();
+        }
+        return String.join("\n", out) + (out.isEmpty() ? "" : "\n");
+    }
+
+    private static String karooRun(List<String> args, int timeoutS) {
+        try {
+            ProcessBuilder pb = new ProcessBuilder(args);
+            pb.redirectErrorStream(false);
+            Process pr = pb.start();
+            String out = new String(pr.getInputStream().readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
+            pr.waitFor(timeoutS, java.util.concurrent.TimeUnit.SECONDS);
+            return out.trim();
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    /** {memory name, persona + RAFT block, hits json}. Empty block if memory is unreachable: chat still works. */
+    private String[] karooRecall(String q) {
+        String out = karooRun(Arrays.asList(KAROO_PY, KAROO_MEM, "recall-for", q), 60);
+        try {
+            com.fasterxml.jackson.databind.JsonNode j = new com.fasterxml.jackson.databind.ObjectMapper().readTree(out);
+            String block = j.path("persona").asText("") + (j.path("block").asText("").isEmpty() ? "" : "\n\n" + j.path("block").asText(""));
+            return new String[]{j.path("memory").asText("companion"), block, j.path("hits").toString()};
+        } catch (Exception e) {
+            return new String[]{"companion", "", "[]"};
+        }
+    }
+
+    /** Close the turn: history (lit part) + write both sides, a RAFT row and growth into the mounted memory. */
+    private void karooTurn(String[] mem, String q, String answer) {
+        karooHistory.add(new String[]{"USER", q});
+        karooHistory.add(new String[]{"KAROO", answer});
+        if (answer == null || answer.isEmpty() || "NO_RESPONSE".equals(answer)) return;
+        threadPool.submit(() -> {
+            try {
+                com.fasterxml.jackson.databind.ObjectMapper m = new com.fasterxml.jackson.databind.ObjectMapper();
+                java.util.Map<String, Object> j = new java.util.HashMap<>();
+                j.put("memory", mem[0]);
+                j.put("question", q);
+                j.put("answer", answer);
+                j.put("hits", m.readTree(mem[2]));
+                java.io.File f = java.io.File.createTempFile("karoo_turn_", ".json");
+                m.writeValue(f, j);
+                karooRun(Arrays.asList(KAROO_PY, KAROO_MEM, "turn", f.getAbsolutePath()), 120);
+                f.delete();   // our own temp file, written two lines up
+            } catch (Exception ignored) {
+            }
+        });
+    }
+
     private VBox createViperChatView() {
         VBox root = new VBox(8);
         
@@ -596,7 +662,8 @@ public class GodHandApp extends Application {
         TextArea chatLog = new TextArea();
         chatLog.setEditable(false);
         chatLog.setPrefSize(400, 240);
-        chatLog.setStyle("-fx-control-inner-background: #0b0720; -fx-text-fill: #f3e8ff; -fx-font-family: monospace; -fx-font-size: 11px;");
+        chatLog.setWrapText(true);   // BVD: big font, narrow wrapped lines
+        chatLog.setStyle("-fx-control-inner-background: #0b0720; -fx-text-fill: #f3e8ff; -fx-font-family: monospace; -fx-font-size: 16px;");
         chatLog.setText("KAROO: Awake. Standing by for lexical tool queries in 6D geospatial manifold...\n");
         VBox.setVgrow(chatLog, Priority.ALWAYS);
         
@@ -617,10 +684,13 @@ public class GodHandApp extends Application {
                 
                 stressLevel = Math.min(1.0, stressLevel + 0.12);
                 
+                // 2026-11-09 (Chris: full chats, 2048+ context, flashlight + RAG, six memories). Was: no history at
+                // all, 256 tokens, and four fluid-sim numbers as "memory". Now: the job picks one of six memories
+                // (aegis_memory.recall_for), its persona + RAFT docs go first, then the newest turns verbatim
+                // (the flashlight), then the question. The turn is written back into that memory afterwards.
+                String[] mem = karooRecall(prompt);
                 StringBuilder context = new StringBuilder();
-                context.append("System Context Memory:\n");
-                context.append(String.format("- Viscosity: %.3f Pa.s\n- Stress: %.3f Pa\n- Strain Rate: %.3f s^-1\n- Heartbeat: %.2f Hz\n",
-                    viscosity, stress, strainRate, heartbeatFreq));
+                if (!mem[1].isEmpty()) context.append(mem[1]).append("\n\n");
                 
                 // 2026-11-05: real box state instead of the fixed "22 tools, 120 repos" line.
                 java.io.File[] repoDirs = new java.io.File("C:\\Users\\viper\\AIGEN_SYS\\repos").listFiles(java.io.File::isDirectory);
@@ -630,15 +700,17 @@ public class GodHandApp extends Application {
                     OllamaRouter.boxMicModel() == null ? "free" : OllamaRouter.boxMicModel()));
                 
                 context.append("\nInstructions:\n");
-                context.append("If lexical tools are required, format queries like: [TOOL: KG_QUERY, query='...'] or [TOOL: LORA_LOAD]. Otherwise answer directly using Markov logic chains.\n");
-                context.append("\nUser Query: ").append(prompt);
+                context.append("If lexical tools are required, format queries like: [TOOL: KG_QUERY, query='...'] or [TOOL: LORA_LOAD]. Otherwise answer directly and fully.\n");
+                context.append("\nConversation so far:\n").append(karooLit());
+                context.append("\nUSER: ").append(prompt).append("\nKAROO:");
                 
                 String finalPrompt = context.toString();
                 
                 threadPool.submit(() -> {
-                    String response = ollamaRouter.query("qwen2.5:1.5b", finalPrompt, 256, null, 2048);
+                    String response = ollamaRouter.query("qwen2.5:1.5b", finalPrompt, 700, null, 4096);
+                    karooTurn(mem, prompt, response);
                     Platform.runLater(() -> {
-                        chatLog.appendText("KAROO: " + response + "\n\n");
+                        chatLog.appendText("KAROO [" + mem[0] + " memory]: " + response + "\n\n");
                         chatLog.selectPositionCaret(chatLog.getLength());
                         parseModelOutputAndEnqueue(response);
                         triggerPulse(Math.floorMod(String.valueOf(response).hashCode(), 64)); // 11-07: from the reply, not random

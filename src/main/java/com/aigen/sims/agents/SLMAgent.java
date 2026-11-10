@@ -23,7 +23,7 @@ public class SLMAgent {
 
     /** House default: small, installed, under the 1.5b local ceiling, preferred for code. */
     public static final String DEFAULT_MODEL = "qwen2.5-coder:0.5b";
-    private static final int DEFAULT_NUM_CTX = 1024;
+    private static final int DEFAULT_NUM_CTX = 2048;   // floor 2048, Chris 11-09
 
     private final String modelName;
     private final OllamaRouter router;
